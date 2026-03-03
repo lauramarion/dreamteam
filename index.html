@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lectures de la Dream Team 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f0f4fa; --white: #fff; --border: #dde4f0;
+  --navy: #1a2f5e; --navy-mid: #2a4480; --navy-light: #3d5fa0; --navy-pale: #e4ebf8;
+  --teal: #0891b2; --teal-light: #22d3ee;
+  --coral: #e85d3a; --gold: #d4820a; --gold-light: #f5b942; --mint: #059669;
+  --text: #0f1e3d; --text-mid: #3a4f7a; --text-light: #6b7fa8;
+  --shadow: rgba(26,47,94,0.10);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; min-height: 100vh; }
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(115deg, #0f1e3d 0%, #1a2f5e 30%, #2d2a6e 60%, #7b3a5a 85%, #c4512e 100%);
+  color: #fff; padding: 0 48px;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: center; min-height: 100px;
+  position: relative; overflow: hidden;
+}
+.site-header::before {
+  content: ''; position: absolute; width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,81,46,0.2) 0%, transparent 70%);
+  top: -80px; right: 60px; pointer-events: none;
+}
+.site-header::after {
+  content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(123,58,90,0.25) 0%, transparent 70%);
+  bottom: -60px; right: 320px; pointer-events: none;
+}
+.header-left h1 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700;
+  letter-spacing: -1.5px; line-height: 1; color: #fff; position: relative; z-index: 1;
+}
+.header-left h1 .accent { color: #22d3ee; }
+.header-left p {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-top: 7px; font-weight: 500; position: relative; z-index: 1;
+}
+.header-right { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+.update-tag { font-size: 11px; color: rgba(255,255,255,0.4); }
+.btn-refresh {
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+  color: #fff; border: 1px solid rgba(255,255,255,0.25);
+  padding: 10px 22px; border-radius: 24px;
+  font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-refresh:hover { background: rgba(255,255,255,0.25); transform: translateY(-1px); }
+.btn-refresh.loading { opacity: 0.6; pointer-events: none; }
+
+/* ── LOADING / ERROR ── */
+.loading-screen {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 60vh; gap: 16px;
+  font-family: 'Space Grotesk', sans-serif; color: var(--text-light);
+}
+.spinner {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 3px solid var(--border); border-top-color: var(--navy-mid);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.error-box {
+  background: #fff1ee; border: 1.5px solid #fca5a5; border-radius: 12px;
+  padding: 24px 32px; max-width: 560px; margin: 40px auto;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.error-box h3 { color: var(--coral); margin-bottom: 8px; }
+.error-box p { color: var(--text-mid); font-size: 13px; line-height: 1.6; }
+.error-box code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+
+/* ── LAYOUT ── */
+main { padding: 40px 48px; max-width: 1240px; margin: 0 auto; }
+.section-label {
+  font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; font-weight: 600; color: var(--text-light);
+  margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+}
+.section-label::before {
+  content: ''; width: 16px; height: 3px;
+  background: linear-gradient(90deg, var(--navy-mid), var(--teal));
+  border-radius: 2px; flex-shrink: 0;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── STATS MAGAZINE ── */
+.stats-magazine {
+  display: grid; grid-template-columns: 320px 1fr 1fr 1fr;
+  grid-template-rows: auto auto; gap: 12px; margin-bottom: 48px;
+}
+.stat-hero {
+  grid-row: 1 / 3;
+  background: linear-gradient(145deg, var(--navy) 0%, #2d2a6e 100%);
+  border-radius: 20px; padding: 36px 32px;
+  color: #fff; display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: 0 8px 32px rgba(26,47,94,0.25); position: relative; overflow: hidden;
+}
+.stat-hero::before {
+  content: ''; position: absolute; bottom: -60px; right: -60px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,211,238,0.1) 0%, transparent 70%);
+}
+.hero-label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 600; }
+.hero-number { font-family: 'Space Grotesk', sans-serif; font-size: 100px; font-weight: 700; line-height: 0.9; letter-spacing: -6px; margin: 12px 0 4px; }
+.hero-unit { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 400; color: rgba(255,255,255,0.5); }
+.hero-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 6px; }
+.hero-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.45); font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 7px; }
+.hero-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; margin-top: 24px; }
+.hero-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #22d3ee, #67e8f9); transition: width 1s ease; }
+
+.stat-wide {
+  grid-column: 2 / 5; background: var(--white);
+  border: 1.5px solid var(--border); border-radius: 16px;
+  padding: 22px 28px; display: flex; align-items: center; gap: 24px;
+  box-shadow: 0 2px 10px var(--shadow); position: relative; overflow: hidden;
+}
+.stat-wide-ghost {
+  position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+  font-family: 'Space Grotesk', sans-serif; font-size: 72px; font-weight: 700;
+  color: var(--navy-pale); letter-spacing: -4px; pointer-events: none; line-height: 1;
+}
+.stat-wide-icon { font-size: 36px; flex-shrink: 0; }
+.stat-wide-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-light); font-weight: 600; margin-bottom: 4px; }
+.stat-wide-value { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; color: var(--text); letter-spacing: -3px; line-height: 1; }
+.stat-wide-sub { font-size: 12px; color: var(--text-light); margin-top: 4px; font-weight: 600; }
+
+.stat-card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 16px;
+  padding: 22px 18px 18px; box-shadow: 0 2px 10px var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px var(--shadow); }
+.stat-card.accent-teal { background: var(--teal); border-color: var(--teal); color: #fff; }
+.stat-card.accent-teal .stat-label { color: rgba(255,255,255,0.6); }
+.stat-card.accent-teal .stat-value { color: #fff; }
+.stat-card.accent-teal .stat-sub { color: rgba(255,255,255,0.6); }
+.stat-card.accent-teal .stat-bar { background: rgba(255,255,255,0.2); }
+.stat-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+.stat-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); font-weight: 600; margin-bottom: 6px; }
+.stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; line-height: 1; color: var(--text); letter-spacing: -2px; }
+.stat-value .unit { font-size: 16px; font-weight: 500; opacity: 0.4; }
+.stat-sub { font-size: 11px; color: var(--text-light); margin-top: 5px; font-weight: 600; }
+.stat-bar { height: 4px; background: var(--border); margin-top: 10px; border-radius: 99px; overflow: hidden; }
+.stat-bar-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+
+/* ── READER CARDS ── */
+.readers-section { margin-bottom: 48px; }
+.readers-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.reader-card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 18px;
+  padding: 28px 22px 22px; position: relative; overflow: hidden;
+  box-shadow: 0 2px 10px var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+}
+.reader-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px var(--shadow); }
+.reader-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; border-radius: 18px 18px 0 0;
+}
+.reader-emoji { font-size: 38px; margin-bottom: 10px; display: block; }
+.reader-name { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 18px; color: var(--text); letter-spacing: -0.5px; }
+.reader-stats { display: flex; flex-direction: column; }
+.reader-stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-light); font-weight: 600; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.reader-stat-row:last-child { border-bottom: none; }
+.reader-stat-row strong { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+.reader-stat-row.accent strong { }
+.reader-progress { margin-top: 14px; }
+.progress-label { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); font-weight: 600; margin-bottom: 6px; }
+.progress-bar { height: 6px; background: var(--bg); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+
+/* ── CHART CARDS ── */
+.chart-card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 16px;
+  padding: 32px; box-shadow: 0 2px 10px var(--shadow); margin-bottom: 24px;
+}
+.chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1.5px solid var(--border); gap: 20px; flex-wrap: wrap; }
+.chart-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.chart-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── GENRE MULTIPLES ── */
+.multiples-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 28px; }
+.multiple-card { display: flex; flex-direction: column; gap: 12px; }
+.multiple-name { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 7px; padding-bottom: 10px; border-bottom: 2px solid; }
+.multiple-name .book-count { margin-left: auto; font-size: 11px; color: var(--text-light); font-weight: 600; }
+.genre-rows { display: flex; flex-direction: column; gap: 10px; }
+.genre-row { display: flex; flex-direction: column; gap: 5px; }
+.genre-row-label { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: var(--text-mid); }
+.genre-cnt { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: var(--text); }
+.genre-track { height: 12px; background: var(--bg); border-radius: 99px; overflow: hidden; }
+.genre-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+
+/* ── SHARED READS ── */
+.shared-list { display: flex; flex-direction: column; }
+.shared-row { display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.shared-row:last-child { border-bottom: none; }
+.cover-placeholder { width: 44px; height: 60px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; background: var(--navy-pale); border: 1px solid var(--border); }
+.shared-meta { display: flex; flex-direction: column; gap: 10px; }
+.shared-title { font-weight: 800; color: var(--text); font-size: 14px; }
+.reader-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.reader-chip { display: inline-flex; align-items: center; border-radius: 99px; overflow: hidden; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; border: 1.5px solid transparent; }
+.chip-name { padding: 4px 10px 4px 8px; color: #fff; display: flex; align-items: center; gap: 5px; }
+.chip-rating { padding: 4px 10px 4px 8px; background: #fff; }
+.chip-no-rating { padding: 4px 10px 4px 8px; background: #fff; color: var(--text-light); font-style: italic; }
+.delta-badge { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; text-align: center; min-width: 60px; }
+.delta-badge.divisive { background: #fef3c7; color: #92400e; }
+.delta-badge.agree    { background: var(--navy-pale); color: var(--navy-mid); }
+.delta-badge.no-data  { background: var(--bg); color: var(--text-light); font-style: italic; font-size: 11px; }
+
+/* ── BUBBLES ── */
+.bubble-svg { width: 100%; overflow: visible; display: block; }
+.bubble-wrap { position: relative; }
+.tooltip { position: absolute; background: var(--navy); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-family: 'Space Grotesk', sans-serif; pointer-events: none; opacity: 0; transition: opacity 0.15s; max-width: 220px; line-height: 1.6; z-index: 10; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+.size-legend { display: flex; align-items: center; gap: 24px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; color: var(--text-light); }
+.size-legend-item { display: flex; align-items: center; gap: 8px; }
+.size-circle { border-radius: 50%; background: var(--navy-pale); border: 1.5px solid var(--navy-light); flex-shrink: 0; }
+
+/* ── CHARTS ROW ── */
+.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.fade-in { animation: fadeUp 0.5s ease both; }
+
+footer { border-top: 1.5px solid var(--border); padding: 20px 48px; display: flex; justify-content: space-between; align-items: center; font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--text-light); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; max-width: 1240px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <h1>Lectures de la <span class="accent">Dream Team</span></h1>
+    <p>Bilan des lectures · 2026</p>
+  </div>
+  <div class="header-right">
+    <span class="update-tag" id="updateTag">Chargement…</span>
+    <button class="btn-refresh" id="refreshBtn" onclick="loadData()">↻ Actualiser</button>
+  </div>
+</header>
+
+<div id="tooltip" class="tooltip"></div>
+<div id="app"></div>
+
+<footer>
+  <span>Dream Team Reads <span style="color:var(--navy-mid);font-weight:700">2026</span></span>
+  <span id="footerStats"></span>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// ⚠️  REPLACE THIS URL with your own Apps Script web app URL
+//     (you will get this URL in step 4 of the setup guide)
+// ─────────────────────────────────────────────────────────────
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztvz-9q7dHG5ZoVv0DrULCQrLvKEbAHzbsEeCsW58HHVTEvtISDEdyaekRQXG_NoB6/exec';
+
+// ── Reader config ──
+const READERS  = ['Emiline','Laura M','Laura V','Zoé'];
+const COLORS   = { 'Emiline':'#ca8a04', 'Zoé':'#7c3aed', 'Laura V':'#16a34a', 'Laura M':'#1d4ed8' };
+const EMOJI    = { 'Emiline':'🌸', 'Zoé':'✨', 'Laura V':'🌿', 'Laura M':'📖' };
+
+const GENRE_COLORS = {
+  'BD':'#1a2f5e','Roman graphique':'#2a4480',
+  'Romance':'#e85d3a','Romantasy':'#d4820a',
+  '(Auto-)biographie':'#0891b2','Fantasy':'#059669',
+  'Jeunesse':'#8b5cf6','Essai':'#6b7fa8',
+  'Nouvelles':'#94a3b8','Thriller':'#c4512e','Littérature':'#64748b',
+};
+const GENRE_EMOJI = {
+  'BD':'📕','Roman graphique':'📗','Romance':'💕','Romantasy':'🐉',
+  '(Auto-)biographie':'📔','Fantasy':'⚔️','Jeunesse':'🌟',
+  'Essai':'📝','Nouvelles':'📄','Thriller':'🔪','Littérature':'📖',
+};
+const genreColor = g => GENRE_COLORS[g] || '#94a3b8';
+
+// ── Load data ──
+async function loadData() {
+  const app   = document.getElementById('app');
+  const btn   = document.getElementById('refreshBtn');
+  const tag   = document.getElementById('updateTag');
+
+  btn.classList.add('loading');
+  btn.textContent = '↻ Chargement…';
+
+  app.innerHTML = `<div class="loading-screen"><div class="spinner"></div><p>Chargement des données…</p></div>`;
+
+  if (SCRIPT_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
+    app.innerHTML = `
+      <div style="padding:40px 48px;max-width:1240px;margin:0 auto">
+        <div class="error-box">
+          <h3>⚙️ Configuration requise</h3>
+          <p>Pour connecter le dashboard à votre Google Sheet, suivez le guide d'installation ci-dessous, puis remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> dans ce fichier par votre URL.</p>
+        </div>
+        ${setupGuide()}
+      </div>`;
+    btn.classList.remove('loading'); btn.textContent = '↻ Actualiser';
+    return;
+  }
+
+  try {
+    const res  = await fetch(SCRIPT_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    render(json.books, json.generated);
+    const d = new Date(json.generated);
+    tag.textContent = `Mis à jour ${d.toLocaleDateString('fr-BE')} à ${d.toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})}`;
+  } catch(e) {
+    app.innerHTML = `
+      <div style="padding:40px 48px;max-width:1240px;margin:0 auto">
+        <div class="error-box">
+          <h3>⚠️ Impossible de charger les données</h3>
+          <p>Erreur: <code>${e.message}</code><br><br>
+          Vérifiez que votre URL Apps Script est correcte et que le script est bien déployé en accès public.</p>
+        </div>
+      </div>`;
+  }
+  btn.classList.remove('loading'); btn.textContent = '↻ Actualiser';
+}
+
+// ── Main render ──
+function render(books, generated) {
+  // Only finished books for most charts
+  const finished = books.filter(b => b.fini && b.pagesTotales > 0);
+
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+
+  const main = document.createElement('main');
+
+  // ── Stats ──
+  main.appendChild(buildStats(finished));
+
+  // ── Reader cards ──
+  main.appendChild(buildReaderCards(finished));
+
+  // ── Genre multiples ──
+  const chartsLabel = el('div','section-label','Qui lit quoi ?');
+  main.appendChild(chartsLabel);
+  const genreCard = buildGenreMultiples(finished);
+  main.appendChild(genreCard);
+
+  // ── Shared reads + bubbles ──
+  const bottomRow = document.createElement('div');
+  bottomRow.className = 'charts-row';
+  bottomRow.appendChild(buildSharedReads(finished));
+  bottomRow.appendChild(buildBubbles(finished));
+  main.appendChild(bottomRow);
+
+  app.appendChild(main);
+
+  // footer
+  const totalPages = finished.reduce((s,b)=>s+b.pagesTotales,0);
+  document.getElementById('footerStats').textContent =
+    `${finished.length} livres · ${totalPages.toLocaleString('fr-FR')} pages · 4 lectrices`;
+}
+
+// ── STATS ──
+function buildStats(books) {
+  const frag = document.createDocumentFragment();
+
+  const label = el('div','section-label','Vue d\'ensemble');
+  frag.appendChild(label);
+
+  const grid = el('div','stats-magazine fade-in');
+
+  const totalBooks = books.length;
+  const totalPages = books.reduce((s,b)=>s+b.pagesTotales,0);
+  const rated = books.filter(b=>b.note!==null&&b.note>0);
+  const avgNote = rated.length ? (rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1) : '—';
+  const avgPages = totalBooks ? Math.round(totalPages/totalBooks) : 0;
+  const avgJours = (() => {
+    const withDays = books.filter(b=>b.jours>0&&b.jours<400);
+    return withDays.length ? (withDays.reduce((s,b)=>s+b.jours,0)/withDays.length).toFixed(1) : '—';
+  })();
+  const goalTotal = 100; // annual goal — adjust if needed
+  const pct = Math.min(100, Math.round((totalBooks/goalTotal)*100));
+
+  // Hero
+  const hero = el('div','stat-hero');
+  hero.innerHTML = `
+    <div>
+      <div class="hero-label">Livres lus</div>
+      <div class="hero-number">${totalBooks}</div>
+      <div class="hero-unit">livres</div>
+      <div class="hero-sub">depuis janvier 2026</div>
+    </div>
+    <div>
+      <div class="hero-bar-label"><span>Objectif annuel</span><span>${totalBooks} / ${goalTotal}</span></div>
+      <div class="hero-bar"><div class="hero-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  grid.appendChild(hero);
+
+  // Wide
+  const wide = el('div','stat-wide');
+  wide.style.gridColumn = '2/5';
+  wide.innerHTML = `
+    <span class="stat-wide-icon">📄</span>
+    <div>
+      <div class="stat-wide-label">Pages lues</div>
+      <div class="stat-wide-value">${Math.round(totalPages/1000)}k</div>
+      <div class="stat-wide-sub">${totalPages.toLocaleString('fr-FR')} pages au total</div>
+    </div>
+    <div class="stat-wide-ghost">${Math.round(totalPages/1000)}k</div>`;
+  grid.appendChild(wide);
+
+  // Small cards
+  const cards = [
+    { icon:'⭐', label:'Note moyenne', val: avgNote, unit:'/5', sub:'★★★★☆ collectif', cls:'accent-teal',
+      bar: rated.length ? `width:${(parseFloat(avgNote)/5)*100}%;background:rgba(255,255,255,0.6)` : '' },
+    { icon:'📖', label:'Pages / livre', val: avgPages, unit:'', sub:'moy. par livre lu', cls:'',
+      bar:`width:${Math.min(100,Math.round(avgPages/7))}%;background:linear-gradient(90deg,#0891b2,#22d3ee)` },
+    { icon:'🕐', label:'Jours / livre', val: avgJours, unit:'', sub:'lecture rapide 🔥', cls:'',
+      bar:`width:${Math.min(100,Math.round((parseFloat(avgJours)||0)/20*100))}%;background:linear-gradient(90deg,#e85d3a,#fb8c6e)` },
+  ];
+  cards.forEach(c => {
+    const card = el('div', `stat-card ${c.cls}`);
+    card.innerHTML = `
+      <span class="stat-icon">${c.icon}</span>
+      <div class="stat-label">${c.label}</div>
+      <div class="stat-value">${c.val}<span class="unit">${c.unit}</span></div>
+      <div class="stat-sub">${c.sub}</div>
+      ${c.bar ? `<div class="stat-bar"><div class="stat-bar-fill" style="${c.bar}"></div></div>` : ''}`;
+    grid.appendChild(card);
+  });
+
+  frag.appendChild(grid);
+  return frag;
+}
+
+// ── READER CARDS ──
+function buildReaderCards(books) {
+  const frag = document.createDocumentFragment();
+  frag.appendChild(el('div','section-label','Les Lectrices'));
+
+  const section = el('div','readers-section fade-in');
+  const grid = el('div','readers-grid');
+
+  const displayOrder = ['Emiline','Zoé','Laura V','Laura M'];
+  displayOrder.forEach((r, i) => {
+    const rb = books.filter(b=>b.lectrice===r);
+    const totalPages = rb.reduce((s,b)=>s+b.pagesTotales,0);
+    const rated = rb.filter(b=>b.note!==null&&b.note>0);
+    const avgNote = rated.length ? (rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1) : '—';
+    const avgPPB = rb.length ? Math.round(totalPages/rb.length) : 0;
+    const totalAll = books.length;
+    const pct = totalAll ? Math.round((rb.length/totalAll)*100) : 0;
+    const col = COLORS[r];
+
+    const card = el('div','reader-card fade-in');
+    card.style.animationDelay = `${i*0.06}s`;
+    card.style.setProperty('--reader-color', col);
+    card.style.cssText += ``;
+    card.querySelector && null;
+
+    // top stripe
+    const stripe = document.createElement('style');
+    card.innerHTML = `
+      <style>.rc-${i}::before{background:linear-gradient(90deg,${col},${col}99)!important}</style>
+      <span class="reader-emoji">${EMOJI[r]}</span>
+      <div class="reader-name">${r}</div>
+      <div class="reader-stats">
+        <div class="reader-stat-row"><span>Livres</span><strong>${rb.length}</strong></div>
+        <div class="reader-stat-row"><span>Pages</span><strong>${totalPages.toLocaleString('fr-FR')}</strong></div>
+        <div class="reader-stat-row accent"><span>Note moy.</span><strong style="color:${col}">${avgNote}${avgNote!=='—'?' ★':''}</strong></div>
+        <div class="reader-stat-row"><span>Pages / livre</span><strong>${avgPPB}</strong></div>
+      </div>
+      <div class="reader-progress">
+        <div class="progress-label"><span>Part du groupe</span><span>${pct}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:linear-gradient(90deg,${col},${col}88)"></div></div>
+      </div>`;
+    card.classList.add(`rc-${i}`);
+    // inline stripe via box-shadow trick
+    card.style.borderTop = `5px solid ${col}`;
+    card.style.borderRadius = '18px';
+    grid.appendChild(card);
+  });
+
+  section.appendChild(grid);
+  frag.appendChild(section);
+  return frag;
+}
+
+// ── GENRE MULTIPLES ──
+function buildGenreMultiples(books) {
+  const card = el('div','chart-card fade-in');
+  card.innerHTML = `<div class="chart-header"><div class="chart-title"><span class="chart-dot" style="background:var(--teal)"></span>Genres lus par lectrice</div></div>`;
+  const grid = el('div','multiples-grid');
+
+  const displayOrder = ['Emiline','Zoé','Laura V','Laura M'];
+  displayOrder.forEach(r => {
+    const rb = books.filter(b=>b.lectrice===r);
+    const counts = {};
+    rb.forEach(b=>{ if(b.genre) counts[b.genre]=(counts[b.genre]||0)+1; });
+    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    const max = sorted[0]?.[1] || 1;
+    const col = COLORS[r];
+
+    const mc = el('div','multiple-card');
+    mc.innerHTML = `
+      <div class="multiple-name" style="color:${col};border-color:${col}30">
+        <span>${EMOJI[r]}</span>${r}
+        <span class="book-count">${rb.length} livres</span>
+      </div>
+      <div class="genre-rows"></div>`;
+    const rows = mc.querySelector('.genre-rows');
+    sorted.forEach(([g,cnt]) => {
+      const row = el('div','genre-row');
+      row.innerHTML = `
+        <div class="genre-row-label"><span>${g}</span><span class="genre-cnt">${cnt}</span></div>
+        <div class="genre-track"><div class="genre-fill" style="width:${Math.round((cnt/max)*100)}%;background:${genreColor(g)}"></div></div>`;
+      rows.appendChild(row);
+    });
+    grid.appendChild(mc);
+  });
+  card.appendChild(grid);
+  return card;
+}
+
+// ── SHARED READS ──
+function buildSharedReads(books) {
+  const card = el('div','chart-card fade-in');
+  card.innerHTML = `
+    <div class="chart-header">
+      <div class="chart-title"><span class="chart-dot" style="background:var(--gold)"></span>Lectures en commun</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--text-light);font-weight:600;display:flex;align-items:center;gap:6px">
+        <span style="width:10px;height:10px;background:#fef3c7;border-radius:3px;display:inline-block"></span>écart ≥ 1★ = divisif
+      </div>
+    </div>`;
+
+  const byTitle = {};
+  books.forEach(b => {
+    const key = b.titre.toLowerCase().replace(/[^a-zàâéèêëîïôùûü]/g,'').slice(0,22);
+    if (!byTitle[key]) byTitle[key] = { titre: b.titre, genre: b.genre, entries: [] };
+    byTitle[key].entries.push(b);
+  });
+
+  const shared = Object.values(byTitle)
+    .filter(g => new Set(g.entries.map(e=>e.lectrice)).size >= 2)
+    .sort((a,b) => new Set(b.entries.map(e=>e.lectrice)).size - new Set(a.entries.map(e=>e.lectrice)).size);
+
+  const list = el('div','shared-list');
+
+  shared.forEach(g => {
+    const byReader = {};
+    g.entries.forEach(e => { if (!byReader[e.lectrice]) byReader[e.lectrice] = e; });
+    const rated = Object.values(byReader).map(e=>e.note).filter(n=>n!==null&&n>0);
+    const delta = rated.length>=2 ? (Math.max(...rated)-Math.min(...rated)).toFixed(1) : null;
+    const isDivisive = delta!==null && parseFloat(delta)>=1;
+
+    const chipsHtml = READERS.filter(r=>byReader[r]).map(r => {
+      const e = byReader[r]; const col = COLORS[r];
+      const ratingPart = e.note&&e.note>0
+        ? `<span class="chip-rating" style="color:${col}">★ ${e.note}</span>`
+        : `<span class="chip-no-rating">—</span>`;
+      return `<div class="reader-chip" style="border-color:${col}20"><span class="chip-name" style="background:${col}">${EMOJI[r]} ${r}</span>${ratingPart}</div>`;
+    }).join('');
+
+    const deltaHtml = delta!==null
+      ? `<div class="delta-badge ${isDivisive?'divisive':'agree'}">${isDivisive?'⚡':'✓'} ${delta}★</div>`
+      : `<div class="delta-badge no-data">pas de notes</div>`;
+
+    const row = el('div','shared-row');
+    row.innerHTML = `
+      <div class="cover-placeholder">${GENRE_EMOJI[g.genre]||'📚'}</div>
+      <div class="shared-meta">
+        <div class="shared-title">${g.titre}</div>
+        <div class="reader-chips">${chipsHtml}</div>
+      </div>
+      ${deltaHtml}`;
+    list.appendChild(row);
+  });
+
+  if (shared.length === 0) {
+    list.innerHTML = '<p style="color:var(--text-light);font-size:13px;padding:16px 0">Aucune lecture en commun pour l\'instant.</p>';
+  }
+
+  card.appendChild(list);
+  return card;
+}
+
+// ── BUBBLES ──
+function buildBubbles(books) {
+  const card = el('div','chart-card fade-in');
+  card.innerHTML = `<div class="chart-header"><div class="chart-title"><span class="chart-dot" style="background:var(--navy)"></span>Pages par livre</div></div>`;
+
+  const wrap = el('div','bubble-wrap');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.classList.add('bubble-svg');
+  svg.setAttribute('height','260');
+  wrap.appendChild(svg);
+  card.appendChild(wrap);
+
+  const tooltip = document.getElementById('tooltip');
+
+  setTimeout(() => {
+    const W = wrap.clientWidth - 32;
+    const H = 240;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    svg.setAttribute('width', W);
+
+    const allPages = books.filter(b=>b.pagesTotales>0).map(b=>b.pagesTotales);
+    const maxP = Math.max(...allPages, 1);
+    const minR = 3, maxR = 42;
+    const radiusOf = p => minR + Math.pow(Math.max(0,(p-40))/(maxP-40), 0.6)*(maxR-minR);
+
+    const slotW = W / READERS.length;
+
+    READERS.forEach((r, ri) => {
+      const rb = books.filter(b=>b.lectrice===r&&b.pagesTotales>0);
+      const col = COLORS[r];
+      const cx0 = slotW*ri + slotW/2;
+
+      // reader label
+      const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      txt.setAttribute('x',cx0); txt.setAttribute('y',H-2);
+      txt.setAttribute('text-anchor','middle'); txt.setAttribute('font-size','12');
+      txt.setAttribute('fill','#3a4f7a'); txt.setAttribute('font-family','Space Grotesk,sans-serif');
+      txt.setAttribute('font-weight','700'); txt.textContent=`${EMOJI[r]} ${r}`;
+      svg.appendChild(txt);
+
+      const placed = [];
+      [...rb].sort((a,b)=>b.pagesTotales-a.pagesTotales).forEach(b => {
+        const rad = radiusOf(b.pagesTotales);
+        let cx = cx0+(Math.random()-0.5)*(slotW*0.4);
+        let cy = (H-24)/2+(Math.random()-0.5)*((H-24)*0.5);
+        const clampX=()=>{ cx=Math.max(slotW*ri+rad+4, Math.min(slotW*(ri+1)-rad-4, cx)); };
+        const clampY=()=>{ cy=Math.max(rad+4, Math.min(H-24-rad, cy)); };
+        clampX(); clampY();
+        for(let i=0;i<60;i++){
+          placed.forEach(p=>{
+            const dx=cx-p.cx,dy=cy-p.cy,dist=Math.sqrt(dx*dx+dy*dy),min=rad+p.r+4;
+            if(dist<min&&dist>0.01){const push=(min-dist)*0.55;cx+=dx/dist*push;cy+=dy/dist*push;}
+          });
+          clampX(); clampY();
+        }
+        placed.push({cx,cy,r:rad});
+
+        const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',rad);
+        circle.setAttribute('fill',col); circle.setAttribute('fill-opacity','0.72');
+        circle.setAttribute('stroke',col); circle.setAttribute('stroke-width','1.5');
+        circle.style.cursor='pointer';
+        circle.addEventListener('mouseenter',()=>{
+          tooltip.style.opacity=1;
+          tooltip.innerHTML=`<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note&&b.note>0?' · '+b.note+'★':''}`;
+        });
+        circle.addEventListener('mousemove',e=>{
+          const rect=wrap.getBoundingClientRect();
+          tooltip.style.left=(e.clientX-rect.left+14)+'px';
+          tooltip.style.top=(e.clientY-rect.top-40)+'px';
+        });
+        circle.addEventListener('mouseleave',()=>{ tooltip.style.opacity=0; });
+        svg.appendChild(circle);
+
+        if(rad>=24){
+          const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+          lbl.setAttribute('x',cx); lbl.setAttribute('y',cy+4);
+          lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('font-size','9');
+          lbl.setAttribute('fill','#fff'); lbl.setAttribute('font-family','Space Grotesk,sans-serif');
+          lbl.setAttribute('font-weight','700'); lbl.setAttribute('pointer-events','none');
+          lbl.textContent=b.titre.length>18?b.titre.slice(0,16)+'…':b.titre;
+          svg.appendChild(lbl);
+        }
+      });
+    });
+  }, 50);
+
+  card.innerHTML += '';
+  // size legend
+  const legend = el('div','size-legend');
+  legend.innerHTML = `<span>Taille = nombre de pages :</span>
+    <div class="size-legend-item"><div class="size-circle" style="width:10px;height:10px"></div>100p</div>
+    <div class="size-legend-item"><div class="size-circle" style="width:22px;height:22px"></div>400p</div>
+    <div class="size-legend-item"><div class="size-circle" style="width:36px;height:36px"></div>700p</div>`;
+  card.appendChild(wrap);
+  card.appendChild(legend);
+  return card;
+}
+
+// ── SETUP GUIDE ──
+function setupGuide() {
+  return `
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;margin-top:16px;font-family:'Nunito',sans-serif;line-height:1.8">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px;color:var(--text)">
+      📋 Guide d'installation (5 minutes)
+    </div>
+    <ol style="padding-left:20px;display:flex;flex-direction:column;gap:16px;color:var(--text-mid);font-size:14px">
+      <li><strong>Ouvrez votre Google Sheet</strong> → menu <em>Extensions</em> → <em>Apps Script</em></li>
+      <li><strong>Supprimez</strong> le contenu existant et <strong>collez</strong> le contenu du fichier <code>Code.gs</code> fourni avec ce dashboard</li>
+      <li>Si votre onglet 2026 s'appelle autrement, modifiez <code>getSheetByName("2026")</code> en conséquence</li>
+      <li>Cliquez <strong>Déployer</strong> → <strong>Nouveau déploiement</strong> → type : <em>Application Web</em><br>
+          → Exécuter en tant que : <em>Moi</em><br>
+          → Accès : <em>Tout le monde</em><br>
+          → cliquez <strong>Déployer</strong></li>
+      <li>Copiez l'<strong>URL du déploiement</strong> (commence par <code>https://script.google.com/macros/s/…</code>)</li>
+      <li>Dans ce fichier HTML, remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> par cette URL</li>
+      <li>Rouvrez le fichier — les données se chargeront automatiquement ✅</li>
+    </ol>
+  </div>`;
+}
+
+// ── Helper ──
+function el(tag, cls='', text='') {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text) e.textContent = text;
+  return e;
+}
+
+// ── Init ──
+loadData();
+</script>
+</body>
+</html>`;
