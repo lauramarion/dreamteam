@@ -5,201 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lectures de la Dream Team 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#f0f4fa;--white:#fff;--border:#dde4f0;
-  --navy:#1a2f5e;--navy-mid:#2a4480;--navy-pale:#e4ebf8;
-  --teal:#0891b2;--teal-light:#22d3ee;
-  --coral:#e85d3a;--gold:#d4820a;--mint:#059669;
-  --text:#0f1e3d;--text-mid:#3a4f7a;--text-light:#6b7fa8;
-  --shadow:rgba(26,47,94,0.09);
-}
-body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh}
-
-/* HEADER */
-.site-header{background:linear-gradient(115deg,#0f1e3d 0%,#1a2f5e 30%,#2d2a6e 60%,#7b3a5a 85%,#c4512e 100%);color:#fff;padding:0 48px;display:grid;grid-template-columns:1fr auto;align-items:center;min-height:100px;position:relative;overflow:hidden}
-.site-header::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(196,81,46,0.2) 0%,transparent 70%);top:-80px;right:60px;pointer-events:none}
-.site-header::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(123,58,90,0.25) 0%,transparent 70%);bottom:-60px;right:320px;pointer-events:none}
-.header-left h1{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:#fff;position:relative;z-index:1}
-.header-left h1 em{font-style:italic}
-.header-left p{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:7px;font-weight:500;position:relative;z-index:1}
-.header-right{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
-.update-tag{font-size:11px;color:rgba(255,255,255,0.4)}
-.btn-refresh{background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,0.25);padding:10px 22px;border-radius:24px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background 0.2s,transform 0.1s}
-.btn-refresh:hover{background:rgba(255,255,255,0.25);transform:translateY(-1px)}
-.btn-refresh.loading{opacity:0.6;pointer-events:none}
-
-/* LAYOUT */
-main{padding:32px 48px;max-width:1140px;margin:0 auto}
-.sec{margin-bottom:32px}
-.section-label{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;color:var(--text-light);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.section-label .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.card{background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 6px var(--shadow)}
-
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.stat-tile{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px 18px 14px;box-shadow:0 1px 6px var(--shadow)}
-.stat-tile.dark{background:linear-gradient(135deg,#1a2f5e,#2d2a6e);border-color:transparent}
-.stl{font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-light);font-weight:600;margin-bottom:4px}
-.stat-tile.dark .stl{color:rgba(255,255,255,0.5)}
-.stv{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;line-height:1;letter-spacing:-1.5px;color:var(--text)}
-.stat-tile.dark .stv{color:#fff}
-.stv .u{font-size:13px;font-weight:500;opacity:0.45;letter-spacing:0}
-.sts{font-size:11px;color:var(--text-light);margin-top:4px;font-weight:600}
-.stat-tile.dark .sts{color:rgba(255,255,255,0.4)}
-.sbar{height:3px;border-radius:99px;overflow:hidden;margin-top:10px;background:rgba(255,255,255,0.15)}
-.sbar-f{height:100%;border-radius:99px;background:var(--teal-light)}
-.stat-tile:not(.dark) .sbar{background:var(--border)}
-
-/* DERNIÈRES LECTURES */
-.dernieres-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
-.featured-book{grid-column:1/3;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 1px 6px var(--shadow);display:flex;gap:18px}
-.bcover{width:76px;height:106px;border-radius:6px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
-.bcover.sm{width:48px;height:66px;font-size:20px}
-.rtag{display:inline-block;padding:3px 9px;border-radius:99px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:8px}
-.btitle-lg{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.5px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bauthor{font-size:12px;color:var(--text-light);font-weight:600;margin-bottom:7px}
-.bmeta{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-mid);font-weight:600;margin-bottom:10px;flex-wrap:wrap}
-.breview{font-size:12px;color:var(--text-mid);line-height:1.6;font-style:italic;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
-.btags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-.btag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--bg);color:var(--text-mid);border:1px solid var(--border)}
-.mini-book{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 1px 6px var(--shadow);display:flex;gap:10px}
-.mini-content{flex:1;min-width:0}
-.mini-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;margin-top:5px}
-.mini-author{font-size:11px;color:var(--text-light);font-weight:600;margin-bottom:4px}
-.mini-meta{font-size:11px;color:var(--text-mid);font-weight:600}
-
-/* READER CARDS */
-.readers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.reader-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:0 1px 6px var(--shadow)}
-.rc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.rc-name{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;display:flex;align-items:center;gap:7px}
-.rc-link{font-size:12px;color:var(--text-light);text-decoration:none;opacity:0.5}
-.rc-link:hover{opacity:1}
-.rc-rows{display:flex;flex-direction:column}
-.rc-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-light);font-weight:600;padding:6px 0;border-bottom:1px solid var(--border)}
-.rc-row:last-child{border-bottom:none}
-.rc-row strong{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
-.rc-progress{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
-.prow-label{display:flex;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);font-weight:600;margin-bottom:4px}
-.pbar{height:5px;background:var(--bg);border-radius:99px;overflow:hidden}
-.pbar-f{height:100%;border-radius:99px}
-
-/* GENRE MULTIPLES */
-.gm-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white);box-shadow:0 1px 6px var(--shadow)}
-.gm-col{padding:18px;border-right:1px solid var(--border)}
-.gm-col:last-child{border-right:none}
-.gm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid}
-.gm-name{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px}
-.gm-cnt{font-size:11px;color:var(--text-light);font-weight:600}
-.gr-row{display:flex;align-items:center;gap:7px;margin-bottom:7px}
-.gr-name{font-size:11px;font-weight:700;color:var(--text-mid);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gr-bar{flex:2;height:8px;background:var(--bg);border-radius:99px;overflow:hidden}
-.gr-fill{height:100%;border-radius:99px}
-.gr-n{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--text);min-width:14px;text-align:right}
-
-/* ANALYSES */
-.analyses-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.acard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
-.acard-title{font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
-.donut-wrap{display:flex;align-items:center;gap:14px}
-.donut-legend{flex:1;display:flex;flex-direction:column;gap:6px}
-.dl-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--text-mid)}
-.dl-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
-.dl-pct{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--text)}
-.monthly-bars{display:flex;align-items:flex-end;gap:4px;height:110px;margin-top:8px}
-.mbc{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
-.mb-bar{width:100%;border-radius:3px 3px 0 0;background:var(--navy);min-height:2px}
-.mb-lbl{font-size:9px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text-light);text-transform:uppercase}
-.mb-val{font-size:9px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text-mid)}
-
-/* FORMATS */
-.fcard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
-.hb-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.hb-row:last-child{margin-bottom:0}
-.hb-label{font-size:12px;font-weight:700;color:var(--text-mid);width:90px;text-align:right;flex-shrink:0}
-.hb-track{flex:1;height:18px;background:var(--bg);border-radius:4px;overflow:hidden}
-.hb-fill{height:100%;background:var(--navy);border-radius:4px}
-.hb-val{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--text);min-width:22px}
-
-/* TOP + SHARED */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.panel{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
-.panel-title{font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
-.top-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
-.top-row:last-child{border-bottom:none}
-.top-rank{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--text-light);width:22px;flex-shrink:0}
-.tcover{width:34px;height:46px;border-radius:4px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.top-content{flex:1;min-width:0}
-.top-title{font-size:13px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.top-author{font-size:11px;color:var(--text-light);font-weight:600;margin-bottom:3px}
-.stars span{color:#f59e0b;font-size:12px}
-
-.sh-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
-.sh-row:last-child{border-bottom:none}
-.sh-cover{width:34px;height:46px;border-radius:4px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.sh-content{flex:1;min-width:0}
-.sh-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sh-chips{display:flex;flex-wrap:wrap;gap:4px}
-.sh-chip{display:inline-flex;align-items:center;border-radius:99px;overflow:hidden;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;border:1.5px solid transparent}
-.cname{padding:3px 6px 3px 5px;color:#fff;display:flex;align-items:center;gap:3px}
-.crate{padding:3px 6px;background:#fff}
-.cnone{padding:3px 6px;background:#fff;color:var(--text-light);font-style:italic}
-
-/* KEYWORDS */
-.kcard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
-.kcloud{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
-.ktag{font-weight:700;padding:4px 11px;border-radius:99px;background:#fde8e0;color:#c4512e;cursor:default;transition:opacity 0.15s}
-.ktag:hover{opacity:0.7}
-
-/* BUBBLES */
-.bubble-wrap{position:relative}
-.bubble-svg{width:100%;overflow:visible;display:block}
-.sz-legend{display:flex;align-items:center;gap:18px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:var(--text-light)}
-.sz-item{display:flex;align-items:center;gap:6px}
-.sz-circle{border-radius:50%;background:var(--navy-pale);border:1.5px solid #3d5fa0;flex-shrink:0}
-
-/* ALL BOOKS */
-.ab-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
-.filter-tabs{display:flex;gap:5px;flex-wrap:wrap}
-.ftab{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:4px}
-.ftab.active{background:var(--navy);border-color:var(--navy);color:#fff}
-.ftab:hover:not(.active){border-color:var(--navy);color:var(--navy)}
-.blist{display:flex;flex-direction:column}
-.brow{display:flex;align-items:center;gap:0;padding:11px 0;border-bottom:1px solid var(--border);position:relative}
-.brow:last-child{border-bottom:none}
-.bstripe{width:3px;align-self:stretch;border-radius:99px;margin-right:12px;flex-shrink:0}
-.brow-inner{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
-.brow-cover{width:38px;height:52px;border-radius:4px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.brow-content{flex:1;min-width:0}
-.brow-title{font-size:13px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brow-meta{font-size:11px;color:var(--text-light);font-weight:600;margin-top:1px}
-.brow-meta .gtext{color:var(--teal)}
-.brow-review{font-size:11px;color:var(--text-mid);font-style:italic;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:500px}
-.brow-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.mbadge{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);background:var(--bg);border:1px solid var(--border);padding:2px 9px;border-radius:99px}
-.bstar{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#f59e0b}
-.blist-count{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:var(--text-light);text-align:center;padding:10px 0}
-
-/* TOOLTIP */
-.tooltip{position:fixed;background:var(--navy);color:#fff;padding:8px 12px;border-radius:8px;font-size:11px;font-family:'Space Grotesk',sans-serif;pointer-events:none;opacity:0;transition:opacity 0.15s;max-width:220px;line-height:1.6;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
-
-/* LOADING */
-.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;font-family:'Space Grotesk',sans-serif;color:var(--text-light)}
-.spinner{width:36px;height:36px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--navy-mid);animation:spin 0.8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.error-box{background:#fff1ee;border:1.5px solid #fca5a5;border-radius:12px;padding:24px 32px;max-width:580px;margin:40px auto;font-family:'Space Grotesk',sans-serif}
-.error-box h3{color:var(--coral);margin-bottom:8px}
-.error-box p{color:var(--text-mid);font-size:13px;line-height:1.6}
-.error-box code{background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.fade{animation:fadeUp 0.4s ease both}
-
-footer{border-top:1px solid var(--border);padding:16px 48px;display:flex;justify-content:space-between;align-items:center;font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--text-light);letter-spacing:2px;text-transform:uppercase;font-weight:600;max-width:1140px;margin:0 auto}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -223,13 +29,8 @@ footer{border-top:1px solid var(--border);padding:16px 48px;display:flex;justify
 </footer>
 
 <script>
-// ─────────────────────────────
-// ⚠️ REMPLACEZ PAR VOTRE URL
-// ─────────────────────────────
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztvz-9q7dHG5ZoVv0DrULCQrLvKEbAHzbsEeCsW58HHVTEvtISDEdyaekRQXG_NoB6/exec';
-
 const READERS = ['Emiline','Laura M','Laura V','Zoé'];
-const COLORS  = {'Emiline':'#e6b31a','Zoé':'#9970c2','Laura V':'#45a17a','Laura M':'#3968c6'};
+const COLORS  = {'Emiline':'#ca8a04','Zoé':'#7c3aed','Laura V':'#16a34a','Laura M':'#1d4ed8'};
 const EMOJI   = {'Emiline':'🌸','Zoé':'✨','Laura V':'🌿','Laura M':'📖'};
 const MONTHS  = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const MSHORT  = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
@@ -239,26 +40,12 @@ const GE = {'BD':'📕','Roman graphique':'📗','Romance':'💕','Romantasy':'�
 const gc = g => GC[g]||'#94a3b8';
 const ge = g => GE[g]||'📚';
 
-async function loadData() {
-  const app=document.getElementById('app'),btn=document.getElementById('refreshBtn'),tag=document.getElementById('updateTag');
-  btn.classList.add('loading');btn.textContent='↻ Chargement…';
-  app.innerHTML='<div class="loading-screen"><div class="spinner"></div><p>Chargement des données…</p></div>';
+const BOOKS = [{"lectrice": "Laura V", "titre": "La nuit sera longue", "auteur": "Zerocalcare", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 92, "pagesLues": 92, "genre": "Essai", "motsCles": "Récit documentaire, Politique", "termine": "2026-01-01", "jours": 1, "mois": "Janvier", "note": null, "avis": "J'ai trop aimé, vraiment super intéressant!", "fini": true}, {"lectrice": "Laura V", "titre": "Perpendiculaire au soleil", "auteur": "Valentine Cuny-Le Callet", "genreAuteur": "Mixte", "format": "Grand format", "pagesTotales": 435, "pagesLues": 435, "genre": "BD", "motsCles": "Récit documentaire, Univers carcéral, USA", "termine": "2026-01-02", "jours": 1, "mois": "Janvier", "note": null, "avis": "Trop trop bien, écrit à 4 mains. C'est super touchant.", "fini": true}, {"lectrice": "Emiline", "titre": "L'esprit de Noël", "auteur": "B.K. Borison", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 450, "pagesLues": 450, "genre": "Romantasy", "motsCles": "Romantasy de Noël", "termine": "2026-01-07", "jours": 4, "mois": "Janvier", "note": 3.5, "avis": "Recommandé par notre autrice préférée 🥰 Première romantasy de Noël ever !", "fini": true}, {"lectrice": "Zoé", "titre": "Shuffle", "auteur": "Waxx, Mirion Malle", "genreAuteur": "Mixte", "format": "Grand format", "pagesTotales": 248, "pagesLues": 248, "genre": "(Auto-)biographie", "motsCles": "Anecdotes musicales", "termine": "2026-01-06", "jours": 8, "mois": "Janvier", "note": 4, "avis": "C'était chouette de découvrir des anecdotes sur des monuments de la musique.", "fini": true}, {"lectrice": "Zoé", "titre": "Cucul", "auteur": "Camille Emmanuelle", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 256, "pagesLues": 256, "genre": "Romance", "motsCles": "Romance", "termine": "2026-01-06", "jours": 11, "mois": "Janvier", "note": 4, "avis": "J'ai vraiment passé un bon moment, c'était fun et rafraîchissant.", "fini": true}, {"lectrice": "Zoé", "titre": "L'autre", "auteur": "Céline Van Thiglio", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 478, "pagesLues": 478, "genre": "Littérature contemporaine", "motsCles": "Littérature contemporaine, romance", "termine": "2026-01-13", "jours": 11, "mois": "Janvier", "note": 4.5, "avis": "Un très beau premier roman en autoédition. C'était prenant, bouleversant, émouvant.", "fini": true}, {"lectrice": "Emiline", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-07", "jours": 1, "mois": "Janvier", "note": 5, "avis": "J'ai adoréééé cette BD ! Une critique politique derrière le côté humoristique.", "fini": true}, {"lectrice": "Emiline", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-07", "jours": 1, "mois": "Janvier", "note": 5, "avis": "Suite axée sur la dénonciation du fascisme. Trop hâte du tome 3 !", "fini": true}, {"lectrice": "Emiline", "titre": "La porteuse de lettres", "auteur": "Francesca Giannone", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 492, "pagesLues": 492, "genre": "Littérature historique", "motsCles": "Romance historique", "termine": "2026-01-12", "jours": 14, "mois": "Janvier", "note": 3, "avis": "J'ai bien aimé l'histoire globale mais rien n'est subtil et les personnages ne sont pas attachants.", "fini": true}, {"lectrice": "Emiline", "titre": "Mémoires de la forêt - Tome 3", "auteur": "Mickaël Brun-Arnaud", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 346, "pagesLues": 346, "genre": "Jeunesse", "motsCles": "", "termine": "2026-01-17", "jours": 5, "mois": "Janvier", "note": 4, "avis": "Lecture de saison. Les dessins sont toujours aussi magnifiques.", "fini": true}, {"lectrice": "Zoé", "titre": "Le sommet des dieux #1", "auteur": "Jirô Taniguchi, Baku Yumemakura", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 336, "pagesLues": 336, "genre": "Manga", "motsCles": "alpinisme, enquête", "termine": "2026-01-17", "jours": 4, "mois": "Janvier", "note": 4, "avis": "Je trouve ça assez fou d'avoir autant accroché à cette histoire. J'ai dévoré ce premier tome.", "fini": true}, {"lectrice": "Laura V", "titre": "Les Pizzlys", "auteur": "Jérémie Moreau", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 196, "pagesLues": 196, "genre": "BD", "motsCles": "fable écologique, Alaska, famille", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "J'aime trop ses dessins, ses métaphores douces mais aussi alarmantes sur l'état du monde.", "fini": true}, {"lectrice": "Zoé", "titre": "Transcripteur - 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "transidentité, témoignage", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Un témoignage tout doux sur le parcours de transition de Camille.", "fini": true}, {"lectrice": "Emiline", "titre": "Dans les vestiaires", "auteur": "Timothé Le Boucher", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 128, "pagesLues": 128, "genre": "BD", "motsCles": "Harcèlement, huis clos", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "Je m'attendais à du trash mais pas à ce point. Toutefois bien ficelé et malheureusement très réaliste.", "fini": true}, {"lectrice": "Emiline", "titre": "Les amours de Tulipe", "auteur": "Sophie Guerrive", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 108, "pagesLues": 108, "genre": "Jeunesse", "motsCles": "Recueil, philosophie", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "J'ai un peu moins aimé ce tome-ci par rapport au premier.", "fini": true}, {"lectrice": "Zoé", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "C'était hilarant ! Un sujet important traité avec légèreté !", "fini": true}, {"lectrice": "Emiline", "titre": "Mes années hétéro", "auteur": "Hugues Barthe", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 192, "pagesLues": 192, "genre": "BD", "motsCles": "Homosexualité, historique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "Portrait d'un homme qui s'interroge sur son identité dans les années 50. Bien mais sans plus.", "fini": true}, {"lectrice": "Zoé", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Un humour de gaucho comme on aime. J'ai beaucoup souri sur un sujet loin d'être drôle.", "fini": true}, {"lectrice": "Laura V", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique, humour", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Vraiment très drôle, j'ai trop kiffé.", "fini": true}, {"lectrice": "Laura V", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique, humour", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Ibidem", "fini": true}, {"lectrice": "Laura V", "titre": "A Pink Story", "auteur": "Kate Charlesworth", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 317, "pagesLues": 317, "genre": "BD", "motsCles": "Autobiographie, histoire LGBTQIA+", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Très dense mais hyper intéressant! Une bible pour l'histoire anglaise queer.", "fini": true}, {"lectrice": "Zoé", "titre": "It's lonely at the centre of the earth", "auteur": "Zoe Thorogood", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 208, "pagesLues": 208, "genre": "(Auto-)biographie", "motsCles": "autobiographie, dépression", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4.5, "avis": "Cet ouvrage est un OVNI ! Le sujet de la dépression est super bien traité.", "fini": true}, {"lectrice": "Emiline", "titre": "Transcripteur. 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "Transidentité, témoignage", "termine": "2026-01-18", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Témoignage sur son parcours de transition, avec un focus sur le coming out en entreprise.", "fini": true}, {"lectrice": "Emiline", "titre": "Paradise garden", "auteur": "Elena Fischer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 356, "pagesLues": 356, "genre": "Littérature contemporaine", "motsCles": "Roman d'apprentissage, deuil, road trip", "termine": "2026-01-19", "jours": 3, "mois": "Janvier", "note": 4, "avis": "J'ai beaucoup aimé ce roman d'apprentissage à l'allure de road trip ! Belle plume.", "fini": true}, {"lectrice": "Zoé", "titre": "Médée", "auteur": "Blandine Le Callet, Nancy Peña", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 318, "pagesLues": 318, "genre": "Roman graphique", "motsCles": "Mythologie", "termine": "2026-01-18", "jours": 1, "mois": "Janvier", "note": 5, "avis": "Un roman graphique super complet sur l'histoire de Médée. C'est un sans faute pour moi !", "fini": true}, {"lectrice": "Zoé", "titre": "Game Changers #1 - Game Changer", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 432, "pagesLues": 432, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-01-23", "jours": 4, "mois": "Janvier", "note": 4, "avis": "Une lecture légère qui me fait beaucoup de bien !", "fini": true}, {"lectrice": "Emiline", "titre": "Le joueur d'échecs", "auteur": "Stefan Zweig", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 125, "pagesLues": 125, "genre": "Nouvelles", "motsCles": "Classique, échecs", "termine": "2026-01-21", "jours": 2, "mois": "Janvier", "note": 4, "avis": "Trop heureuse d'enfin sortir ce livre de ma pàl et de découvrir ce classique !", "fini": true}, {"lectrice": "Emiline", "titre": "Le journal de Samuel", "auteur": "Emilie Tronche", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 320, "pagesLues": 320, "genre": "Jeunesse", "motsCles": "Tranches de vie", "termine": "2026-01-21", "jours": 1, "mois": "Janvier", "note": 5, "avis": "C'est beau, touchant, poétique, drôle et très réaliste.", "fini": true}, {"lectrice": "Emiline", "titre": "La nuit au coeur", "auteur": "Nathacha Appanah", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 283, "pagesLues": 283, "genre": "(Auto-)biographie", "motsCles": "Féminicides, violences conjugales, littérature mauricienne", "termine": "2026-01-27", "jours": 6, "mois": "Janvier", "note": 4, "avis": "Méga bien écrit. Sujet méga dur, j'ai dû faire de nombreuses pauses dans ma lecture.", "fini": true}, {"lectrice": "Zoé", "titre": "Game Changers #2 - Heated Rivalry", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 372, "pagesLues": 372, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-01-31", "jours": 8, "mois": "Janvier", "note": 5, "avis": "Pas du tout objective sur cette note, mais je peux pas mettre moins à Shane et Ilya ❤️‍🔥", "fini": true}, {"lectrice": "Zoé", "titre": "Les Normaux #81", "auteur": "Janine Janssen, Al Sabado S.", "genreAuteur": "Mixte", "format": "Webtoon", "pagesTotales": 15, "pagesLues": 15, "genre": "Romance", "motsCles": "Romance queer, fantastique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4.5, "avis": "Trop chouette de retrouver l'univers !", "fini": true}, {"lectrice": "Emiline", "titre": "Embrasser la bisexualité", "auteur": "Camille Teste", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 176, "pagesLues": 176, "genre": "Essai", "motsCles": "Bisexualité, biphobie, LGBTQIA+", "termine": "2026-02-03", "jours": 7, "mois": "Janvier", "note": 4.5, "avis": "Wow, hyper éclairant, une porte d'entrée dans un sujet encore fort invisibilisé !", "fini": true}, {"lectrice": "Laura V", "titre": "Après l'éclipse", "auteur": "Eve Cambreleng", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 220, "pagesLues": 220, "genre": "BD", "motsCles": "Amitié, sororité, féminisme", "termine": "2026-01-31", "jours": 1, "mois": "Janvier", "note": null, "avis": "Tout doux et mimi, y a plein de scènes qui me faisaient penser à des moments réellement vécus entre amies.", "fini": true}, {"lectrice": "Laura V", "titre": "Les voyages de Tulipe", "auteur": "Sophie Guerrive", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 113, "pagesLues": 113, "genre": "BD", "motsCles": "Philosophie, poésie, recueil de strips", "termine": "2026-01-31", "jours": 1, "mois": "Janvier", "note": null, "avis": "Pour le moment le tome 1 est mon pref. J'ai trouvé la première moitié moins poétique.", "fini": true}, {"lectrice": "Laura M", "titre": "The will of the many", "auteur": "James Islington", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 684, "pagesLues": 684, "genre": "Fantasy", "motsCles": "dark academia", "termine": "2026-01-20", "jours": 19, "mois": "Janvier", "note": 5, "avis": "Triple A caliber", "fini": true}, {"lectrice": "Laura M", "titre": "Paladin's strength", "auteur": "T. Kingfisher", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 423, "pagesLues": 423, "genre": "Romantasy", "motsCles": "cosy mystery", "termine": "2026-02-06", "jours": 17, "mois": "Janvier", "note": 5, "avis": "noooo i'm a monsteeeer no one could ever love meeeee", "fini": true}, {"lectrice": "Emiline", "titre": "D'or et de ruines - Tome 2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Deuil", "termine": "2026-02-02", "jours": 2, "mois": "Février", "note": 4, "avis": "Si heureuse de me replonger dans D'or et de ruines ! Juju Mimisiku écrit vraiment trop bien.", "fini": true}, {"lectrice": "Zoé", "titre": "D'or et de ruines #2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Romantasy", "termine": "2026-02-20", "jours": 20, "mois": "Février", "note": 5, "avis": "", "fini": true}, {"lectrice": "Emiline", "titre": "Lettre d'une inconnue", "auteur": "Stefan Zweig", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 128, "pagesLues": 128, "genre": "Nouvelles", "motsCles": "Classique, épistolaire, littérature autrichienne", "termine": "2026-02-04", "jours": 1, "mois": "Février", "note": 3.5, "avis": "Stefan Zweig écrit définitivement super bien ! J'ai beaucoup aimé le format d'une longue lettre.", "fini": true}, {"lectrice": "Emiline", "titre": "Game changer - Tome 1", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 432, "pagesLues": 432, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-02-11", "jours": 8, "mois": "Février", "note": 3.5, "avis": "", "fini": true}, {"lectrice": "Zoé", "titre": "Game Changers #3 - Tough Guy", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 336, "pagesLues": 336, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-02-20", "jours": 14, "mois": "Février", "note": 4, "avis": "", "fini": true}, {"lectrice": "Laura V", "titre": "Transcripteur. 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "Transidentité, milieu braille", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Récit mimi sur sa transition, chouette d'en apprendre plus sur la transcription en braille.", "fini": true}, {"lectrice": "Laura V", "titre": "D'or et de ruines - Tome 2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Romance, enemies to lovers, royauté, magie", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Je ne cesserai jamais d'être admirative de la capacité de Juju à écrire tout ça", "fini": true}, {"lectrice": "Laura V", "titre": "Small hours", "auteur": "Valérie Minelli", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 112, "pagesLues": 112, "genre": "(Auto-)biographie", "motsCles": "Tranches de vie", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Des petits strips mignons sur des moments du quotidien, ça se lit en 15min", "fini": true}, {"lectrice": "Laura V", "titre": "Lightfall, tome 1", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 253, "pagesLues": 253, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "L'histoire est mims, mais surtout les dessins sont si beaaaaaaaaaaaux", "fini": true}, {"lectrice": "Emiline", "titre": "Et si les chats disparaissaient du monde", "auteur": "Genki Kawamura", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 166, "pagesLues": 166, "genre": "Littérature contemporaine", "motsCles": "Littérature étrangère, philosophie", "termine": "2026-02-12", "jours": 1, "mois": "Février", "note": 3, "avis": "", "fini": true}, {"lectrice": "Laura V", "titre": "Ballades", "auteur": "Camille Potte", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 144, "pagesLues": 144, "genre": "BD", "motsCles": "Moyen Age, conte revisité", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Vraiment drôle ! Écrite en faux ancien français avec des réfs modernes. L'histoire d'un seigneur transformé en grenouille.", "fini": true}, {"lectrice": "Laura V", "titre": "Lightfall, tome 2", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 247, "pagesLues": 247, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "C'est toujours mimi, mais vraiment les dessins !!", "fini": true}, {"lectrice": "Emiline", "titre": "Mon vrai nom est Elisabeth", "auteur": "Adèle Yon", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 393, "pagesLues": 393, "genre": "(Auto-)biographie", "motsCles": "Santé mentale", "termine": "2026-02-23", "jours": 8, "mois": "Février", "note": 5, "avis": "", "fini": true}, {"lectrice": "Emiline", "titre": "Je suis leur silence", "auteur": "Jordi Lafebre", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 109, "pagesLues": 109, "genre": "Thriller", "motsCles": "BD, thriller, santé mentale", "termine": "2026-02-21", "jours": 2, "mois": "Février", "note": 4, "avis": "Relecture", "fini": true}, {"lectrice": "Emiline", "titre": "Je suis un ange perdu", "auteur": "Jordi Lafebre", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 109, "pagesLues": 109, "genre": "Thriller", "motsCles": "BD, thriller, santé mentale", "termine": "2026-02-21", "jours": 1, "mois": "Février", "note": 4, "avis": "", "fini": true}, {"lectrice": "Emiline", "titre": "Ces lignes qui tracent mon corps", "auteur": "Mansoureh Kamari", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 200, "pagesLues": 200, "genre": "(Auto-)biographie", "motsCles": "Droits des femmes, Iran", "termine": "2026-02-22", "jours": 1, "mois": "Février", "note": 4, "avis": "", "fini": true}, {"lectrice": "Laura M", "titre": "Dungeon Crawler Carl", "auteur": "Matt Dinniman", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 684, "pagesLues": 684, "genre": "Fantasy", "motsCles": "dystopie, RPGlit", "termine": "2026-02-26", "jours": 20, "mois": "Février", "note": 4, "avis": "Peut être légèrement plus profond qu'au premier abord, impression à confirmer.", "fini": true}, {"lectrice": "Emiline", "titre": "Atmosphère", "auteur": "Taylor Jenkins Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 464, "pagesLues": 464, "genre": "Romance", "motsCles": "Romance f/f, espace", "termine": "2026-02-26", "jours": 2, "mois": "Février", "note": 3.5, "avis": "Je cherchais une lecture légère pour ma journée à Paris. Je l'ai dévoré ! J'ai même versé ma petite larme.", "fini": true}, {"lectrice": "Laura V", "titre": "Lightfall, tome 3", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 237, "pagesLues": 237, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Sympatoche mais ça devient long pour un truc auquel j'accroche surtout pour les dessins", "fini": true}, {"lectrice": "Laura M", "titre": "Odyssey", "auteur": "Stephen Fry", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 0, "pagesLues": 0, "genre": "Littérature historique", "motsCles": "mythology, retelling", "termine": null, "jours": null, "mois": "Mars", "note": null, "avis": "", "fini": false}, {"lectrice": "Emiline", "titre": "all about love", "auteur": "bell hooks", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 272, "pagesLues": 129, "genre": "Essai", "motsCles": "Non fiction, amour", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Emiline", "titre": "Petite histoire de l'Art queer", "auteur": "Dawn Hoskin", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 224, "pagesLues": 20, "genre": "Essai", "motsCles": "Art, queer", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Zoé", "titre": "Game Changers #4 - Common Goal", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 384, "pagesLues": 0, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Zoé", "titre": "Sororité", "auteur": "Chloé Delaume, collectif", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 222, "pagesLues": 136, "genre": "Essai", "motsCles": "féminisme, recueil textes", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Laura V", "titre": "Mon vrai nom est Elisabeth", "auteur": "Adèle Yon", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 392, "pagesLues": 150, "genre": "(Auto-)biographie", "motsCles": "Histoire familiale, violences envers les femmes", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "J'adore", "fini": false}, {"lectrice": "Laura V", "titre": "Le couple et l'argent", "auteur": "Titiou Lecoq", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 209, "pagesLues": 40, "genre": "Essai", "motsCles": "Féminisme, gestion financière", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}];
+const GOALS = {"Emiline": 100, "Emiline_link": "#", "Zoé": 100, "Zoé_link": "#", "Laura V": 100, "Laura V_link": "#", "Laura M": 15, "Laura M_link": "#"};
 
-  if(SCRIPT_URL==='PASTE_YOUR_APPS_SCRIPT_URL_HERE'){
-    app.innerHTML=`<div style="padding:32px 48px;max-width:1140px;margin:0 auto">${setupGuide()}</div>`;
-    btn.classList.remove('loading');btn.textContent='↻ Actualiser';return;
-  }
-  try{
-    const res=await fetch(SCRIPT_URL);
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json=await res.json();
-    render(json.books,json.goals,json.generated);
-    const d=new Date(json.generated);
-    tag.textContent=`Mis à jour ${d.toLocaleDateString('fr-BE')} · ${d.toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})}`;
-  }catch(e){
-    app.innerHTML=`<div style="padding:32px 48px;max-width:1140px;margin:0 auto"><div class="error-box"><h3>⚠️ Erreur</h3><p>${e.message}<br><br>Vérifiez votre URL Apps Script.</p></div></div>`;
-  }
-  btn.classList.remove('loading');btn.textContent='↻ Actualiser';
+function loadData() {
+  document.getElementById('updateTag').textContent = 'Données au 3 mars 2026';
+  render(BOOKS, GOALS, new Date().toISOString());
 }
 
 function render(books,goals,gen){
