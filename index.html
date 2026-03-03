@@ -1,401 +1,406 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lectures de la Dream Team 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lectures de la Dream Team 2026</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Mulish:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
 
-<header class="site-header">
-  <div class="header-left">
-    <h1>Lectures de la <em>Dream Team</em></h1>
-    <p>Bilan des lectures 2026</p>
-  </div>
-  <div class="header-right">
-    <span class="update-tag" id="updateTag">Chargement…</span>
-    <button class="btn-refresh" id="refreshBtn" onclick="loadData()">↻ Actualiser</button>
-  </div>
-</header>
+  <header class="site-header">
+    <div class="header-left">
+      <h1>Lectures de la <em>Dream Team</em></h1>
+      <p>Bilan des lectures 2026</p>
+    </div>
+    <div class="header-right">
+      <span class="update-tag" id="updateTag">Chargement…</span>
+      <button class="btn-refresh" id="refreshBtn" onclick="loadData()">↻ Actualiser</button>
+    </div>
+  </header>
 
-<div id="tooltip" class="tooltip"></div>
-<div id="app"></div>
+  <div id="tooltip" class="tooltip"></div>
+  <div id="app"></div>
 
-<footer>
-  <span>Dream Team Reads <span style="color:var(--navy-mid);font-weight:700">2026</span></span>
-  <span id="footerStats"></span>
-</footer>
+  <footer>
+    <span>Dream Team Reads <span style="color:var(--navy-mid);font-weight:700">2026</span></span>
+    <span id="footerStats"></span>
+  </footer>
 
-<script>
-const READERS = ['Emiline','Laura M','Laura V','Zoé'];
-const COLORS  = {'Emiline':'#ca8a04','Zoé':'#7c3aed','Laura V':'#16a34a','Laura M':'#1d4ed8'};
-const EMOJI   = {'Emiline':'🌸','Zoé':'✨','Laura V':'🌿','Laura M':'📖'};
-const MONTHS  = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-const MSHORT  = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  <script>
+    const READERS = ['Emiline', 'Laura M', 'Laura V', 'Zoé'];
+    const COLORS = { 'Emiline': '#ca8a04', 'Zoé': '#7c3aed', 'Laura V': '#16a34a', 'Laura M': '#1d4ed8' };
+    const EMOJI = { 'Emiline': '🌸', 'Zoé': '✨', 'Laura V': '🌿', 'Laura M': '📖' };
+    const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    const MSHORT = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
 
-const GC = {'BD':'#1a2f5e','Roman graphique':'#2a4480','Manga':'#1e40af','Romance':'#e85d3a','Romantasy':'#d4820a','(Auto-)biographie':'#0891b2','Littérature contemporaine':'#0e7490','Fantasy':'#059669','Jeunesse':'#7c3aed','Essai':'#6b7fa8','Nouvelles':'#94a3b8','Thriller':'#c4512e','Littérature historique':'#78716c','Webtoon':'#db2777','SF':'#2563eb'};
-const GE = {'BD':'📕','Roman graphique':'📗','Romance':'💕','Romantasy':'🐉','(Auto-)biographie':'📔','Fantasy':'⚔️','Jeunesse':'🌟','Essai':'📝','Nouvelles':'📄','Thriller':'🔪','Littérature contemporaine':'📖','Manga':'🎌'};
-const gc = g => GC[g]||'#94a3b8';
-const ge = g => GE[g]||'📚';
+    const GC = { 'BD': '#1a2f5e', 'Roman graphique': '#2a4480', 'Manga': '#1e40af', 'Romance': '#e85d3a', 'Romantasy': '#d4820a', '(Auto-)biographie': '#0891b2', 'Littérature contemporaine': '#0e7490', 'Fantasy': '#059669', 'Jeunesse': '#7c3aed', 'Essai': '#6b7fa8', 'Nouvelles': '#94a3b8', 'Thriller': '#c4512e', 'Littérature historique': '#78716c', 'Webtoon': '#db2777', 'SF': '#2563eb' };
+    const GE = { 'BD': '📕', 'Roman graphique': '📗', 'Romance': '💕', 'Romantasy': '🐉', '(Auto-)biographie': '📔', 'Fantasy': '⚔️', 'Jeunesse': '🌟', 'Essai': '📝', 'Nouvelles': '📄', 'Thriller': '🔪', 'Littérature contemporaine': '📖', 'Manga': '🎌' };
+    const gc = g => GC[g] || '#94a3b8';
+    const ge = g => GE[g] || '📚';
 
-const BOOKS = [{"lectrice": "Laura V", "titre": "La nuit sera longue", "auteur": "Zerocalcare", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 92, "pagesLues": 92, "genre": "Essai", "motsCles": "Récit documentaire, Politique", "termine": "2026-01-01", "jours": 1, "mois": "Janvier", "note": null, "avis": "J'ai trop aimé, vraiment super intéressant!", "fini": true}, {"lectrice": "Laura V", "titre": "Perpendiculaire au soleil", "auteur": "Valentine Cuny-Le Callet", "genreAuteur": "Mixte", "format": "Grand format", "pagesTotales": 435, "pagesLues": 435, "genre": "BD", "motsCles": "Récit documentaire, Univers carcéral, USA", "termine": "2026-01-02", "jours": 1, "mois": "Janvier", "note": null, "avis": "Trop trop bien, écrit à 4 mains. C'est super touchant.", "fini": true}, {"lectrice": "Emiline", "titre": "L'esprit de Noël", "auteur": "B.K. Borison", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 450, "pagesLues": 450, "genre": "Romantasy", "motsCles": "Romantasy de Noël", "termine": "2026-01-07", "jours": 4, "mois": "Janvier", "note": 3.5, "avis": "Recommandé par notre autrice préférée 🥰 Première romantasy de Noël ever !", "fini": true}, {"lectrice": "Zoé", "titre": "Shuffle", "auteur": "Waxx, Mirion Malle", "genreAuteur": "Mixte", "format": "Grand format", "pagesTotales": 248, "pagesLues": 248, "genre": "(Auto-)biographie", "motsCles": "Anecdotes musicales", "termine": "2026-01-06", "jours": 8, "mois": "Janvier", "note": 4, "avis": "C'était chouette de découvrir des anecdotes sur des monuments de la musique.", "fini": true}, {"lectrice": "Zoé", "titre": "Cucul", "auteur": "Camille Emmanuelle", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 256, "pagesLues": 256, "genre": "Romance", "motsCles": "Romance", "termine": "2026-01-06", "jours": 11, "mois": "Janvier", "note": 4, "avis": "J'ai vraiment passé un bon moment, c'était fun et rafraîchissant.", "fini": true}, {"lectrice": "Zoé", "titre": "L'autre", "auteur": "Céline Van Thiglio", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 478, "pagesLues": 478, "genre": "Littérature contemporaine", "motsCles": "Littérature contemporaine, romance", "termine": "2026-01-13", "jours": 11, "mois": "Janvier", "note": 4.5, "avis": "Un très beau premier roman en autoédition. C'était prenant, bouleversant, émouvant.", "fini": true}, {"lectrice": "Emiline", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-07", "jours": 1, "mois": "Janvier", "note": 5, "avis": "J'ai adoréééé cette BD ! Une critique politique derrière le côté humoristique.", "fini": true}, {"lectrice": "Emiline", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-07", "jours": 1, "mois": "Janvier", "note": 5, "avis": "Suite axée sur la dénonciation du fascisme. Trop hâte du tome 3 !", "fini": true}, {"lectrice": "Emiline", "titre": "La porteuse de lettres", "auteur": "Francesca Giannone", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 492, "pagesLues": 492, "genre": "Littérature historique", "motsCles": "Romance historique", "termine": "2026-01-12", "jours": 14, "mois": "Janvier", "note": 3, "avis": "J'ai bien aimé l'histoire globale mais rien n'est subtil et les personnages ne sont pas attachants.", "fini": true}, {"lectrice": "Emiline", "titre": "Mémoires de la forêt - Tome 3", "auteur": "Mickaël Brun-Arnaud", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 346, "pagesLues": 346, "genre": "Jeunesse", "motsCles": "", "termine": "2026-01-17", "jours": 5, "mois": "Janvier", "note": 4, "avis": "Lecture de saison. Les dessins sont toujours aussi magnifiques.", "fini": true}, {"lectrice": "Zoé", "titre": "Le sommet des dieux #1", "auteur": "Jirô Taniguchi, Baku Yumemakura", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 336, "pagesLues": 336, "genre": "Manga", "motsCles": "alpinisme, enquête", "termine": "2026-01-17", "jours": 4, "mois": "Janvier", "note": 4, "avis": "Je trouve ça assez fou d'avoir autant accroché à cette histoire. J'ai dévoré ce premier tome.", "fini": true}, {"lectrice": "Laura V", "titre": "Les Pizzlys", "auteur": "Jérémie Moreau", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 196, "pagesLues": 196, "genre": "BD", "motsCles": "fable écologique, Alaska, famille", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "J'aime trop ses dessins, ses métaphores douces mais aussi alarmantes sur l'état du monde.", "fini": true}, {"lectrice": "Zoé", "titre": "Transcripteur - 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "transidentité, témoignage", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Un témoignage tout doux sur le parcours de transition de Camille.", "fini": true}, {"lectrice": "Emiline", "titre": "Dans les vestiaires", "auteur": "Timothé Le Boucher", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 128, "pagesLues": 128, "genre": "BD", "motsCles": "Harcèlement, huis clos", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "Je m'attendais à du trash mais pas à ce point. Toutefois bien ficelé et malheureusement très réaliste.", "fini": true}, {"lectrice": "Emiline", "titre": "Les amours de Tulipe", "auteur": "Sophie Guerrive", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 108, "pagesLues": 108, "genre": "Jeunesse", "motsCles": "Recueil, philosophie", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "J'ai un peu moins aimé ce tome-ci par rapport au premier.", "fini": true}, {"lectrice": "Zoé", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "C'était hilarant ! Un sujet important traité avec légèreté !", "fini": true}, {"lectrice": "Emiline", "titre": "Mes années hétéro", "auteur": "Hugues Barthe", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 192, "pagesLues": 192, "genre": "BD", "motsCles": "Homosexualité, historique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "Portrait d'un homme qui s'interroge sur son identité dans les années 50. Bien mais sans plus.", "fini": true}, {"lectrice": "Zoé", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Un humour de gaucho comme on aime. J'ai beaucoup souri sur un sujet loin d'être drôle.", "fini": true}, {"lectrice": "Laura V", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique, humour", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Vraiment très drôle, j'ai trop kiffé.", "fini": true}, {"lectrice": "Laura V", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique, humour", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Ibidem", "fini": true}, {"lectrice": "Laura V", "titre": "A Pink Story", "auteur": "Kate Charlesworth", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 317, "pagesLues": 317, "genre": "BD", "motsCles": "Autobiographie, histoire LGBTQIA+", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Très dense mais hyper intéressant! Une bible pour l'histoire anglaise queer.", "fini": true}, {"lectrice": "Zoé", "titre": "It's lonely at the centre of the earth", "auteur": "Zoe Thorogood", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 208, "pagesLues": 208, "genre": "(Auto-)biographie", "motsCles": "autobiographie, dépression", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4.5, "avis": "Cet ouvrage est un OVNI ! Le sujet de la dépression est super bien traité.", "fini": true}, {"lectrice": "Emiline", "titre": "Transcripteur. 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "Transidentité, témoignage", "termine": "2026-01-18", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Témoignage sur son parcours de transition, avec un focus sur le coming out en entreprise.", "fini": true}, {"lectrice": "Emiline", "titre": "Paradise garden", "auteur": "Elena Fischer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 356, "pagesLues": 356, "genre": "Littérature contemporaine", "motsCles": "Roman d'apprentissage, deuil, road trip", "termine": "2026-01-19", "jours": 3, "mois": "Janvier", "note": 4, "avis": "J'ai beaucoup aimé ce roman d'apprentissage à l'allure de road trip ! Belle plume.", "fini": true}, {"lectrice": "Zoé", "titre": "Médée", "auteur": "Blandine Le Callet, Nancy Peña", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 318, "pagesLues": 318, "genre": "Roman graphique", "motsCles": "Mythologie", "termine": "2026-01-18", "jours": 1, "mois": "Janvier", "note": 5, "avis": "Un roman graphique super complet sur l'histoire de Médée. C'est un sans faute pour moi !", "fini": true}, {"lectrice": "Zoé", "titre": "Game Changers #1 - Game Changer", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 432, "pagesLues": 432, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-01-23", "jours": 4, "mois": "Janvier", "note": 4, "avis": "Une lecture légère qui me fait beaucoup de bien !", "fini": true}, {"lectrice": "Emiline", "titre": "Le joueur d'échecs", "auteur": "Stefan Zweig", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 125, "pagesLues": 125, "genre": "Nouvelles", "motsCles": "Classique, échecs", "termine": "2026-01-21", "jours": 2, "mois": "Janvier", "note": 4, "avis": "Trop heureuse d'enfin sortir ce livre de ma pàl et de découvrir ce classique !", "fini": true}, {"lectrice": "Emiline", "titre": "Le journal de Samuel", "auteur": "Emilie Tronche", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 320, "pagesLues": 320, "genre": "Jeunesse", "motsCles": "Tranches de vie", "termine": "2026-01-21", "jours": 1, "mois": "Janvier", "note": 5, "avis": "C'est beau, touchant, poétique, drôle et très réaliste.", "fini": true}, {"lectrice": "Emiline", "titre": "La nuit au coeur", "auteur": "Nathacha Appanah", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 283, "pagesLues": 283, "genre": "(Auto-)biographie", "motsCles": "Féminicides, violences conjugales, littérature mauricienne", "termine": "2026-01-27", "jours": 6, "mois": "Janvier", "note": 4, "avis": "Méga bien écrit. Sujet méga dur, j'ai dû faire de nombreuses pauses dans ma lecture.", "fini": true}, {"lectrice": "Zoé", "titre": "Game Changers #2 - Heated Rivalry", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 372, "pagesLues": 372, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-01-31", "jours": 8, "mois": "Janvier", "note": 5, "avis": "Pas du tout objective sur cette note, mais je peux pas mettre moins à Shane et Ilya ❤️‍🔥", "fini": true}, {"lectrice": "Zoé", "titre": "Les Normaux #81", "auteur": "Janine Janssen, Al Sabado S.", "genreAuteur": "Mixte", "format": "Webtoon", "pagesTotales": 15, "pagesLues": 15, "genre": "Romance", "motsCles": "Romance queer, fantastique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4.5, "avis": "Trop chouette de retrouver l'univers !", "fini": true}, {"lectrice": "Emiline", "titre": "Embrasser la bisexualité", "auteur": "Camille Teste", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 176, "pagesLues": 176, "genre": "Essai", "motsCles": "Bisexualité, biphobie, LGBTQIA+", "termine": "2026-02-03", "jours": 7, "mois": "Janvier", "note": 4.5, "avis": "Wow, hyper éclairant, une porte d'entrée dans un sujet encore fort invisibilisé !", "fini": true}, {"lectrice": "Laura V", "titre": "Après l'éclipse", "auteur": "Eve Cambreleng", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 220, "pagesLues": 220, "genre": "BD", "motsCles": "Amitié, sororité, féminisme", "termine": "2026-01-31", "jours": 1, "mois": "Janvier", "note": null, "avis": "Tout doux et mimi, y a plein de scènes qui me faisaient penser à des moments réellement vécus entre amies.", "fini": true}, {"lectrice": "Laura V", "titre": "Les voyages de Tulipe", "auteur": "Sophie Guerrive", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 113, "pagesLues": 113, "genre": "BD", "motsCles": "Philosophie, poésie, recueil de strips", "termine": "2026-01-31", "jours": 1, "mois": "Janvier", "note": null, "avis": "Pour le moment le tome 1 est mon pref. J'ai trouvé la première moitié moins poétique.", "fini": true}, {"lectrice": "Laura M", "titre": "The will of the many", "auteur": "James Islington", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 684, "pagesLues": 684, "genre": "Fantasy", "motsCles": "dark academia", "termine": "2026-01-20", "jours": 19, "mois": "Janvier", "note": 5, "avis": "Triple A caliber", "fini": true}, {"lectrice": "Laura M", "titre": "Paladin's strength", "auteur": "T. Kingfisher", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 423, "pagesLues": 423, "genre": "Romantasy", "motsCles": "cosy mystery", "termine": "2026-02-06", "jours": 17, "mois": "Janvier", "note": 5, "avis": "noooo i'm a monsteeeer no one could ever love meeeee", "fini": true}, {"lectrice": "Emiline", "titre": "D'or et de ruines - Tome 2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Deuil", "termine": "2026-02-02", "jours": 2, "mois": "Février", "note": 4, "avis": "Si heureuse de me replonger dans D'or et de ruines ! Juju Mimisiku écrit vraiment trop bien.", "fini": true}, {"lectrice": "Zoé", "titre": "D'or et de ruines #2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Romantasy", "termine": "2026-02-20", "jours": 20, "mois": "Février", "note": 5, "avis": "", "fini": true}, {"lectrice": "Emiline", "titre": "Lettre d'une inconnue", "auteur": "Stefan Zweig", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 128, "pagesLues": 128, "genre": "Nouvelles", "motsCles": "Classique, épistolaire, littérature autrichienne", "termine": "2026-02-04", "jours": 1, "mois": "Février", "note": 3.5, "avis": "Stefan Zweig écrit définitivement super bien ! J'ai beaucoup aimé le format d'une longue lettre.", "fini": true}, {"lectrice": "Emiline", "titre": "Game changer - Tome 1", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 432, "pagesLues": 432, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-02-11", "jours": 8, "mois": "Février", "note": 3.5, "avis": "", "fini": true}, {"lectrice": "Zoé", "titre": "Game Changers #3 - Tough Guy", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 336, "pagesLues": 336, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-02-20", "jours": 14, "mois": "Février", "note": 4, "avis": "", "fini": true}, {"lectrice": "Laura V", "titre": "Transcripteur. 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "Transidentité, milieu braille", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Récit mimi sur sa transition, chouette d'en apprendre plus sur la transcription en braille.", "fini": true}, {"lectrice": "Laura V", "titre": "D'or et de ruines - Tome 2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Romance, enemies to lovers, royauté, magie", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Je ne cesserai jamais d'être admirative de la capacité de Juju à écrire tout ça", "fini": true}, {"lectrice": "Laura V", "titre": "Small hours", "auteur": "Valérie Minelli", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 112, "pagesLues": 112, "genre": "(Auto-)biographie", "motsCles": "Tranches de vie", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Des petits strips mignons sur des moments du quotidien, ça se lit en 15min", "fini": true}, {"lectrice": "Laura V", "titre": "Lightfall, tome 1", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 253, "pagesLues": 253, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "L'histoire est mims, mais surtout les dessins sont si beaaaaaaaaaaaux", "fini": true}, {"lectrice": "Emiline", "titre": "Et si les chats disparaissaient du monde", "auteur": "Genki Kawamura", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 166, "pagesLues": 166, "genre": "Littérature contemporaine", "motsCles": "Littérature étrangère, philosophie", "termine": "2026-02-12", "jours": 1, "mois": "Février", "note": 3, "avis": "", "fini": true}, {"lectrice": "Laura V", "titre": "Ballades", "auteur": "Camille Potte", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 144, "pagesLues": 144, "genre": "BD", "motsCles": "Moyen Age, conte revisité", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Vraiment drôle ! Écrite en faux ancien français avec des réfs modernes. L'histoire d'un seigneur transformé en grenouille.", "fini": true}, {"lectrice": "Laura V", "titre": "Lightfall, tome 2", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 247, "pagesLues": 247, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "C'est toujours mimi, mais vraiment les dessins !!", "fini": true}, {"lectrice": "Emiline", "titre": "Mon vrai nom est Elisabeth", "auteur": "Adèle Yon", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 393, "pagesLues": 393, "genre": "(Auto-)biographie", "motsCles": "Santé mentale", "termine": "2026-02-23", "jours": 8, "mois": "Février", "note": 5, "avis": "", "fini": true}, {"lectrice": "Emiline", "titre": "Je suis leur silence", "auteur": "Jordi Lafebre", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 109, "pagesLues": 109, "genre": "Thriller", "motsCles": "BD, thriller, santé mentale", "termine": "2026-02-21", "jours": 2, "mois": "Février", "note": 4, "avis": "Relecture", "fini": true}, {"lectrice": "Emiline", "titre": "Je suis un ange perdu", "auteur": "Jordi Lafebre", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 109, "pagesLues": 109, "genre": "Thriller", "motsCles": "BD, thriller, santé mentale", "termine": "2026-02-21", "jours": 1, "mois": "Février", "note": 4, "avis": "", "fini": true}, {"lectrice": "Emiline", "titre": "Ces lignes qui tracent mon corps", "auteur": "Mansoureh Kamari", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 200, "pagesLues": 200, "genre": "(Auto-)biographie", "motsCles": "Droits des femmes, Iran", "termine": "2026-02-22", "jours": 1, "mois": "Février", "note": 4, "avis": "", "fini": true}, {"lectrice": "Laura M", "titre": "Dungeon Crawler Carl", "auteur": "Matt Dinniman", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 684, "pagesLues": 684, "genre": "Fantasy", "motsCles": "dystopie, RPGlit", "termine": "2026-02-26", "jours": 20, "mois": "Février", "note": 4, "avis": "Peut être légèrement plus profond qu'au premier abord, impression à confirmer.", "fini": true}, {"lectrice": "Emiline", "titre": "Atmosphère", "auteur": "Taylor Jenkins Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 464, "pagesLues": 464, "genre": "Romance", "motsCles": "Romance f/f, espace", "termine": "2026-02-26", "jours": 2, "mois": "Février", "note": 3.5, "avis": "Je cherchais une lecture légère pour ma journée à Paris. Je l'ai dévoré ! J'ai même versé ma petite larme.", "fini": true}, {"lectrice": "Laura V", "titre": "Lightfall, tome 3", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 237, "pagesLues": 237, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Sympatoche mais ça devient long pour un truc auquel j'accroche surtout pour les dessins", "fini": true}, {"lectrice": "Laura M", "titre": "Odyssey", "auteur": "Stephen Fry", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 0, "pagesLues": 0, "genre": "Littérature historique", "motsCles": "mythology, retelling", "termine": null, "jours": null, "mois": "Mars", "note": null, "avis": "", "fini": false}, {"lectrice": "Emiline", "titre": "all about love", "auteur": "bell hooks", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 272, "pagesLues": 129, "genre": "Essai", "motsCles": "Non fiction, amour", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Emiline", "titre": "Petite histoire de l'Art queer", "auteur": "Dawn Hoskin", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 224, "pagesLues": 20, "genre": "Essai", "motsCles": "Art, queer", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Zoé", "titre": "Game Changers #4 - Common Goal", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 384, "pagesLues": 0, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Zoé", "titre": "Sororité", "auteur": "Chloé Delaume, collectif", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 222, "pagesLues": 136, "genre": "Essai", "motsCles": "féminisme, recueil textes", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}, {"lectrice": "Laura V", "titre": "Mon vrai nom est Elisabeth", "auteur": "Adèle Yon", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 392, "pagesLues": 150, "genre": "(Auto-)biographie", "motsCles": "Histoire familiale, violences envers les femmes", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "J'adore", "fini": false}, {"lectrice": "Laura V", "titre": "Le couple et l'argent", "auteur": "Titiou Lecoq", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 209, "pagesLues": 40, "genre": "Essai", "motsCles": "Féminisme, gestion financière", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false}];
-const GOALS = {"Emiline": 100, "Emiline_link": "#", "Zoé": 100, "Zoé_link": "#", "Laura V": 100, "Laura V_link": "#", "Laura M": 15, "Laura M_link": "#"};
+    const BOOKS = [{ "lectrice": "Laura V", "titre": "La nuit sera longue", "auteur": "Zerocalcare", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 92, "pagesLues": 92, "genre": "Essai", "motsCles": "Récit documentaire, Politique", "termine": "2026-01-01", "jours": 1, "mois": "Janvier", "note": null, "avis": "J'ai trop aimé, vraiment super intéressant!", "fini": true }, { "lectrice": "Laura V", "titre": "Perpendiculaire au soleil", "auteur": "Valentine Cuny-Le Callet", "genreAuteur": "Mixte", "format": "Grand format", "pagesTotales": 435, "pagesLues": 435, "genre": "BD", "motsCles": "Récit documentaire, Univers carcéral, USA", "termine": "2026-01-02", "jours": 1, "mois": "Janvier", "note": null, "avis": "Trop trop bien, écrit à 4 mains. C'est super touchant.", "fini": true }, { "lectrice": "Emiline", "titre": "L'esprit de Noël", "auteur": "B.K. Borison", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 450, "pagesLues": 450, "genre": "Romantasy", "motsCles": "Romantasy de Noël", "termine": "2026-01-07", "jours": 4, "mois": "Janvier", "note": 3.5, "avis": "Recommandé par notre autrice préférée 🥰 Première romantasy de Noël ever !", "fini": true }, { "lectrice": "Zoé", "titre": "Shuffle", "auteur": "Waxx, Mirion Malle", "genreAuteur": "Mixte", "format": "Grand format", "pagesTotales": 248, "pagesLues": 248, "genre": "(Auto-)biographie", "motsCles": "Anecdotes musicales", "termine": "2026-01-06", "jours": 8, "mois": "Janvier", "note": 4, "avis": "C'était chouette de découvrir des anecdotes sur des monuments de la musique.", "fini": true }, { "lectrice": "Zoé", "titre": "Cucul", "auteur": "Camille Emmanuelle", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 256, "pagesLues": 256, "genre": "Romance", "motsCles": "Romance", "termine": "2026-01-06", "jours": 11, "mois": "Janvier", "note": 4, "avis": "J'ai vraiment passé un bon moment, c'était fun et rafraîchissant.", "fini": true }, { "lectrice": "Zoé", "titre": "L'autre", "auteur": "Céline Van Thiglio", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 478, "pagesLues": 478, "genre": "Littérature contemporaine", "motsCles": "Littérature contemporaine, romance", "termine": "2026-01-13", "jours": 11, "mois": "Janvier", "note": 4.5, "avis": "Un très beau premier roman en autoédition. C'était prenant, bouleversant, émouvant.", "fini": true }, { "lectrice": "Emiline", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-07", "jours": 1, "mois": "Janvier", "note": 5, "avis": "J'ai adoréééé cette BD ! Une critique politique derrière le côté humoristique.", "fini": true }, { "lectrice": "Emiline", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-07", "jours": 1, "mois": "Janvier", "note": 5, "avis": "Suite axée sur la dénonciation du fascisme. Trop hâte du tome 3 !", "fini": true }, { "lectrice": "Emiline", "titre": "La porteuse de lettres", "auteur": "Francesca Giannone", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 492, "pagesLues": 492, "genre": "Littérature historique", "motsCles": "Romance historique", "termine": "2026-01-12", "jours": 14, "mois": "Janvier", "note": 3, "avis": "J'ai bien aimé l'histoire globale mais rien n'est subtil et les personnages ne sont pas attachants.", "fini": true }, { "lectrice": "Emiline", "titre": "Mémoires de la forêt - Tome 3", "auteur": "Mickaël Brun-Arnaud", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 346, "pagesLues": 346, "genre": "Jeunesse", "motsCles": "", "termine": "2026-01-17", "jours": 5, "mois": "Janvier", "note": 4, "avis": "Lecture de saison. Les dessins sont toujours aussi magnifiques.", "fini": true }, { "lectrice": "Zoé", "titre": "Le sommet des dieux #1", "auteur": "Jirô Taniguchi, Baku Yumemakura", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 336, "pagesLues": 336, "genre": "Manga", "motsCles": "alpinisme, enquête", "termine": "2026-01-17", "jours": 4, "mois": "Janvier", "note": 4, "avis": "Je trouve ça assez fou d'avoir autant accroché à cette histoire. J'ai dévoré ce premier tome.", "fini": true }, { "lectrice": "Laura V", "titre": "Les Pizzlys", "auteur": "Jérémie Moreau", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 196, "pagesLues": 196, "genre": "BD", "motsCles": "fable écologique, Alaska, famille", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "J'aime trop ses dessins, ses métaphores douces mais aussi alarmantes sur l'état du monde.", "fini": true }, { "lectrice": "Zoé", "titre": "Transcripteur - 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "transidentité, témoignage", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Un témoignage tout doux sur le parcours de transition de Camille.", "fini": true }, { "lectrice": "Emiline", "titre": "Dans les vestiaires", "auteur": "Timothé Le Boucher", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 128, "pagesLues": 128, "genre": "BD", "motsCles": "Harcèlement, huis clos", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "Je m'attendais à du trash mais pas à ce point. Toutefois bien ficelé et malheureusement très réaliste.", "fini": true }, { "lectrice": "Emiline", "titre": "Les amours de Tulipe", "auteur": "Sophie Guerrive", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 108, "pagesLues": 108, "genre": "Jeunesse", "motsCles": "Recueil, philosophie", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "J'ai un peu moins aimé ce tome-ci par rapport au premier.", "fini": true }, { "lectrice": "Zoé", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "C'était hilarant ! Un sujet important traité avec légèreté !", "fini": true }, { "lectrice": "Emiline", "titre": "Mes années hétéro", "auteur": "Hugues Barthe", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 192, "pagesLues": 192, "genre": "BD", "motsCles": "Homosexualité, historique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 3, "avis": "Portrait d'un homme qui s'interroge sur son identité dans les années 50. Bien mais sans plus.", "fini": true }, { "lectrice": "Zoé", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Un humour de gaucho comme on aime. J'ai beaucoup souri sur un sujet loin d'être drôle.", "fini": true }, { "lectrice": "Laura V", "titre": "La révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique, humour", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Vraiment très drôle, j'ai trop kiffé.", "fini": true }, { "lectrice": "Laura V", "titre": "La contre-révolte sans précédent", "auteur": "Guillaume Meurice, Sandrine Deloffre", "genreAuteur": "Mixte", "format": "BD", "pagesTotales": 48, "pagesLues": 48, "genre": "BD", "motsCles": "BD, politique, humour", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Ibidem", "fini": true }, { "lectrice": "Laura V", "titre": "A Pink Story", "auteur": "Kate Charlesworth", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 317, "pagesLues": 317, "genre": "BD", "motsCles": "Autobiographie, histoire LGBTQIA+", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": null, "avis": "Très dense mais hyper intéressant! Une bible pour l'histoire anglaise queer.", "fini": true }, { "lectrice": "Zoé", "titre": "It's lonely at the centre of the earth", "auteur": "Zoe Thorogood", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 208, "pagesLues": 208, "genre": "(Auto-)biographie", "motsCles": "autobiographie, dépression", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4.5, "avis": "Cet ouvrage est un OVNI ! Le sujet de la dépression est super bien traité.", "fini": true }, { "lectrice": "Emiline", "titre": "Transcripteur. 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "Transidentité, témoignage", "termine": "2026-01-18", "jours": 1, "mois": "Janvier", "note": 4, "avis": "Témoignage sur son parcours de transition, avec un focus sur le coming out en entreprise.", "fini": true }, { "lectrice": "Emiline", "titre": "Paradise garden", "auteur": "Elena Fischer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 356, "pagesLues": 356, "genre": "Littérature contemporaine", "motsCles": "Roman d'apprentissage, deuil, road trip", "termine": "2026-01-19", "jours": 3, "mois": "Janvier", "note": 4, "avis": "J'ai beaucoup aimé ce roman d'apprentissage à l'allure de road trip ! Belle plume.", "fini": true }, { "lectrice": "Zoé", "titre": "Médée", "auteur": "Blandine Le Callet, Nancy Peña", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 318, "pagesLues": 318, "genre": "Roman graphique", "motsCles": "Mythologie", "termine": "2026-01-18", "jours": 1, "mois": "Janvier", "note": 5, "avis": "Un roman graphique super complet sur l'histoire de Médée. C'est un sans faute pour moi !", "fini": true }, { "lectrice": "Zoé", "titre": "Game Changers #1 - Game Changer", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 432, "pagesLues": 432, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-01-23", "jours": 4, "mois": "Janvier", "note": 4, "avis": "Une lecture légère qui me fait beaucoup de bien !", "fini": true }, { "lectrice": "Emiline", "titre": "Le joueur d'échecs", "auteur": "Stefan Zweig", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 125, "pagesLues": 125, "genre": "Nouvelles", "motsCles": "Classique, échecs", "termine": "2026-01-21", "jours": 2, "mois": "Janvier", "note": 4, "avis": "Trop heureuse d'enfin sortir ce livre de ma pàl et de découvrir ce classique !", "fini": true }, { "lectrice": "Emiline", "titre": "Le journal de Samuel", "auteur": "Emilie Tronche", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 320, "pagesLues": 320, "genre": "Jeunesse", "motsCles": "Tranches de vie", "termine": "2026-01-21", "jours": 1, "mois": "Janvier", "note": 5, "avis": "C'est beau, touchant, poétique, drôle et très réaliste.", "fini": true }, { "lectrice": "Emiline", "titre": "La nuit au coeur", "auteur": "Nathacha Appanah", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 283, "pagesLues": 283, "genre": "(Auto-)biographie", "motsCles": "Féminicides, violences conjugales, littérature mauricienne", "termine": "2026-01-27", "jours": 6, "mois": "Janvier", "note": 4, "avis": "Méga bien écrit. Sujet méga dur, j'ai dû faire de nombreuses pauses dans ma lecture.", "fini": true }, { "lectrice": "Zoé", "titre": "Game Changers #2 - Heated Rivalry", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 372, "pagesLues": 372, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-01-31", "jours": 8, "mois": "Janvier", "note": 5, "avis": "Pas du tout objective sur cette note, mais je peux pas mettre moins à Shane et Ilya ❤️‍🔥", "fini": true }, { "lectrice": "Zoé", "titre": "Les Normaux #81", "auteur": "Janine Janssen, Al Sabado S.", "genreAuteur": "Mixte", "format": "Webtoon", "pagesTotales": 15, "pagesLues": 15, "genre": "Romance", "motsCles": "Romance queer, fantastique", "termine": "2026-01-17", "jours": 1, "mois": "Janvier", "note": 4.5, "avis": "Trop chouette de retrouver l'univers !", "fini": true }, { "lectrice": "Emiline", "titre": "Embrasser la bisexualité", "auteur": "Camille Teste", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 176, "pagesLues": 176, "genre": "Essai", "motsCles": "Bisexualité, biphobie, LGBTQIA+", "termine": "2026-02-03", "jours": 7, "mois": "Janvier", "note": 4.5, "avis": "Wow, hyper éclairant, une porte d'entrée dans un sujet encore fort invisibilisé !", "fini": true }, { "lectrice": "Laura V", "titre": "Après l'éclipse", "auteur": "Eve Cambreleng", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 220, "pagesLues": 220, "genre": "BD", "motsCles": "Amitié, sororité, féminisme", "termine": "2026-01-31", "jours": 1, "mois": "Janvier", "note": null, "avis": "Tout doux et mimi, y a plein de scènes qui me faisaient penser à des moments réellement vécus entre amies.", "fini": true }, { "lectrice": "Laura V", "titre": "Les voyages de Tulipe", "auteur": "Sophie Guerrive", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 113, "pagesLues": 113, "genre": "BD", "motsCles": "Philosophie, poésie, recueil de strips", "termine": "2026-01-31", "jours": 1, "mois": "Janvier", "note": null, "avis": "Pour le moment le tome 1 est mon pref. J'ai trouvé la première moitié moins poétique.", "fini": true }, { "lectrice": "Laura M", "titre": "The will of the many", "auteur": "James Islington", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 684, "pagesLues": 684, "genre": "Fantasy", "motsCles": "dark academia", "termine": "2026-01-20", "jours": 19, "mois": "Janvier", "note": 5, "avis": "Triple A caliber", "fini": true }, { "lectrice": "Laura M", "titre": "Paladin's strength", "auteur": "T. Kingfisher", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 423, "pagesLues": 423, "genre": "Romantasy", "motsCles": "cosy mystery", "termine": "2026-02-06", "jours": 17, "mois": "Janvier", "note": 5, "avis": "noooo i'm a monsteeeer no one could ever love meeeee", "fini": true }, { "lectrice": "Emiline", "titre": "D'or et de ruines - Tome 2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Deuil", "termine": "2026-02-02", "jours": 2, "mois": "Février", "note": 4, "avis": "Si heureuse de me replonger dans D'or et de ruines ! Juju Mimisiku écrit vraiment trop bien.", "fini": true }, { "lectrice": "Zoé", "titre": "D'or et de ruines #2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Romantasy", "termine": "2026-02-20", "jours": 20, "mois": "Février", "note": 5, "avis": "", "fini": true }, { "lectrice": "Emiline", "titre": "Lettre d'une inconnue", "auteur": "Stefan Zweig", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 128, "pagesLues": 128, "genre": "Nouvelles", "motsCles": "Classique, épistolaire, littérature autrichienne", "termine": "2026-02-04", "jours": 1, "mois": "Février", "note": 3.5, "avis": "Stefan Zweig écrit définitivement super bien ! J'ai beaucoup aimé le format d'une longue lettre.", "fini": true }, { "lectrice": "Emiline", "titre": "Game changer - Tome 1", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 432, "pagesLues": 432, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-02-11", "jours": 8, "mois": "Février", "note": 3.5, "avis": "", "fini": true }, { "lectrice": "Zoé", "titre": "Game Changers #3 - Tough Guy", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 336, "pagesLues": 336, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": "2026-02-20", "jours": 14, "mois": "Février", "note": 4, "avis": "", "fini": true }, { "lectrice": "Laura V", "titre": "Transcripteur. 1 an sous T", "auteur": "Camille Guérin", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 224, "pagesLues": 224, "genre": "(Auto-)biographie", "motsCles": "Transidentité, milieu braille", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Récit mimi sur sa transition, chouette d'en apprendre plus sur la transcription en braille.", "fini": true }, { "lectrice": "Laura V", "titre": "D'or et de ruines - Tome 2", "auteur": "Julie Bradfer", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 384, "pagesLues": 384, "genre": "Romantasy", "motsCles": "Romance, enemies to lovers, royauté, magie", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Je ne cesserai jamais d'être admirative de la capacité de Juju à écrire tout ça", "fini": true }, { "lectrice": "Laura V", "titre": "Small hours", "auteur": "Valérie Minelli", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 112, "pagesLues": 112, "genre": "(Auto-)biographie", "motsCles": "Tranches de vie", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Des petits strips mignons sur des moments du quotidien, ça se lit en 15min", "fini": true }, { "lectrice": "Laura V", "titre": "Lightfall, tome 1", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 253, "pagesLues": 253, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "L'histoire est mims, mais surtout les dessins sont si beaaaaaaaaaaaux", "fini": true }, { "lectrice": "Emiline", "titre": "Et si les chats disparaissaient du monde", "auteur": "Genki Kawamura", "genreAuteur": "Homme", "format": "Poche", "pagesTotales": 166, "pagesLues": 166, "genre": "Littérature contemporaine", "motsCles": "Littérature étrangère, philosophie", "termine": "2026-02-12", "jours": 1, "mois": "Février", "note": 3, "avis": "", "fini": true }, { "lectrice": "Laura V", "titre": "Ballades", "auteur": "Camille Potte", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 144, "pagesLues": 144, "genre": "BD", "motsCles": "Moyen Age, conte revisité", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Vraiment drôle ! Écrite en faux ancien français avec des réfs modernes. L'histoire d'un seigneur transformé en grenouille.", "fini": true }, { "lectrice": "Laura V", "titre": "Lightfall, tome 2", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 247, "pagesLues": 247, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "C'est toujours mimi, mais vraiment les dessins !!", "fini": true }, { "lectrice": "Emiline", "titre": "Mon vrai nom est Elisabeth", "auteur": "Adèle Yon", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 393, "pagesLues": 393, "genre": "(Auto-)biographie", "motsCles": "Santé mentale", "termine": "2026-02-23", "jours": 8, "mois": "Février", "note": 5, "avis": "", "fini": true }, { "lectrice": "Emiline", "titre": "Je suis leur silence", "auteur": "Jordi Lafebre", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 109, "pagesLues": 109, "genre": "Thriller", "motsCles": "BD, thriller, santé mentale", "termine": "2026-02-21", "jours": 2, "mois": "Février", "note": 4, "avis": "Relecture", "fini": true }, { "lectrice": "Emiline", "titre": "Je suis un ange perdu", "auteur": "Jordi Lafebre", "genreAuteur": "Homme", "format": "BD", "pagesTotales": 109, "pagesLues": 109, "genre": "Thriller", "motsCles": "BD, thriller, santé mentale", "termine": "2026-02-21", "jours": 1, "mois": "Février", "note": 4, "avis": "", "fini": true }, { "lectrice": "Emiline", "titre": "Ces lignes qui tracent mon corps", "auteur": "Mansoureh Kamari", "genreAuteur": "Femme", "format": "BD", "pagesTotales": 200, "pagesLues": 200, "genre": "(Auto-)biographie", "motsCles": "Droits des femmes, Iran", "termine": "2026-02-22", "jours": 1, "mois": "Février", "note": 4, "avis": "", "fini": true }, { "lectrice": "Laura M", "titre": "Dungeon Crawler Carl", "auteur": "Matt Dinniman", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 684, "pagesLues": 684, "genre": "Fantasy", "motsCles": "dystopie, RPGlit", "termine": "2026-02-26", "jours": 20, "mois": "Février", "note": 4, "avis": "Peut être légèrement plus profond qu'au premier abord, impression à confirmer.", "fini": true }, { "lectrice": "Emiline", "titre": "Atmosphère", "auteur": "Taylor Jenkins Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 464, "pagesLues": 464, "genre": "Romance", "motsCles": "Romance f/f, espace", "termine": "2026-02-26", "jours": 2, "mois": "Février", "note": 3.5, "avis": "Je cherchais une lecture légère pour ma journée à Paris. Je l'ai dévoré ! J'ai même versé ma petite larme.", "fini": true }, { "lectrice": "Laura V", "titre": "Lightfall, tome 3", "auteur": "Tim Probert", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 237, "pagesLues": 237, "genre": "Roman graphique", "motsCles": "Fantastique, quête, anxiété", "termine": "2026-02-28", "jours": 1, "mois": "Février", "note": null, "avis": "Sympatoche mais ça devient long pour un truc auquel j'accroche surtout pour les dessins", "fini": true }, { "lectrice": "Laura M", "titre": "Odyssey", "auteur": "Stephen Fry", "genreAuteur": "Homme", "format": "Grand format", "pagesTotales": 0, "pagesLues": 0, "genre": "Littérature historique", "motsCles": "mythology, retelling", "termine": null, "jours": null, "mois": "Mars", "note": null, "avis": "", "fini": false }, { "lectrice": "Emiline", "titre": "all about love", "auteur": "bell hooks", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 272, "pagesLues": 129, "genre": "Essai", "motsCles": "Non fiction, amour", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false }, { "lectrice": "Emiline", "titre": "Petite histoire de l'Art queer", "auteur": "Dawn Hoskin", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 224, "pagesLues": 20, "genre": "Essai", "motsCles": "Art, queer", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false }, { "lectrice": "Zoé", "titre": "Game Changers #4 - Common Goal", "auteur": "Rachel Reid", "genreAuteur": "Femme", "format": "Ebook", "pagesTotales": 384, "pagesLues": 0, "genre": "Romance", "motsCles": "Romance M/M, hockey", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false }, { "lectrice": "Zoé", "titre": "Sororité", "auteur": "Chloé Delaume, collectif", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 222, "pagesLues": 136, "genre": "Essai", "motsCles": "féminisme, recueil textes", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false }, { "lectrice": "Laura V", "titre": "Mon vrai nom est Elisabeth", "auteur": "Adèle Yon", "genreAuteur": "Femme", "format": "Grand format", "pagesTotales": 392, "pagesLues": 150, "genre": "(Auto-)biographie", "motsCles": "Histoire familiale, violences envers les femmes", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "J'adore", "fini": false }, { "lectrice": "Laura V", "titre": "Le couple et l'argent", "auteur": "Titiou Lecoq", "genreAuteur": "Femme", "format": "Poche", "pagesTotales": 209, "pagesLues": 40, "genre": "Essai", "motsCles": "Féminisme, gestion financière", "termine": null, "jours": null, "mois": "Février", "note": null, "avis": "", "fini": false }];
+    const GOALS = { "Emiline": 100, "Emiline_link": "#", "Zoé": 100, "Zoé_link": "#", "Laura V": 100, "Laura V_link": "#", "Laura M": 15, "Laura M_link": "#" };
 
-function loadData() {
-  document.getElementById('updateTag').textContent = 'Données au 3 mars 2026';
-  render(BOOKS, GOALS, new Date().toISOString());
-}
+    function loadData() {
+      document.getElementById('updateTag').textContent = 'Données au 3 mars 2026';
+      render(BOOKS, GOALS, new Date().toISOString());
+    }
 
-function render(books,goals,gen){
-  const fin=books.filter(b=>b.fini);
-  const app=document.getElementById('app');
-  app.innerHTML='';
-  const main=mk('main');
-  main.appendChild(secStats(fin));
-  main.appendChild(secDernieres(books));
-  main.appendChild(secReaders(fin,goals));
-  main.appendChild(secGenres(fin));
-  main.appendChild(secAnalyses(fin));
-  main.appendChild(secFormats(fin));
-  main.appendChild(secTopShared(fin));
-  main.appendChild(secKeywords(fin));
-  main.appendChild(secBubbles(fin));
-  main.appendChild(secAllBooks(books));
-  app.appendChild(main);
-  const tp=fin.reduce((s,b)=>s+b.pagesTotales,0);
-  document.getElementById('footerStats').textContent=`${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages · 4 lectrices`;
-}
+    function render(books, goals, gen) {
+      const fin = books.filter(b => b.fini);
+      const app = document.getElementById('app');
+      app.innerHTML = '';
+      const main = mk('main');
+      main.appendChild(secStats(fin));
+      main.appendChild(secDernieres(books));
+      main.appendChild(secReaders(fin, goals));
+      main.appendChild(secGenres(fin));
+      main.appendChild(secAnalyses(fin));
+      main.appendChild(secFormats(fin));
+      main.appendChild(secTopShared(fin));
+      main.appendChild(secKeywords(fin));
+      main.appendChild(secBubbles(fin));
+      main.appendChild(secAllBooks(books));
+      app.appendChild(main);
+      const tp = fin.reduce((s, b) => s + b.pagesTotales, 0);
+      document.getElementById('footerStats').textContent = `${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages · 4 lectrices`;
+    }
 
-// ── STATS ──────────────────────────────
-function secStats(books){
-  const w=sec();
-  w.appendChild(slabel('Vue d\'ensemble','#1a2f5e'));
-  const g=mk('div','stats-row fade');
-  const total=books.length,pages=books.reduce((s,b)=>s+b.pagesTotales,0);
-  const rated=books.filter(b=>b.note&&b.note>0);
-  const avgN=rated.length?(rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1):'—';
-  const avgP=total?Math.round(pages/total):0;
-  const wd=books.filter(b=>b.jours>0&&b.jours<365);
-  const avgJ=wd.length?(wd.reduce((s,b)=>s+b.jours,0)/wd.length).toFixed(1):'—';
-  [
-    {i:'📚',l:'Livres lus',v:total,u:'',s:'depuis janvier 2026',dark:true,b:Math.min(100,total)},
-    {i:'📄',l:'Pages lues',v:`${Math.round(pages/1000)}k`,u:'',s:`${pages.toLocaleString('fr-FR')} pages`,dark:false,b:0},
-    {i:'⭐',l:'Note moyenne',v:avgN,u:'/5',s:'collectif',dark:false,b:rated.length?(parseFloat(avgN)/5*100):0},
-    {i:'📖',l:'Pages / livre',v:avgP,u:'',s:'moy. par livre',dark:false,b:Math.min(100,avgP/5)},
-    {i:'🕐',l:'Jours / livre',v:avgJ,u:'',s:'lecture rapide 🔥',dark:false,b:Math.min(100,(parseFloat(avgJ)||0)/20*100)},
-  ].forEach(t=>{
-    const tile=mk('div',`stat-tile${t.dark?' dark':''}`);
-    tile.innerHTML=`<div style="font-size:18px;margin-bottom:5px">${t.i}</div><div class="stl">${t.l}</div><div class="stv">${t.v}<span class="u">${t.u}</span></div><div class="sts">${t.s}</div>${t.b?`<div class="sbar"><div class="sbar-f" style="width:${t.b}%"></div></div>`:''}`;
-    g.appendChild(tile);
-  });
-  w.appendChild(g);return w;
-}
-
-// ── DERNIÈRES LECTURES ─────────────────
-function secDernieres(books){
-  const w=sec();
-  w.appendChild(slabel('Dernières lectures','#e85d3a'));
-  const fin=books.filter(b=>b.fini);
-  // last entry per reader
-  const last={};fin.forEach(b=>{last[b.lectrice]=b;});
-  const featured=fin[fin.length-1];
-  const others=READERS.filter(r=>last[r]&&last[r]!==featured).map(r=>last[r]).slice(0,3);
-  const g=mk('div','dernieres-grid fade');
-
-  // featured
-  const fc=mk('div','featured-book');
-  const col=COLORS[featured?.lectrice]||'#999';
-  const tags=featured?.motsCles?featured.motsCles.split(',').map(t=>`<span class="btag">${t.trim()}</span>`).join(''):'';
-  fc.innerHTML=`<div class="bcover">${ge(featured?.genre)}</div><div style="flex:1;min-width:0"><span class="rtag" style="background:${col}">${EMOJI[featured?.lectrice]||''} ${featured?.lectrice||''}</span><div class="btitle-lg">${featured?.titre||''}</div><div class="bauthor">👤 ${featured?.auteur||''}</div><div class="bmeta">${featured?.note>0?`<span style="color:#f59e0b">★ ${featured.note}/5</span>`:''}${featured?.pagesTotales?`<span>📄 ${featured.pagesTotales}p</span>`:''}${featured?.genre?`<span style="color:${gc(featured.genre)}"># ${featured.genre}</span>`:''}</div>${featured?.avis?`<div class="breview">« ${featured.avis} »</div>`:''}${tags?`<div class="btags">${tags}</div>`:''}</div>`;
-  g.appendChild(fc);
-
-  others.forEach(b=>{
-    const c=COLORS[b.lectrice]||'#999';
-    const mini=mk('div','mini-book');
-    mini.innerHTML=`<div class="bcover sm">${ge(b.genre)}</div><div class="mini-content"><span class="rtag" style="background:${c};font-size:10px;padding:2px 7px">${EMOJI[b.lectrice]||''} ${b.lectrice}</span><div class="mini-title">${b.titre}</div><div class="mini-author">${b.auteur}</div><div class="mini-meta">${b.pagesTotales?b.pagesTotales+'p ':''}${b.genre?`<span style="color:${gc(b.genre)}"># ${b.genre}</span>`:''}</div>${b.note>0?`<div style="color:#f59e0b;font-size:12px;margin-top:3px;font-weight:700">★ ${b.note}/5</div>`:''}</div>`;
-    g.appendChild(mini);
-  });
-  w.appendChild(g);return w;
-}
-
-// ── READER CARDS ───────────────────────
-function secReaders(books,goals){
-  const w=sec();
-  w.appendChild(slabel('Les Lectrices','#0891b2'));
-  const g=mk('div','readers-grid fade');
-  const totalBooks=books.length;
-  READERS.forEach(r=>{
-    const rb=books.filter(b=>b.lectrice===r);
-    const pages=rb.reduce((s,b)=>s+b.pagesTotales,0);
-    const rated=rb.filter(b=>b.note&&b.note>0);
-    const avgN=rated.length?(rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1):'—';
-    const avgP=rb.length?Math.round(pages/rb.length):0;
-    const pctG=totalBooks?Math.round(rb.length/totalBooks*100):0;
-    const col=COLORS[r],goal=goals?.[r]||100;
-    const pctC=Math.min(100,Math.round(rb.length/goal*100));
-    const link=goals?.[r+'_link']||'#';
-    const card=mk('div','reader-card');
-    card.style.borderTop=`4px solid ${col}`;
-    card.innerHTML=`<div class="rc-header"><div class="rc-name" style="color:${col}">${EMOJI[r]} ${r}</div><a href="${link}" target="_blank" class="rc-link" title="Goodreads">↗</a></div><div class="rc-rows"><div class="rc-row"><span>Livres</span><strong>${rb.length}</strong></div><div class="rc-row"><span>Pages</span><strong>${pages.toLocaleString('fr-FR')}</strong></div><div class="rc-row"><span>Note moy.</span><strong style="color:${col}">${avgN}${avgN!=='—'?' ★':''}</strong></div><div class="rc-row"><span>Pages / livre</span><strong>${avgP}</strong></div></div><div class="rc-progress"><div><div class="prow-label"><span>Part du groupe</span><span>${pctG}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctG}%;background:${col}"></div></div></div><div><div class="prow-label"><span>🎯 Challenge 2026 · ${rb.length}/${goal}</span><span>${pctC}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctC}%;background:${col}88"></div></div></div></div>`;
-    g.appendChild(card);
-  });
-  w.appendChild(g);return w;
-}
-
-// ── GENRE MULTIPLES ────────────────────
-function secGenres(books){
-  const w=sec();
-  w.appendChild(slabel('Genres lus par lectrice','#0891b2'));
-  const g=mk('div','gm-grid fade');
-  READERS.forEach(r=>{
-    const rb=books.filter(b=>b.lectrice===r);
-    const counts={};rb.forEach(b=>{if(b.genre)counts[b.genre]=(counts[b.genre]||0)+1;});
-    const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-    const max=sorted[0]?.[1]||1,col=COLORS[r];
-    const col_el=mk('div','gm-col');
-    const rows=sorted.map(([g,n])=>`<div class="gr-row"><span class="gr-name">${g}</span><div class="gr-bar"><div class="gr-fill" style="width:${Math.round(n/max*100)}%;background:${gc(g)}"></div></div><span class="gr-n">${n}</span></div>`).join('');
-    col_el.innerHTML=`<div class="gm-head" style="border-color:${col}40;color:${col}"><div class="gm-name">${EMOJI[r]} ${r}</div><span class="gm-cnt">${rb.length} livres</span></div>${rows}`;
-    g.appendChild(col_el);
-  });
-  w.appendChild(g);return w;
-}
-
-// ── ANALYSES ───────────────────────────
-function secAnalyses(books){
-  const w=sec();
-  w.appendChild(slabel('Analyses','#0891b2'));
-  const g=mk('div','analyses-grid fade');
-
-  // genre donut
-  const gc2={};books.forEach(b=>{if(b.genre)gc2[b.genre]=(gc2[b.genre]||0)+1;});
-  g.appendChild(donutCard('Genres littéraires',gc2,books.length,'#0891b2'));
-
-  // auteur donut
-  const ga={};books.forEach(b=>{if(b.genreAuteur)ga[b.genreAuteur]=(ga[b.genreAuteur]||0)+1;});
-  const gaC={'Femme':'#0891b2','Homme':'#1a2f5e','Mixte':'#e85d3a','Non-binaire':'#d4820a','Femmes':'#0891b2','Hommes':'#1a2f5e'};
-  g.appendChild(donutCard('Genre des auteur·ices',ga,books.length,'#059669',gaC));
-
-  // monthly bar
-  const byM={};MONTHS.forEach(m=>byM[m]=0);
-  books.forEach(b=>{if(b.mois&&byM[b.mois]!==undefined)byM[b.mois]++;});
-  const vals=MONTHS.map(m=>byM[m]),maxM=Math.max(...vals,1);
-  const bc=mk('div','acard');
-  bc.innerHTML=`<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>Livres par mois</div>`;
-  const bw=mk('div','monthly-bars');
-  MONTHS.forEach((m,i)=>{
-    const v=vals[i],pct=Math.round(v/maxM*100);
-    const c=mk('div','mbc');
-    c.innerHTML=`${v>0?`<span class="mb-val">${v}</span>`:'<span class="mb-val" style="opacity:0">0</span>'}<div class="mb-bar" style="height:${Math.max(pct,v>0?4:1)}%;background:${v>0?'var(--navy)':'var(--border)'}"></div><span class="mb-lbl">${MSHORT[i]}</span>`;
-    bw.appendChild(c);
-  });
-  bc.appendChild(bw);g.appendChild(bc);
-  w.appendChild(g);return w;
-}
-
-function donutCard(title,counts,total,dotColor,colorMap){
-  const card=mk('div','acard');
-  card.innerHTML=`<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:${dotColor};display:inline-block"></span>${title.toUpperCase()}</div>`;
-  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,7);
-  const r=38,cx=50,cy=50,circ=2*Math.PI*r;
-  let off=0;
-  const segs=sorted.map(([k,n])=>{
-    const pct=n/total,arc=circ*pct;
-    const s={k,n,pct,arc,off,color:(colorMap&&colorMap[k])||gc(k)};off+=arc;return s;
-  });
-  const svgEl=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svgEl.setAttribute('width','86');svgEl.setAttribute('height','86');svgEl.setAttribute('viewBox','0 0 100 100');
-  svgEl.style.transform='rotate(-90deg)';svgEl.style.flexShrink='0';
-  segs.forEach(s=>{
-    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);
-    c.setAttribute('fill','none');c.setAttribute('stroke',s.color);c.setAttribute('stroke-width','17');
-    c.setAttribute('stroke-dasharray',`${s.arc} ${circ-s.arc}`);
-    c.setAttribute('stroke-dashoffset',`-${s.off}`);
-    svgEl.appendChild(c);
-  });
-  const leg=mk('div','donut-legend');
-  segs.forEach(s=>{
-    const pct=Math.round(s.n/total*100);
-    leg.innerHTML+=`<div class="dl-item"><div class="dl-dot" style="background:${s.color}"></div>${s.k}<span class="dl-pct">${pct}%</span></div>`;
-  });
-  const wrap=mk('div','donut-wrap');
-  wrap.appendChild(svgEl);wrap.appendChild(leg);card.appendChild(wrap);return card;
-}
-
-// ── FORMATS ────────────────────────────
-function secFormats(books){
-  const w=sec();
-  w.appendChild(slabel('Formats','#6b7fa8'));
-  const counts={};books.forEach(b=>{if(b.format)counts[b.format]=(counts[b.format]||0)+1;});
-  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]),max=sorted[0]?.[1]||1;
-  const card=mk('div','fcard fade');
-  sorted.forEach(([f,n])=>{
-    const row=mk('div','hb-row');
-    row.innerHTML=`<span class="hb-label">${f}</span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n/max*100)}%"></div></div><span class="hb-val">${n}</span>`;
-    card.appendChild(row);
-  });
-  w.appendChild(card);return w;
-}
-
-// ── TOP + SHARED ───────────────────────
-function secTopShared(books){
-  const w=sec();
-  const g=mk('div','two-col fade');
-
-  // TOP
-  const tp=mk('div','panel');
-  tp.innerHTML=`<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
-  [...books].filter(b=>b.note&&b.note>0).sort((a,b)=>b.note-a.note).slice(0,5).forEach((b,i)=>{
-    const row=mk('div','top-row');
-    row.innerHTML=`<span class="top-rank">#${i+1}</span><div class="tcover">${ge(b.genre)}</div><div class="top-content"><div class="top-title">${b.titre}</div><div class="top-author">${b.auteur}</div><div style="display:flex;align-items:center;gap:7px;margin-top:3px"><span class="rtag" style="background:${COLORS[b.lectrice]||'#999'};font-size:10px;padding:2px 7px">${b.lectrice}</span><div class="stars">${starsHtml(b.note)}</div></div></div>`;
-    tp.appendChild(row);
-  });
-
-  // SHARED
-  const sp=mk('div','panel');
-  sp.innerHTML=`<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#059669;display:inline-block"></span>LECTURES EN COMMUN</div>`;
-  const byT={};
-  books.forEach(b=>{
-    const k=b.titre.toLowerCase().replace(/[^a-zàâéèêëîïôùûü]/g,'').slice(0,22);
-    if(!byT[k])byT[k]={titre:b.titre,genre:b.genre,entries:[]};byT[k].entries.push(b);
-  });
-  Object.values(byT).filter(g=>new Set(g.entries.map(e=>e.lectrice)).size>=2)
-    .sort((a,b)=>new Set(b.entries.map(e=>e.lectrice)).size-new Set(a.entries.map(e=>e.lectrice)).size)
-    .forEach(g=>{
-      const byR={};g.entries.forEach(e=>{if(!byR[e.lectrice])byR[e.lectrice]=e;});
-      const chips=READERS.filter(r=>byR[r]).map(r=>{
-        const e=byR[r],col=COLORS[r];
-        const rate=e.note&&e.note>0?`<span class="crate" style="color:${col}">★ ${e.note}</span>`:`<span class="cnone">—</span>`;
-        return `<div class="sh-chip" style="border-color:${col}30"><span class="cname" style="background:${col}">${EMOJI[r]} ${r}</span>${rate}</div>`;
-      }).join('');
-      const row=mk('div','sh-row');
-      row.innerHTML=`<div class="sh-cover">${ge(g.genre)}</div><div class="sh-content"><div class="sh-title">${g.titre}</div><div class="sh-chips">${chips}</div></div>`;
-      sp.appendChild(row);
-    });
-
-  g.appendChild(tp);g.appendChild(sp);w.appendChild(g);return w;
-}
-
-// ── KEYWORDS ───────────────────────────
-function secKeywords(books){
-  const w=sec();
-  w.appendChild(slabel('Mots-clés populaires','#e85d3a'));
-  const counts={};
-  books.forEach(b=>{if(!b.motsCles)return;b.motsCles.split(',').forEach(k=>{const t=k.trim().toLowerCase();if(t)counts[t]=(counts[t]||0)+1;});});
-  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]),maxC=sorted[0]?.[1]||1;
-  const card=mk('div','kcard fade');
-  const cloud=mk('div','kcloud');
-  sorted.forEach(([k,n])=>{
-    const tag=mk('span','ktag');
-    tag.style.fontSize=(11+Math.round(n/maxC*5))+'px';
-    tag.style.opacity=(0.55+n/maxC*0.45)+'';
-    tag.textContent=`${k} (${n})`;
-    cloud.appendChild(tag);
-  });
-  card.appendChild(cloud);w.appendChild(card);return w;
-}
-
-// ── BUBBLES ────────────────────────────
-function secBubbles(books){
-  const w=sec();
-  w.appendChild(slabel('Pages par livre','#1a2f5e'));
-  const card=mk('div','card fade');
-  card.style.cssText='padding:20px;margin-bottom:0';
-  const wrap=mk('div','bubble-wrap');
-  const svgEl=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svgEl.classList.add('bubble-svg');svgEl.setAttribute('height','260');
-  wrap.appendChild(svgEl);card.appendChild(wrap);
-  const tip=document.getElementById('tooltip');
-  setTimeout(()=>{
-    const W=wrap.clientWidth-8,H=240;
-    svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);svgEl.setAttribute('width',W);
-    const allP=books.filter(b=>b.pagesTotales>0).map(b=>b.pagesTotales),maxP=Math.max(...allP,1);
-    const rad=p=>3+Math.pow(Math.max(0,(p-40))/(maxP-40),0.6)*39;
-    const slotW=W/READERS.length;
-    READERS.forEach((r,ri)=>{
-      const rb=books.filter(b=>b.lectrice===r&&b.pagesTotales>0),col=COLORS[r],cx0=slotW*ri+slotW/2;
-      const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
-      lbl.setAttribute('x',cx0);lbl.setAttribute('y',H-2);lbl.setAttribute('text-anchor','middle');
-      lbl.setAttribute('font-size','12');lbl.setAttribute('fill','#3a4f7a');lbl.setAttribute('font-family','Space Grotesk,sans-serif');lbl.setAttribute('font-weight','700');lbl.textContent=`${EMOJI[r]} ${r}`;svgEl.appendChild(lbl);
-      const placed=[];
-      [...rb].sort((a,b)=>b.pagesTotales-a.pagesTotales).forEach(b=>{
-        const rr=rad(b.pagesTotales);
-        let cx=cx0+(Math.random()-0.5)*(slotW*0.4),cy=(H-24)/2+(Math.random()-0.5)*((H-24)*0.5);
-        const cx_=()=>{cx=Math.max(slotW*ri+rr+4,Math.min(slotW*(ri+1)-rr-4,cx));};
-        const cy_=()=>{cy=Math.max(rr+4,Math.min(H-24-rr,cy));};
-        cx_();cy_();
-        for(let i=0;i<60;i++){placed.forEach(p=>{const dx=cx-p.cx,dy=cy-p.cy,d=Math.sqrt(dx*dx+dy*dy),mn=rr+p.r+4;if(d<mn&&d>0.01){const push=(mn-d)*0.55;cx+=dx/d*push;cy+=dy/d*push;}});cx_();cy_();}
-        placed.push({cx,cy,r:rr});
-        const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-        c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',rr);c.setAttribute('fill',col);c.setAttribute('fill-opacity','0.72');c.setAttribute('stroke',col);c.setAttribute('stroke-width','1.5');c.style.cursor='pointer';
-        c.addEventListener('mouseenter',()=>{tip.style.opacity=1;tip.innerHTML=`<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note&&b.note>0?' · '+b.note+'★':''}`;});
-        c.addEventListener('mousemove',e=>{tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-40)+'px';});
-        c.addEventListener('mouseleave',()=>{tip.style.opacity=0;});
-        svgEl.appendChild(c);
-        if(rr>=22){const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',cx);t.setAttribute('y',cy+4);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','8');t.setAttribute('fill','#fff');t.setAttribute('font-family','Space Grotesk,sans-serif');t.setAttribute('font-weight','700');t.setAttribute('pointer-events','none');t.textContent=b.titre.length>18?b.titre.slice(0,16)+'…':b.titre;svgEl.appendChild(t);}
+    // ── STATS ──────────────────────────────
+    function secStats(books) {
+      const w = sec();
+      w.appendChild(slabel('Vue d\'ensemble', '#1a2f5e'));
+      const g = mk('div', 'stats-row fade');
+      const total = books.length, pages = books.reduce((s, b) => s + b.pagesTotales, 0);
+      const rated = books.filter(b => b.note && b.note > 0);
+      const avgN = rated.length ? (rated.reduce((s, b) => s + b.note, 0) / rated.length).toFixed(1) : '—';
+      const avgP = total ? Math.round(pages / total) : 0;
+      const wd = books.filter(b => b.jours > 0 && b.jours < 365);
+      const avgJ = wd.length ? (wd.reduce((s, b) => s + b.jours, 0) / wd.length).toFixed(1) : '—';
+      [
+        { i: '📚', l: 'Livres lus', v: total, u: '', s: 'depuis janvier 2026', dark: true, b: Math.min(100, total) },
+        { i: '📄', l: 'Pages lues', v: `${Math.round(pages / 1000)}k`, u: '', s: `${pages.toLocaleString('fr-FR')} pages`, dark: false, b: 0 },
+        { i: '⭐', l: 'Note moyenne', v: avgN, u: '/5', s: 'collectif', dark: false, b: rated.length ? (parseFloat(avgN) / 5 * 100) : 0 },
+        { i: '📖', l: 'Pages / livre', v: avgP, u: '', s: 'moy. par livre', dark: false, b: Math.min(100, avgP / 5) },
+        { i: '🕐', l: 'Jours / livre', v: avgJ, u: '', s: 'lecture rapide 🔥', dark: false, b: Math.min(100, (parseFloat(avgJ) || 0) / 20 * 100) },
+      ].forEach(t => {
+        const tile = mk('div', `stat-tile${t.dark ? ' dark' : ''}`);
+        tile.innerHTML = `<div style="font-size:18px;margin-bottom:5px">${t.i}</div><div class="stl">${t.l}</div><div class="stv">${t.v}<span class="u">${t.u}</span></div><div class="sts">${t.s}</div>${t.b ? `<div class="sbar"><div class="sbar-f" style="width:${t.b}%"></div></div>` : ''}`;
+        g.appendChild(tile);
       });
-    });
-  },60);
-  const leg=mk('div','sz-legend');
-  leg.innerHTML=`<span>Taille = pages :</span><div class="sz-item"><div class="sz-circle" style="width:9px;height:9px"></div>100p</div><div class="sz-item"><div class="sz-circle" style="width:20px;height:20px"></div>400p</div><div class="sz-item"><div class="sz-circle" style="width:34px;height:34px"></div>700p</div>`;
-  card.appendChild(leg);w.appendChild(card);return w;
-}
+      w.appendChild(g); return w;
+    }
 
-// ── ALL BOOKS ──────────────────────────
-function secAllBooks(books){
-  const w=sec();
-  w.appendChild(slabel('Toutes les lectures 2026','#1a2f5e'));
-  const card=mk('div','card fade');
-  card.style.padding='20px';
-  const fin=books.filter(b=>b.fini);
-  let activeF='Toutes';
+    // ── DERNIÈRES LECTURES ─────────────────
+    function secDernieres(books) {
+      const w = sec();
+      w.appendChild(slabel('Dernières lectures', '#e85d3a'));
+      const fin = books.filter(b => b.fini);
+      // last entry per reader
+      const last = {}; fin.forEach(b => { last[b.lectrice] = b; });
+      const featured = fin[fin.length - 1];
+      const others = READERS.filter(r => last[r] && last[r] !== featured).map(r => last[r]).slice(0, 3);
+      const g = mk('div', 'dernieres-grid fade');
 
-  const header=mk('div','ab-header');
-  const tabs=mk('div','filter-tabs');
-  ['Toutes',...READERS].forEach(r=>{
-    const tab=mk('div',`ftab${r==='Toutes'?' active':''}`);
-    if(r!=='Toutes')tab.innerHTML=`<span style="width:8px;height:8px;border-radius:50%;background:${COLORS[r]};display:inline-block"></span>${r}`;
-    else tab.textContent='Toutes';
-    tab.addEventListener('click',()=>{
-      tabs.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');activeF=r;renderBList();
-    });
-    tabs.appendChild(tab);
-  });
-  header.appendChild(tabs);card.appendChild(header);
+      // featured
+      const fc = mk('div', 'featured-book');
+      const col = COLORS[featured?.lectrice] || '#999';
+      const tags = featured?.motsCles ? featured.motsCles.split(',').map(t => `<span class="btag">${t.trim()}</span>`).join('') : '';
+      fc.innerHTML = `<div class="bcover">${ge(featured?.genre)}</div><div style="flex:1;min-width:0"><span class="rtag" style="background:${col}">${EMOJI[featured?.lectrice] || ''} ${featured?.lectrice || ''}</span><div class="btitle-lg">${featured?.titre || ''}</div><div class="bauthor">👤 ${featured?.auteur || ''}</div><div class="bmeta">${featured?.note > 0 ? `<span style="color:#f59e0b">★ ${featured.note}/5</span>` : ''}${featured?.pagesTotales ? `<span>📄 ${featured.pagesTotales}p</span>` : ''}${featured?.genre ? `<span style="color:${gc(featured.genre)}"># ${featured.genre}</span>` : ''}</div>${featured?.avis ? `<div class="breview">« ${featured.avis} »</div>` : ''}${tags ? `<div class="btags">${tags}</div>` : ''}</div>`;
+      g.appendChild(fc);
 
-  const listEl=mk('div','blist');
-  card.appendChild(listEl);
-  const countEl=mk('div','blist-count');
-  card.appendChild(countEl);
+      others.forEach(b => {
+        const c = COLORS[b.lectrice] || '#999';
+        const mini = mk('div', 'mini-book');
+        mini.innerHTML = `<div class="bcover sm">${ge(b.genre)}</div><div class="mini-content"><span class="rtag" style="background:${c};font-size:10px;padding:2px 7px">${EMOJI[b.lectrice] || ''} ${b.lectrice}</span><div class="mini-title">${b.titre}</div><div class="mini-author">${b.auteur}</div><div class="mini-meta">${b.pagesTotales ? b.pagesTotales + 'p ' : ''}${b.genre ? `<span style="color:${gc(b.genre)}"># ${b.genre}</span>` : ''}</div>${b.note > 0 ? `<div style="color:#f59e0b;font-size:12px;margin-top:3px;font-weight:700">★ ${b.note}/5</div>` : ''}</div>`;
+        g.appendChild(mini);
+      });
+      w.appendChild(g); return w;
+    }
 
-  function renderBList(){
-    listEl.innerHTML='';
-    const filtered=activeF==='Toutes'?fin:fin.filter(b=>b.lectrice===activeF);
-    filtered.forEach(b=>{
-      const col=COLORS[b.lectrice]||'#999';
-      const row=mk('div','brow');
-      row.innerHTML=`<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title">${b.titre}</div><div class="brow-meta">${b.auteur}${b.pagesTotales?' · '+b.pagesTotales+'p':''}<span class="gtext">${b.genre?' · # '+b.genre:''}</span></div>${b.avis?`<div class="brow-review">« ${b.avis} »</div>`:''}</div><div class="brow-right">${b.note&&b.note>0?`<span class="bstar">★ ${b.note}</span>`:''}${b.mois?`<span class="mbadge">${b.mois.slice(0,3)}</span>`:''}</div></div>`;
-      listEl.appendChild(row);
-    });
-    countEl.textContent=`${filtered.length} lecture${filtered.length>1?'s':''}`;
-  }
-  renderBList();
-  w.appendChild(card);return w;
-}
+    // ── READER CARDS ───────────────────────
+    function secReaders(books, goals) {
+      const w = sec();
+      w.appendChild(slabel('Les Lectrices', '#0891b2'));
+      const g = mk('div', 'readers-grid fade');
+      const totalBooks = books.length;
+      READERS.forEach(r => {
+        const rb = books.filter(b => b.lectrice === r);
+        const pages = rb.reduce((s, b) => s + b.pagesTotales, 0);
+        const rated = rb.filter(b => b.note && b.note > 0);
+        const avgN = rated.length ? (rated.reduce((s, b) => s + b.note, 0) / rated.length).toFixed(1) : '—';
+        const avgP = rb.length ? Math.round(pages / rb.length) : 0;
+        const pctG = totalBooks ? Math.round(rb.length / totalBooks * 100) : 0;
+        const col = COLORS[r], goal = goals?.[r] || 100;
+        const pctC = Math.min(100, Math.round(rb.length / goal * 100));
+        const link = goals?.[r + '_link'] || '#';
+        const card = mk('div', 'reader-card');
+        card.style.borderTop = `4px solid ${col}`;
+        card.innerHTML = `<div class="rc-header"><div class="rc-name" style="color:${col}">${EMOJI[r]} ${r}</div><a href="${link}" target="_blank" class="rc-link" title="Goodreads">↗</a></div><div class="rc-rows"><div class="rc-row"><span>Livres</span><strong>${rb.length}</strong></div><div class="rc-row"><span>Pages</span><strong>${pages.toLocaleString('fr-FR')}</strong></div><div class="rc-row"><span>Note moy.</span><strong style="color:${col}">${avgN}${avgN !== '—' ? ' ★' : ''}</strong></div><div class="rc-row"><span>Pages / livre</span><strong>${avgP}</strong></div></div><div class="rc-progress"><div><div class="prow-label"><span>Part du groupe</span><span>${pctG}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctG}%;background:${col}"></div></div></div><div><div class="prow-label"><span>🎯 Challenge 2026 · ${rb.length}/${goal}</span><span>${pctC}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctC}%;background:${col}88"></div></div></div></div>`;
+        g.appendChild(card);
+      });
+      w.appendChild(g); return w;
+    }
 
-// ── HELPERS ────────────────────────────
-function mk(tag,cls=''){const e=document.createElement(tag);if(cls)e.className=cls;return e;}
-function sec(){const d=mk('div','sec');return d;}
-function slabel(text,dotColor){const d=mk('div','section-label');d.innerHTML=`<span class="sdot" style="background:${dotColor}"></span>${text.toUpperCase()}`;return d;}
-function starsHtml(n){let s='';const f=Math.floor(n),h=n%1>=0.5;for(let i=0;i<f;i++)s+='<span>★</span>';if(h)s+='<span style="font-size:10px">½</span>';return s;}
+    // ── GENRE MULTIPLES ────────────────────
+    function secGenres(books) {
+      const w = sec();
+      w.appendChild(slabel('Genres lus par lectrice', '#0891b2'));
+      const g = mk('div', 'gm-grid fade');
+      READERS.forEach(r => {
+        const rb = books.filter(b => b.lectrice === r);
+        const counts = {}; rb.forEach(b => { if (b.genre) counts[b.genre] = (counts[b.genre] || 0) + 1; });
+        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+        const max = sorted[0]?.[1] || 1, col = COLORS[r];
+        const col_el = mk('div', 'gm-col');
+        const rows = sorted.map(([g, n]) => `<div class="gr-row"><span class="gr-name">${g}</span><div class="gr-bar"><div class="gr-fill" style="width:${Math.round(n / max * 100)}%;background:${gc(g)}"></div></div><span class="gr-n">${n}</span></div>`).join('');
+        col_el.innerHTML = `<div class="gm-head" style="border-color:${col}40;color:${col}"><div class="gm-name">${EMOJI[r]} ${r}</div><span class="gm-cnt">${rb.length} livres</span></div>${rows}`;
+        g.appendChild(col_el);
+      });
+      w.appendChild(g); return w;
+    }
 
-function setupGuide(){return `<div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;font-family:'Nunito',sans-serif;line-height:1.8"><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px">📋 Guide d'installation</div><ol style="padding-left:20px;display:flex;flex-direction:column;gap:14px;color:var(--text-mid);font-size:14px"><li>Google Sheets → <em>Extensions</em> → <em>Apps Script</em></li><li>Collez le contenu du fichier <code>Code.gs</code> fourni</li><li>Vérifiez <code>getSheetByName("2026")</code> et <code>getSheetByName("Listes")</code></li><li><strong>Déployer</strong> → Nouveau déploiement → Application Web → Accès : <em>Tout le monde</em></li><li>Copiez l'URL et remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> dans ce fichier</li></ol></div>`;}
+    // ── ANALYSES ───────────────────────────
+    function secAnalyses(books) {
+      const w = sec();
+      w.appendChild(slabel('Analyses', '#0891b2'));
+      const g = mk('div', 'analyses-grid fade');
 
-loadData();
-</script>
+      // genre donut
+      const gc2 = {}; books.forEach(b => { if (b.genre) gc2[b.genre] = (gc2[b.genre] || 0) + 1; });
+      g.appendChild(donutCard('Genres littéraires', gc2, books.length, '#0891b2'));
+
+      // auteur donut
+      const ga = {}; books.forEach(b => { if (b.genreAuteur) ga[b.genreAuteur] = (ga[b.genreAuteur] || 0) + 1; });
+      const gaC = { 'Femme': '#0891b2', 'Homme': '#1a2f5e', 'Mixte': '#e85d3a', 'Non-binaire': '#d4820a', 'Femmes': '#0891b2', 'Hommes': '#1a2f5e' };
+      g.appendChild(donutCard('Genre des auteur·ices', ga, books.length, '#059669', gaC));
+
+      // monthly bar
+      const byM = {}; MONTHS.forEach(m => byM[m] = 0);
+      books.forEach(b => { if (b.mois && byM[b.mois] !== undefined) byM[b.mois]++; });
+      const vals = MONTHS.map(m => byM[m]), maxM = Math.max(...vals, 1);
+      const bc = mk('div', 'acard');
+      bc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>Livres par mois</div>`;
+      const bw = mk('div', 'monthly-bars');
+      MONTHS.forEach((m, i) => {
+        const v = vals[i], pct = Math.round(v / maxM * 100);
+        const c = mk('div', 'mbc');
+        c.innerHTML = `${v > 0 ? `<span class="mb-val">${v}</span>` : '<span class="mb-val" style="opacity:0">0</span>'}<div class="mb-bar" style="height:${Math.max(pct, v > 0 ? 4 : 1)}%;background:${v > 0 ? 'var(--navy)' : 'var(--border)'}"></div><span class="mb-lbl">${MSHORT[i]}</span>`;
+        bw.appendChild(c);
+      });
+      bc.appendChild(bw); g.appendChild(bc);
+      w.appendChild(g); return w;
+    }
+
+    function donutCard(title, counts, total, dotColor, colorMap) {
+      const card = mk('div', 'acard');
+      card.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:${dotColor};display:inline-block"></span>${title.toUpperCase()}</div>`;
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 7);
+      const r = 38, cx = 50, cy = 50, circ = 2 * Math.PI * r;
+      let off = 0;
+      const segs = sorted.map(([k, n]) => {
+        const pct = n / total, arc = circ * pct;
+        const s = { k, n, pct, arc, off, color: (colorMap && colorMap[k]) || gc(k) }; off += arc; return s;
+      });
+      const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgEl.setAttribute('width', '86'); svgEl.setAttribute('height', '86'); svgEl.setAttribute('viewBox', '0 0 100 100');
+      svgEl.style.transform = 'rotate(-90deg)'; svgEl.style.flexShrink = '0';
+      segs.forEach(s => {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', s.color); c.setAttribute('stroke-width', '17');
+        c.setAttribute('stroke-dasharray', `${s.arc} ${circ - s.arc}`);
+        c.setAttribute('stroke-dashoffset', `-${s.off}`);
+        svgEl.appendChild(c);
+      });
+      const leg = mk('div', 'donut-legend');
+      segs.forEach(s => {
+        const pct = Math.round(s.n / total * 100);
+        leg.innerHTML += `<div class="dl-item"><div class="dl-dot" style="background:${s.color}"></div>${s.k}<span class="dl-pct">${pct}%</span></div>`;
+      });
+      const wrap = mk('div', 'donut-wrap');
+      wrap.appendChild(svgEl); wrap.appendChild(leg); card.appendChild(wrap); return card;
+    }
+
+    // ── FORMATS ────────────────────────────
+    function secFormats(books) {
+      const w = sec();
+      w.appendChild(slabel('Formats', '#6b7fa8'));
+      const counts = {}; books.forEach(b => { if (b.format) counts[b.format] = (counts[b.format] || 0) + 1; });
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]), max = sorted[0]?.[1] || 1;
+      const card = mk('div', 'fcard fade');
+      sorted.forEach(([f, n]) => {
+        const row = mk('div', 'hb-row');
+        row.innerHTML = `<span class="hb-label">${f}</span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n / max * 100)}%"></div></div><span class="hb-val">${n}</span>`;
+        card.appendChild(row);
+      });
+      w.appendChild(card); return w;
+    }
+
+    // ── TOP + SHARED ───────────────────────
+    function secTopShared(books) {
+      const w = sec();
+      const g = mk('div', 'two-col fade');
+
+      // TOP
+      const tp = mk('div', 'panel');
+      tp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
+      [...books].filter(b => b.note && b.note > 0).sort((a, b) => b.note - a.note).slice(0, 5).forEach((b, i) => {
+        const row = mk('div', 'top-row');
+        row.innerHTML = `<span class="top-rank">#${i + 1}</span><div class="tcover">${ge(b.genre)}</div><div class="top-content"><div class="top-title">${b.titre}</div><div class="top-author">${b.auteur}</div><div style="display:flex;align-items:center;gap:7px;margin-top:3px"><span class="rtag" style="background:${COLORS[b.lectrice] || '#999'};font-size:10px;padding:2px 7px">${b.lectrice}</span><div class="stars">${starsHtml(b.note)}</div></div></div>`;
+        tp.appendChild(row);
+      });
+
+      // SHARED
+      const sp = mk('div', 'panel');
+      sp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#059669;display:inline-block"></span>LECTURES EN COMMUN</div>`;
+      const byT = {};
+      books.forEach(b => {
+        const k = b.titre.toLowerCase().replace(/[^a-zàâéèêëîïôùûü]/g, '').slice(0, 22);
+        if (!byT[k]) byT[k] = { titre: b.titre, genre: b.genre, entries: [] }; byT[k].entries.push(b);
+      });
+      Object.values(byT).filter(g => new Set(g.entries.map(e => e.lectrice)).size >= 2)
+        .sort((a, b) => new Set(b.entries.map(e => e.lectrice)).size - new Set(a.entries.map(e => e.lectrice)).size)
+        .forEach(g => {
+          const byR = {}; g.entries.forEach(e => { if (!byR[e.lectrice]) byR[e.lectrice] = e; });
+          const chips = READERS.filter(r => byR[r]).map(r => {
+            const e = byR[r], col = COLORS[r];
+            const rate = e.note && e.note > 0 ? `<span class="crate" style="color:${col}">★ ${e.note}</span>` : `<span class="cnone">—</span>`;
+            return `<div class="sh-chip" style="border-color:${col}30"><span class="cname" style="background:${col}">${EMOJI[r]} ${r}</span>${rate}</div>`;
+          }).join('');
+          const row = mk('div', 'sh-row');
+          row.innerHTML = `<div class="sh-cover">${ge(g.genre)}</div><div class="sh-content"><div class="sh-title">${g.titre}</div><div class="sh-chips">${chips}</div></div>`;
+          sp.appendChild(row);
+        });
+
+      g.appendChild(tp); g.appendChild(sp); w.appendChild(g); return w;
+    }
+
+    // ── KEYWORDS ───────────────────────────
+    function secKeywords(books) {
+      const w = sec();
+      w.appendChild(slabel('Mots-clés populaires', '#e85d3a'));
+      const counts = {};
+      books.forEach(b => { if (!b.motsCles) return; b.motsCles.split(',').forEach(k => { const t = k.trim().toLowerCase(); if (t) counts[t] = (counts[t] || 0) + 1; }); });
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]), maxC = sorted[0]?.[1] || 1;
+      const card = mk('div', 'kcard fade');
+      const cloud = mk('div', 'kcloud');
+      sorted.forEach(([k, n]) => {
+        const tag = mk('span', 'ktag');
+        tag.style.fontSize = (11 + Math.round(n / maxC * 5)) + 'px';
+        tag.style.opacity = (0.55 + n / maxC * 0.45) + '';
+        tag.textContent = `${k} (${n})`;
+        cloud.appendChild(tag);
+      });
+      card.appendChild(cloud); w.appendChild(card); return w;
+    }
+
+    // ── BUBBLES ────────────────────────────
+    function secBubbles(books) {
+      const w = sec();
+      w.appendChild(slabel('Pages par livre', '#1a2f5e'));
+      const card = mk('div', 'card fade');
+      card.style.cssText = 'padding:20px;margin-bottom:0';
+      const wrap = mk('div', 'bubble-wrap');
+      const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgEl.classList.add('bubble-svg'); svgEl.setAttribute('height', '260');
+      wrap.appendChild(svgEl); card.appendChild(wrap);
+      const tip = document.getElementById('tooltip');
+      setTimeout(() => {
+        const W = wrap.clientWidth - 8, H = 240;
+        svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`); svgEl.setAttribute('width', W);
+        const allP = books.filter(b => b.pagesTotales > 0).map(b => b.pagesTotales), maxP = Math.max(...allP, 1);
+        const rad = p => 3 + Math.pow(Math.max(0, (p - 40)) / (maxP - 40), 0.6) * 39;
+        const slotW = W / READERS.length;
+        READERS.forEach((r, ri) => {
+          const rb = books.filter(b => b.lectrice === r && b.pagesTotales > 0), col = COLORS[r], cx0 = slotW * ri + slotW / 2;
+          const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          lbl.setAttribute('x', cx0); lbl.setAttribute('y', H - 2); lbl.setAttribute('text-anchor', 'middle');
+          lbl.setAttribute('font-size', '12'); lbl.setAttribute('fill', '#3a4f7a'); lbl.setAttribute('font-family', 'Space Grotesk,sans-serif'); lbl.setAttribute('font-weight', '700'); lbl.textContent = `${EMOJI[r]} ${r}`; svgEl.appendChild(lbl);
+          const placed = [];
+          [...rb].sort((a, b) => b.pagesTotales - a.pagesTotales).forEach(b => {
+            const rr = rad(b.pagesTotales);
+            let cx = cx0 + (Math.random() - 0.5) * (slotW * 0.4), cy = (H - 24) / 2 + (Math.random() - 0.5) * ((H - 24) * 0.5);
+            const cx_ = () => { cx = Math.max(slotW * ri + rr + 4, Math.min(slotW * (ri + 1) - rr - 4, cx)); };
+            const cy_ = () => { cy = Math.max(rr + 4, Math.min(H - 24 - rr, cy)); };
+            cx_(); cy_();
+            for (let i = 0; i < 60; i++) { placed.forEach(p => { const dx = cx - p.cx, dy = cy - p.cy, d = Math.sqrt(dx * dx + dy * dy), mn = rr + p.r + 4; if (d < mn && d > 0.01) { const push = (mn - d) * 0.55; cx += dx / d * push; cy += dy / d * push; } }); cx_(); cy_(); }
+            placed.push({ cx, cy, r: rr });
+            const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', rr); c.setAttribute('fill', col); c.setAttribute('fill-opacity', '0.72'); c.setAttribute('stroke', col); c.setAttribute('stroke-width', '1.5'); c.style.cursor = 'pointer';
+            c.addEventListener('mouseenter', () => { tip.style.opacity = 1; tip.innerHTML = `<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note && b.note > 0 ? ' · ' + b.note + '★' : ''}`; });
+            c.addEventListener('mousemove', e => { tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY - 40) + 'px'; });
+            c.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
+            svgEl.appendChild(c);
+            if (rr >= 22) { const t = document.createElementNS('http://www.w3.org/2000/svg', 'text'); t.setAttribute('x', cx); t.setAttribute('y', cy + 4); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '8'); t.setAttribute('fill', '#fff'); t.setAttribute('font-family', 'Space Grotesk,sans-serif'); t.setAttribute('font-weight', '700'); t.setAttribute('pointer-events', 'none'); t.textContent = b.titre.length > 18 ? b.titre.slice(0, 16) + '…' : b.titre; svgEl.appendChild(t); }
+          });
+        });
+      }, 60);
+      const leg = mk('div', 'sz-legend');
+      leg.innerHTML = `<span>Taille = pages :</span><div class="sz-item"><div class="sz-circle" style="width:9px;height:9px"></div>100p</div><div class="sz-item"><div class="sz-circle" style="width:20px;height:20px"></div>400p</div><div class="sz-item"><div class="sz-circle" style="width:34px;height:34px"></div>700p</div>`;
+      card.appendChild(leg); w.appendChild(card); return w;
+    }
+
+    // ── ALL BOOKS ──────────────────────────
+    function secAllBooks(books) {
+      const w = sec();
+      w.appendChild(slabel('Toutes les lectures 2026', '#1a2f5e'));
+      const card = mk('div', 'card fade');
+      card.style.padding = '20px';
+      const fin = books.filter(b => b.fini);
+      let activeF = 'Toutes';
+
+      const header = mk('div', 'ab-header');
+      const tabs = mk('div', 'filter-tabs');
+      ['Toutes', ...READERS].forEach(r => {
+        const tab = mk('div', `ftab${r === 'Toutes' ? ' active' : ''}`);
+        if (r !== 'Toutes') tab.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:${COLORS[r]};display:inline-block"></span>${r}`;
+        else tab.textContent = 'Toutes';
+        tab.addEventListener('click', () => {
+          tabs.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active'); activeF = r; renderBList();
+        });
+        tabs.appendChild(tab);
+      });
+      header.appendChild(tabs); card.appendChild(header);
+
+      const listEl = mk('div', 'blist');
+      card.appendChild(listEl);
+      const countEl = mk('div', 'blist-count');
+      card.appendChild(countEl);
+
+      function renderBList() {
+        listEl.innerHTML = '';
+        const filtered = activeF === 'Toutes' ? fin : fin.filter(b => b.lectrice === activeF);
+        filtered.forEach(b => {
+          const col = COLORS[b.lectrice] || '#999';
+          const row = mk('div', 'brow');
+          row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title">${b.titre}</div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ' · # ' + b.genre : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar">★ ${b.note}</span>` : ''}${b.mois ? `<span class="mbadge">${b.mois.slice(0, 3)}</span>` : ''}</div></div>`;
+          listEl.appendChild(row);
+        });
+        countEl.textContent = `${filtered.length} lecture${filtered.length > 1 ? 's' : ''}`;
+      }
+      renderBList();
+      w.appendChild(card); return w;
+    }
+
+    // ── HELPERS ────────────────────────────
+    function mk(tag, cls = '') { const e = document.createElement(tag); if (cls) e.className = cls; return e; }
+    function sec() { const d = mk('div', 'sec'); return d; }
+    function slabel(text, dotColor) { const d = mk('div', 'section-label'); d.innerHTML = `<span class="sdot" style="background:${dotColor}"></span>${text.toUpperCase()}`; return d; }
+    function starsHtml(n) { let s = ''; const f = Math.floor(n), h = n % 1 >= 0.5; for (let i = 0; i < f; i++)s += '<span>★</span>'; if (h) s += '<span style="font-size:10px">½</span>'; return s; }
+
+    function setupGuide() { return `<div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;font-family:'Nunito',sans-serif;line-height:1.8"><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px">📋 Guide d'installation</div><ol style="padding-left:20px;display:flex;flex-direction:column;gap:14px;color:var(--text-mid);font-size:14px"><li>Google Sheets → <em>Extensions</em> → <em>Apps Script</em></li><li>Collez le contenu du fichier <code>Code.gs</code> fourni</li><li>Vérifiez <code>getSheetByName("2026")</code> et <code>getSheetByName("Listes")</code></li><li><strong>Déployer</strong> → Nouveau déploiement → Application Web → Accès : <em>Tout le monde</em></li><li>Copiez l'URL et remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> dans ce fichier</li></ol></div>`; }
+
+    loadData();
+  </script>
 </body>
+
 </html>
