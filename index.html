@@ -6,236 +6,206 @@
 <title>Lectures de la Dream Team 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #f0f4fa; --white: #fff; --border: #dde4f0;
-  --navy: #1a2f5e; --navy-mid: #2a4480; --navy-light: #3d5fa0; --navy-pale: #e4ebf8;
-  --teal: #0891b2; --teal-light: #22d3ee;
-  --coral: #e85d3a; --gold: #d4820a; --gold-light: #f5b942; --mint: #059669;
-  --text: #0f1e3d; --text-mid: #3a4f7a; --text-light: #6b7fa8;
-  --shadow: rgba(26,47,94,0.10);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4fa;--white:#fff;--border:#dde4f0;
+  --navy:#1a2f5e;--navy-mid:#2a4480;--navy-pale:#e4ebf8;
+  --teal:#0891b2;--teal-light:#22d3ee;
+  --coral:#e85d3a;--gold:#d4820a;--mint:#059669;
+  --text:#0f1e3d;--text-mid:#3a4f7a;--text-light:#6b7fa8;
+  --shadow:rgba(26,47,94,0.09);
 }
-body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; min-height: 100vh; }
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh}
 
-/* ── HEADER ── */
-.site-header {
-  background: linear-gradient(115deg, #0f1e3d 0%, #1a2f5e 30%, #2d2a6e 60%, #7b3a5a 85%, #c4512e 100%);
-  color: #fff; padding: 0 48px;
-  display: grid; grid-template-columns: 1fr auto;
-  align-items: center; min-height: 100px;
-  position: relative; overflow: hidden;
-}
-.site-header::before {
-  content: ''; position: absolute; width: 320px; height: 320px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(196,81,46,0.2) 0%, transparent 70%);
-  top: -80px; right: 60px; pointer-events: none;
-}
-.site-header::after {
-  content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(123,58,90,0.25) 0%, transparent 70%);
-  bottom: -60px; right: 320px; pointer-events: none;
-}
-.header-left h1 {
-  font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700;
-  letter-spacing: -1.5px; line-height: 1; color: #fff; position: relative; z-index: 1;
-}
-.header-left h1 .accent { color: #22d3ee; }
-.header-left p {
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  color: rgba(255,255,255,0.45); margin-top: 7px; font-weight: 500; position: relative; z-index: 1;
-}
-.header-right { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
-.update-tag { font-size: 11px; color: rgba(255,255,255,0.4); }
-.btn-refresh {
-  background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
-  color: #fff; border: 1px solid rgba(255,255,255,0.25);
-  padding: 10px 22px; border-radius: 24px;
-  font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-}
-.btn-refresh:hover { background: rgba(255,255,255,0.25); transform: translateY(-1px); }
-.btn-refresh.loading { opacity: 0.6; pointer-events: none; }
+/* HEADER */
+.site-header{background:linear-gradient(115deg,#0f1e3d 0%,#1a2f5e 30%,#2d2a6e 60%,#7b3a5a 85%,#c4512e 100%);color:#fff;padding:0 48px;display:grid;grid-template-columns:1fr auto;align-items:center;min-height:100px;position:relative;overflow:hidden}
+.site-header::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(196,81,46,0.2) 0%,transparent 70%);top:-80px;right:60px;pointer-events:none}
+.site-header::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(123,58,90,0.25) 0%,transparent 70%);bottom:-60px;right:320px;pointer-events:none}
+.header-left h1{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:#fff;position:relative;z-index:1}
+.header-left h1 em{font-style:italic}
+.header-left p{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:7px;font-weight:500;position:relative;z-index:1}
+.header-right{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.update-tag{font-size:11px;color:rgba(255,255,255,0.4)}
+.btn-refresh{background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,0.25);padding:10px 22px;border-radius:24px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background 0.2s,transform 0.1s}
+.btn-refresh:hover{background:rgba(255,255,255,0.25);transform:translateY(-1px)}
+.btn-refresh.loading{opacity:0.6;pointer-events:none}
 
-/* ── LOADING / ERROR ── */
-.loading-screen {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 60vh; gap: 16px;
-  font-family: 'Space Grotesk', sans-serif; color: var(--text-light);
-}
-.spinner {
-  width: 40px; height: 40px; border-radius: 50%;
-  border: 3px solid var(--border); border-top-color: var(--navy-mid);
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.error-box {
-  background: #fff1ee; border: 1.5px solid #fca5a5; border-radius: 12px;
-  padding: 24px 32px; max-width: 560px; margin: 40px auto;
-  font-family: 'Space Grotesk', sans-serif;
-}
-.error-box h3 { color: var(--coral); margin-bottom: 8px; }
-.error-box p { color: var(--text-mid); font-size: 13px; line-height: 1.6; }
-.error-box code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+/* LAYOUT */
+main{padding:32px 48px;max-width:1140px;margin:0 auto}
+.sec{margin-bottom:32px}
+.section-label{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;color:var(--text-light);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section-label .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 6px var(--shadow)}
 
-/* ── LAYOUT ── */
-main { padding: 40px 48px; max-width: 1240px; margin: 0 auto; }
-.section-label {
-  font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: 4px;
-  text-transform: uppercase; font-weight: 600; color: var(--text-light);
-  margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
-}
-.section-label::before {
-  content: ''; width: 16px; height: 3px;
-  background: linear-gradient(90deg, var(--navy-mid), var(--teal));
-  border-radius: 2px; flex-shrink: 0;
-}
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.stat-tile{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px 18px 14px;box-shadow:0 1px 6px var(--shadow)}
+.stat-tile.dark{background:linear-gradient(135deg,#1a2f5e,#2d2a6e);border-color:transparent}
+.stl{font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-light);font-weight:600;margin-bottom:4px}
+.stat-tile.dark .stl{color:rgba(255,255,255,0.5)}
+.stv{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;line-height:1;letter-spacing:-1.5px;color:var(--text)}
+.stat-tile.dark .stv{color:#fff}
+.stv .u{font-size:13px;font-weight:500;opacity:0.45;letter-spacing:0}
+.sts{font-size:11px;color:var(--text-light);margin-top:4px;font-weight:600}
+.stat-tile.dark .sts{color:rgba(255,255,255,0.4)}
+.sbar{height:3px;border-radius:99px;overflow:hidden;margin-top:10px;background:rgba(255,255,255,0.15)}
+.sbar-f{height:100%;border-radius:99px;background:var(--teal-light)}
+.stat-tile:not(.dark) .sbar{background:var(--border)}
 
-/* ── STATS MAGAZINE ── */
-.stats-magazine {
-  display: grid; grid-template-columns: 320px 1fr 1fr 1fr;
-  grid-template-rows: auto auto; gap: 12px; margin-bottom: 48px;
-}
-.stat-hero {
-  grid-row: 1 / 3;
-  background: linear-gradient(145deg, var(--navy) 0%, #2d2a6e 100%);
-  border-radius: 20px; padding: 36px 32px;
-  color: #fff; display: flex; flex-direction: column; justify-content: space-between;
-  box-shadow: 0 8px 32px rgba(26,47,94,0.25); position: relative; overflow: hidden;
-}
-.stat-hero::before {
-  content: ''; position: absolute; bottom: -60px; right: -60px;
-  width: 240px; height: 240px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(34,211,238,0.1) 0%, transparent 70%);
-}
-.hero-label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 600; }
-.hero-number { font-family: 'Space Grotesk', sans-serif; font-size: 100px; font-weight: 700; line-height: 0.9; letter-spacing: -6px; margin: 12px 0 4px; }
-.hero-unit { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 400; color: rgba(255,255,255,0.5); }
-.hero-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 6px; }
-.hero-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.45); font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 7px; }
-.hero-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; margin-top: 24px; }
-.hero-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #22d3ee, #67e8f9); transition: width 1s ease; }
+/* DERNIÈRES LECTURES */
+.dernieres-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.featured-book{grid-column:1/3;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 1px 6px var(--shadow);display:flex;gap:18px}
+.bcover{width:76px;height:106px;border-radius:6px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.bcover.sm{width:48px;height:66px;font-size:20px}
+.rtag{display:inline-block;padding:3px 9px;border-radius:99px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:8px}
+.btitle-lg{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.5px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bauthor{font-size:12px;color:var(--text-light);font-weight:600;margin-bottom:7px}
+.bmeta{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-mid);font-weight:600;margin-bottom:10px;flex-wrap:wrap}
+.breview{font-size:12px;color:var(--text-mid);line-height:1.6;font-style:italic;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.btags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.btag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--bg);color:var(--text-mid);border:1px solid var(--border)}
+.mini-book{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 1px 6px var(--shadow);display:flex;gap:10px}
+.mini-content{flex:1;min-width:0}
+.mini-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;margin-top:5px}
+.mini-author{font-size:11px;color:var(--text-light);font-weight:600;margin-bottom:4px}
+.mini-meta{font-size:11px;color:var(--text-mid);font-weight:600}
 
-.stat-wide {
-  grid-column: 2 / 5; background: var(--white);
-  border: 1.5px solid var(--border); border-radius: 16px;
-  padding: 22px 28px; display: flex; align-items: center; gap: 24px;
-  box-shadow: 0 2px 10px var(--shadow); position: relative; overflow: hidden;
-}
-.stat-wide-ghost {
-  position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
-  font-family: 'Space Grotesk', sans-serif; font-size: 72px; font-weight: 700;
-  color: var(--navy-pale); letter-spacing: -4px; pointer-events: none; line-height: 1;
-}
-.stat-wide-icon { font-size: 36px; flex-shrink: 0; }
-.stat-wide-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-light); font-weight: 600; margin-bottom: 4px; }
-.stat-wide-value { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; color: var(--text); letter-spacing: -3px; line-height: 1; }
-.stat-wide-sub { font-size: 12px; color: var(--text-light); margin-top: 4px; font-weight: 600; }
+/* READER CARDS */
+.readers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.reader-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:0 1px 6px var(--shadow)}
+.rc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.rc-name{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;display:flex;align-items:center;gap:7px}
+.rc-link{font-size:12px;color:var(--text-light);text-decoration:none;opacity:0.5}
+.rc-link:hover{opacity:1}
+.rc-rows{display:flex;flex-direction:column}
+.rc-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-light);font-weight:600;padding:6px 0;border-bottom:1px solid var(--border)}
+.rc-row:last-child{border-bottom:none}
+.rc-row strong{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
+.rc-progress{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.prow-label{display:flex;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);font-weight:600;margin-bottom:4px}
+.pbar{height:5px;background:var(--bg);border-radius:99px;overflow:hidden}
+.pbar-f{height:100%;border-radius:99px}
 
-.stat-card {
-  background: var(--white); border: 1.5px solid var(--border); border-radius: 16px;
-  padding: 22px 18px 18px; box-shadow: 0 2px 10px var(--shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px var(--shadow); }
-.stat-card.accent-teal { background: var(--teal); border-color: var(--teal); color: #fff; }
-.stat-card.accent-teal .stat-label { color: rgba(255,255,255,0.6); }
-.stat-card.accent-teal .stat-value { color: #fff; }
-.stat-card.accent-teal .stat-sub { color: rgba(255,255,255,0.6); }
-.stat-card.accent-teal .stat-bar { background: rgba(255,255,255,0.2); }
-.stat-icon { font-size: 22px; margin-bottom: 8px; display: block; }
-.stat-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); font-weight: 600; margin-bottom: 6px; }
-.stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; line-height: 1; color: var(--text); letter-spacing: -2px; }
-.stat-value .unit { font-size: 16px; font-weight: 500; opacity: 0.4; }
-.stat-sub { font-size: 11px; color: var(--text-light); margin-top: 5px; font-weight: 600; }
-.stat-bar { height: 4px; background: var(--border); margin-top: 10px; border-radius: 99px; overflow: hidden; }
-.stat-bar-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+/* GENRE MULTIPLES */
+.gm-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white);box-shadow:0 1px 6px var(--shadow)}
+.gm-col{padding:18px;border-right:1px solid var(--border)}
+.gm-col:last-child{border-right:none}
+.gm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid}
+.gm-name{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px}
+.gm-cnt{font-size:11px;color:var(--text-light);font-weight:600}
+.gr-row{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.gr-name{font-size:11px;font-weight:700;color:var(--text-mid);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gr-bar{flex:2;height:8px;background:var(--bg);border-radius:99px;overflow:hidden}
+.gr-fill{height:100%;border-radius:99px}
+.gr-n{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--text);min-width:14px;text-align:right}
 
-/* ── READER CARDS ── */
-.readers-section { margin-bottom: 48px; }
-.readers-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
-.reader-card {
-  background: var(--white); border: 1.5px solid var(--border); border-radius: 18px;
-  padding: 28px 22px 22px; position: relative; overflow: hidden;
-  box-shadow: 0 2px 10px var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
-}
-.reader-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px var(--shadow); }
-.reader-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; border-radius: 18px 18px 0 0;
-}
-.reader-emoji { font-size: 38px; margin-bottom: 10px; display: block; }
-.reader-name { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 18px; color: var(--text); letter-spacing: -0.5px; }
-.reader-stats { display: flex; flex-direction: column; }
-.reader-stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-light); font-weight: 600; padding: 8px 0; border-bottom: 1px solid var(--border); }
-.reader-stat-row:last-child { border-bottom: none; }
-.reader-stat-row strong { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
-.reader-stat-row.accent strong { }
-.reader-progress { margin-top: 14px; }
-.progress-label { display: flex; justify-content: space-between; font-family: 'Space Grotesk', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); font-weight: 600; margin-bottom: 6px; }
-.progress-bar { height: 6px; background: var(--bg); border-radius: 99px; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+/* ANALYSES */
+.analyses-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.acard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
+.acard-title{font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.donut-wrap{display:flex;align-items:center;gap:14px}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:6px}
+.dl-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--text-mid)}
+.dl-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
+.dl-pct{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--text)}
+.monthly-bars{display:flex;align-items:flex-end;gap:4px;height:110px;margin-top:8px}
+.mbc{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.mb-bar{width:100%;border-radius:3px 3px 0 0;background:var(--navy);min-height:2px}
+.mb-lbl{font-size:9px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text-light);text-transform:uppercase}
+.mb-val{font-size:9px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text-mid)}
 
-/* ── CHART CARDS ── */
-.chart-card {
-  background: var(--white); border: 1.5px solid var(--border); border-radius: 16px;
-  padding: 32px; box-shadow: 0 2px 10px var(--shadow); margin-bottom: 24px;
-}
-.chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1.5px solid var(--border); gap: 20px; flex-wrap: wrap; }
-.chart-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
-.chart-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+/* FORMATS */
+.fcard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
+.hb-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.hb-row:last-child{margin-bottom:0}
+.hb-label{font-size:12px;font-weight:700;color:var(--text-mid);width:90px;text-align:right;flex-shrink:0}
+.hb-track{flex:1;height:18px;background:var(--bg);border-radius:4px;overflow:hidden}
+.hb-fill{height:100%;background:var(--navy);border-radius:4px}
+.hb-val{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--text);min-width:22px}
 
-/* ── GENRE MULTIPLES ── */
-.multiples-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 28px; }
-.multiple-card { display: flex; flex-direction: column; gap: 12px; }
-.multiple-name { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 7px; padding-bottom: 10px; border-bottom: 2px solid; }
-.multiple-name .book-count { margin-left: auto; font-size: 11px; color: var(--text-light); font-weight: 600; }
-.genre-rows { display: flex; flex-direction: column; gap: 10px; }
-.genre-row { display: flex; flex-direction: column; gap: 5px; }
-.genre-row-label { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: var(--text-mid); }
-.genre-cnt { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: var(--text); }
-.genre-track { height: 12px; background: var(--bg); border-radius: 99px; overflow: hidden; }
-.genre-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+/* TOP + SHARED */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.panel{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
+.panel-title{font-family:'Space Grotesk',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.top-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.top-row:last-child{border-bottom:none}
+.top-rank{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--text-light);width:22px;flex-shrink:0}
+.tcover{width:34px;height:46px;border-radius:4px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.top-content{flex:1;min-width:0}
+.top-title{font-size:13px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-author{font-size:11px;color:var(--text-light);font-weight:600;margin-bottom:3px}
+.stars span{color:#f59e0b;font-size:12px}
 
-/* ── SHARED READS ── */
-.shared-list { display: flex; flex-direction: column; }
-.shared-row { display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
-.shared-row:last-child { border-bottom: none; }
-.cover-placeholder { width: 44px; height: 60px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; background: var(--navy-pale); border: 1px solid var(--border); }
-.shared-meta { display: flex; flex-direction: column; gap: 10px; }
-.shared-title { font-weight: 800; color: var(--text); font-size: 14px; }
-.reader-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.reader-chip { display: inline-flex; align-items: center; border-radius: 99px; overflow: hidden; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; border: 1.5px solid transparent; }
-.chip-name { padding: 4px 10px 4px 8px; color: #fff; display: flex; align-items: center; gap: 5px; }
-.chip-rating { padding: 4px 10px 4px 8px; background: #fff; }
-.chip-no-rating { padding: 4px 10px 4px 8px; background: #fff; color: var(--text-light); font-style: italic; }
-.delta-badge { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; text-align: center; min-width: 60px; }
-.delta-badge.divisive { background: #fef3c7; color: #92400e; }
-.delta-badge.agree    { background: var(--navy-pale); color: var(--navy-mid); }
-.delta-badge.no-data  { background: var(--bg); color: var(--text-light); font-style: italic; font-size: 11px; }
+.sh-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.sh-row:last-child{border-bottom:none}
+.sh-cover{width:34px;height:46px;border-radius:4px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.sh-content{flex:1;min-width:0}
+.sh-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh-chips{display:flex;flex-wrap:wrap;gap:4px}
+.sh-chip{display:inline-flex;align-items:center;border-radius:99px;overflow:hidden;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;border:1.5px solid transparent}
+.cname{padding:3px 6px 3px 5px;color:#fff;display:flex;align-items:center;gap:3px}
+.crate{padding:3px 6px;background:#fff}
+.cnone{padding:3px 6px;background:#fff;color:var(--text-light);font-style:italic}
 
-/* ── BUBBLES ── */
-.bubble-svg { width: 100%; overflow: visible; display: block; }
-.bubble-wrap { position: relative; }
-.tooltip { position: absolute; background: var(--navy); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-family: 'Space Grotesk', sans-serif; pointer-events: none; opacity: 0; transition: opacity 0.15s; max-width: 220px; line-height: 1.6; z-index: 10; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
-.size-legend { display: flex; align-items: center; gap: 24px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; color: var(--text-light); }
-.size-legend-item { display: flex; align-items: center; gap: 8px; }
-.size-circle { border-radius: 50%; background: var(--navy-pale); border: 1.5px solid var(--navy-light); flex-shrink: 0; }
+/* KEYWORDS */
+.kcard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 6px var(--shadow)}
+.kcloud{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.ktag{font-weight:700;padding:4px 11px;border-radius:99px;background:#fde8e0;color:#c4512e;cursor:default;transition:opacity 0.15s}
+.ktag:hover{opacity:0.7}
 
-/* ── CHARTS ROW ── */
-.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+/* BUBBLES */
+.bubble-wrap{position:relative}
+.bubble-svg{width:100%;overflow:visible;display:block}
+.sz-legend{display:flex;align-items:center;gap:18px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:var(--text-light)}
+.sz-item{display:flex;align-items:center;gap:6px}
+.sz-circle{border-radius:50%;background:var(--navy-pale);border:1.5px solid #3d5fa0;flex-shrink:0}
 
-@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-.fade-in { animation: fadeUp 0.5s ease both; }
+/* ALL BOOKS */
+.ab-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.filter-tabs{display:flex;gap:5px;flex-wrap:wrap}
+.ftab{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:4px}
+.ftab.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.ftab:hover:not(.active){border-color:var(--navy);color:var(--navy)}
+.blist{display:flex;flex-direction:column}
+.brow{display:flex;align-items:center;gap:0;padding:11px 0;border-bottom:1px solid var(--border);position:relative}
+.brow:last-child{border-bottom:none}
+.bstripe{width:3px;align-self:stretch;border-radius:99px;margin-right:12px;flex-shrink:0}
+.brow-inner{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.brow-cover{width:38px;height:52px;border-radius:4px;background:var(--navy-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.brow-content{flex:1;min-width:0}
+.brow-title{font-size:13px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brow-meta{font-size:11px;color:var(--text-light);font-weight:600;margin-top:1px}
+.brow-meta .gtext{color:var(--teal)}
+.brow-review{font-size:11px;color:var(--text-mid);font-style:italic;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:500px}
+.brow-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.mbadge{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);background:var(--bg);border:1px solid var(--border);padding:2px 9px;border-radius:99px}
+.bstar{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#f59e0b}
+.blist-count{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:var(--text-light);text-align:center;padding:10px 0}
 
-footer { border-top: 1.5px solid var(--border); padding: 20px 48px; display: flex; justify-content: space-between; align-items: center; font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--text-light); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; max-width: 1240px; margin: 0 auto; }
+/* TOOLTIP */
+.tooltip{position:fixed;background:var(--navy);color:#fff;padding:8px 12px;border-radius:8px;font-size:11px;font-family:'Space Grotesk',sans-serif;pointer-events:none;opacity:0;transition:opacity 0.15s;max-width:220px;line-height:1.6;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+
+/* LOADING */
+.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;font-family:'Space Grotesk',sans-serif;color:var(--text-light)}
+.spinner{width:36px;height:36px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--navy-mid);animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-box{background:#fff1ee;border:1.5px solid #fca5a5;border-radius:12px;padding:24px 32px;max-width:580px;margin:40px auto;font-family:'Space Grotesk',sans-serif}
+.error-box h3{color:var(--coral);margin-bottom:8px}
+.error-box p{color:var(--text-mid);font-size:13px;line-height:1.6}
+.error-box code{background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeUp 0.4s ease both}
+
+footer{border-top:1px solid var(--border);padding:16px 48px;display:flex;justify-content:space-between;align-items:center;font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--text-light);letter-spacing:2px;text-transform:uppercase;font-weight:600;max-width:1140px;margin:0 auto}
 </style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-left">
-    <h1>Lectures de la <span class="accent">Dream Team</span></h1>
+    <h1>Lectures de la <em>Dream Team</em></h1>
     <p>Bilan des lectures · 2026</p>
   </div>
   <div class="header-right">
@@ -253,467 +223,391 @@ footer { border-top: 1.5px solid var(--border); padding: 20px 48px; display: fle
 </footer>
 
 <script>
-// ─────────────────────────────────────────────────────────────
-// ⚠️  REPLACE THIS URL with your own Apps Script web app URL
-//     (you will get this URL in step 4 of the setup guide)
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────
+// ⚠️ REMPLACEZ PAR VOTRE URL
+// ─────────────────────────────
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztvz-9q7dHG5ZoVv0DrULCQrLvKEbAHzbsEeCsW58HHVTEvtISDEdyaekRQXG_NoB6/exec';
 
-// ── Reader config ──
-const READERS  = ['Emiline','Laura M','Laura V','Zoé'];
-const COLORS   = { 'Emiline':'#ca8a04', 'Zoé':'#7c3aed', 'Laura V':'#16a34a', 'Laura M':'#1d4ed8' };
-const EMOJI    = { 'Emiline':'🌸', 'Zoé':'✨', 'Laura V':'🌿', 'Laura M':'📖' };
+const READERS = ['Emiline','Laura M','Laura V','Zoé'];
+const COLORS  = {'Emiline':'#ca8a04','Zoé':'#7c3aed','Laura V':'#16a34a','Laura M':'#1d4ed8'};
+const EMOJI   = {'Emiline':'🌸','Zoé':'✨','Laura V':'🌿','Laura M':'📖'};
+const MONTHS  = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const MSHORT  = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 
-const GENRE_COLORS = {
-  'BD':'#1a2f5e','Roman graphique':'#2a4480',
-  'Romance':'#e85d3a','Romantasy':'#d4820a',
-  '(Auto-)biographie':'#0891b2','Fantasy':'#059669',
-  'Jeunesse':'#8b5cf6','Essai':'#6b7fa8',
-  'Nouvelles':'#94a3b8','Thriller':'#c4512e','Littérature':'#64748b',
-};
-const GENRE_EMOJI = {
-  'BD':'📕','Roman graphique':'📗','Romance':'💕','Romantasy':'🐉',
-  '(Auto-)biographie':'📔','Fantasy':'⚔️','Jeunesse':'🌟',
-  'Essai':'📝','Nouvelles':'📄','Thriller':'🔪','Littérature':'📖',
-};
-const genreColor = g => GENRE_COLORS[g] || '#94a3b8';
+const GC = {'BD':'#1a2f5e','Roman graphique':'#2a4480','Manga':'#1e40af','Romance':'#e85d3a','Romantasy':'#d4820a','(Auto-)biographie':'#0891b2','Littérature contemporaine':'#0e7490','Fantasy':'#059669','Jeunesse':'#7c3aed','Essai':'#6b7fa8','Nouvelles':'#94a3b8','Thriller':'#c4512e','Littérature historique':'#78716c','Webtoon':'#db2777','SF':'#2563eb'};
+const GE = {'BD':'📕','Roman graphique':'📗','Romance':'💕','Romantasy':'🐉','(Auto-)biographie':'📔','Fantasy':'⚔️','Jeunesse':'🌟','Essai':'📝','Nouvelles':'📄','Thriller':'🔪','Littérature contemporaine':'📖','Manga':'🎌'};
+const gc = g => GC[g]||'#94a3b8';
+const ge = g => GE[g]||'📚';
 
-// ── Load data ──
 async function loadData() {
-  const app   = document.getElementById('app');
-  const btn   = document.getElementById('refreshBtn');
-  const tag   = document.getElementById('updateTag');
+  const app=document.getElementById('app'),btn=document.getElementById('refreshBtn'),tag=document.getElementById('updateTag');
+  btn.classList.add('loading');btn.textContent='↻ Chargement…';
+  app.innerHTML='<div class="loading-screen"><div class="spinner"></div><p>Chargement des données…</p></div>';
 
-  btn.classList.add('loading');
-  btn.textContent = '↻ Chargement…';
-
-  app.innerHTML = `<div class="loading-screen"><div class="spinner"></div><p>Chargement des données…</p></div>`;
-
-  if (SCRIPT_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
-    app.innerHTML = `
-      <div style="padding:40px 48px;max-width:1240px;margin:0 auto">
-        <div class="error-box">
-          <h3>⚙️ Configuration requise</h3>
-          <p>Pour connecter le dashboard à votre Google Sheet, suivez le guide d'installation ci-dessous, puis remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> dans ce fichier par votre URL.</p>
-        </div>
-        ${setupGuide()}
-      </div>`;
-    btn.classList.remove('loading'); btn.textContent = '↻ Actualiser';
-    return;
+  if(SCRIPT_URL==='PASTE_YOUR_APPS_SCRIPT_URL_HERE'){
+    app.innerHTML=`<div style="padding:32px 48px;max-width:1140px;margin:0 auto">${setupGuide()}</div>`;
+    btn.classList.remove('loading');btn.textContent='↻ Actualiser';return;
   }
-
-  try {
-    const res  = await fetch(SCRIPT_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    render(json.books, json.generated);
-    const d = new Date(json.generated);
-    tag.textContent = `Mis à jour ${d.toLocaleDateString('fr-BE')} à ${d.toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})}`;
-  } catch(e) {
-    app.innerHTML = `
-      <div style="padding:40px 48px;max-width:1240px;margin:0 auto">
-        <div class="error-box">
-          <h3>⚠️ Impossible de charger les données</h3>
-          <p>Erreur: <code>${e.message}</code><br><br>
-          Vérifiez que votre URL Apps Script est correcte et que le script est bien déployé en accès public.</p>
-        </div>
-      </div>`;
+  try{
+    const res=await fetch(SCRIPT_URL);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json=await res.json();
+    render(json.books,json.goals,json.generated);
+    const d=new Date(json.generated);
+    tag.textContent=`Mis à jour ${d.toLocaleDateString('fr-BE')} · ${d.toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})}`;
+  }catch(e){
+    app.innerHTML=`<div style="padding:32px 48px;max-width:1140px;margin:0 auto"><div class="error-box"><h3>⚠️ Erreur</h3><p>${e.message}<br><br>Vérifiez votre URL Apps Script.</p></div></div>`;
   }
-  btn.classList.remove('loading'); btn.textContent = '↻ Actualiser';
+  btn.classList.remove('loading');btn.textContent='↻ Actualiser';
 }
 
-// ── Main render ──
-function render(books, generated) {
-  // Only finished books for most charts
-  const finished = books.filter(b => b.fini && b.pagesTotales > 0);
-
-  const app = document.getElementById('app');
-  app.innerHTML = '';
-
-  const main = document.createElement('main');
-
-  // ── Stats ──
-  main.appendChild(buildStats(finished));
-
-  // ── Reader cards ──
-  main.appendChild(buildReaderCards(finished));
-
-  // ── Genre multiples ──
-  const chartsLabel = el('div','section-label','Qui lit quoi ?');
-  main.appendChild(chartsLabel);
-  const genreCard = buildGenreMultiples(finished);
-  main.appendChild(genreCard);
-
-  // ── Shared reads + bubbles ──
-  const bottomRow = document.createElement('div');
-  bottomRow.className = 'charts-row';
-  bottomRow.appendChild(buildSharedReads(finished));
-  bottomRow.appendChild(buildBubbles(finished));
-  main.appendChild(bottomRow);
-
+function render(books,goals,gen){
+  const fin=books.filter(b=>b.fini);
+  const app=document.getElementById('app');
+  app.innerHTML='';
+  const main=mk('main');
+  main.appendChild(secStats(fin));
+  main.appendChild(secDernieres(books));
+  main.appendChild(secReaders(fin,goals));
+  main.appendChild(secGenres(fin));
+  main.appendChild(secAnalyses(fin));
+  main.appendChild(secFormats(fin));
+  main.appendChild(secTopShared(fin));
+  main.appendChild(secKeywords(fin));
+  main.appendChild(secBubbles(fin));
+  main.appendChild(secAllBooks(books));
   app.appendChild(main);
-
-  // footer
-  const totalPages = finished.reduce((s,b)=>s+b.pagesTotales,0);
-  document.getElementById('footerStats').textContent =
-    `${finished.length} livres · ${totalPages.toLocaleString('fr-FR')} pages · 4 lectrices`;
+  const tp=fin.reduce((s,b)=>s+b.pagesTotales,0);
+  document.getElementById('footerStats').textContent=`${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages · 4 lectrices`;
 }
 
-// ── STATS ──
-function buildStats(books) {
-  const frag = document.createDocumentFragment();
+// ── STATS ──────────────────────────────
+function secStats(books){
+  const w=sec();
+  w.appendChild(slabel('Vue d\'ensemble','#1a2f5e'));
+  const g=mk('div','stats-row fade');
+  const total=books.length,pages=books.reduce((s,b)=>s+b.pagesTotales,0);
+  const rated=books.filter(b=>b.note&&b.note>0);
+  const avgN=rated.length?(rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1):'—';
+  const avgP=total?Math.round(pages/total):0;
+  const wd=books.filter(b=>b.jours>0&&b.jours<365);
+  const avgJ=wd.length?(wd.reduce((s,b)=>s+b.jours,0)/wd.length).toFixed(1):'—';
+  [
+    {i:'📚',l:'Livres lus',v:total,u:'',s:'depuis janvier 2026',dark:true,b:Math.min(100,total)},
+    {i:'📄',l:'Pages lues',v:`${Math.round(pages/1000)}k`,u:'',s:`${pages.toLocaleString('fr-FR')} pages`,dark:false,b:0},
+    {i:'⭐',l:'Note moyenne',v:avgN,u:'/5',s:'collectif',dark:false,b:rated.length?(parseFloat(avgN)/5*100):0},
+    {i:'📖',l:'Pages / livre',v:avgP,u:'',s:'moy. par livre',dark:false,b:Math.min(100,avgP/5)},
+    {i:'🕐',l:'Jours / livre',v:avgJ,u:'',s:'lecture rapide 🔥',dark:false,b:Math.min(100,(parseFloat(avgJ)||0)/20*100)},
+  ].forEach(t=>{
+    const tile=mk('div',`stat-tile${t.dark?' dark':''}`);
+    tile.innerHTML=`<div style="font-size:18px;margin-bottom:5px">${t.i}</div><div class="stl">${t.l}</div><div class="stv">${t.v}<span class="u">${t.u}</span></div><div class="sts">${t.s}</div>${t.b?`<div class="sbar"><div class="sbar-f" style="width:${t.b}%"></div></div>`:''}`;
+    g.appendChild(tile);
+  });
+  w.appendChild(g);return w;
+}
 
-  const label = el('div','section-label','Vue d\'ensemble');
-  frag.appendChild(label);
+// ── DERNIÈRES LECTURES ─────────────────
+function secDernieres(books){
+  const w=sec();
+  w.appendChild(slabel('Dernières lectures','#e85d3a'));
+  const fin=books.filter(b=>b.fini);
+  // last entry per reader
+  const last={};fin.forEach(b=>{last[b.lectrice]=b;});
+  const featured=fin[fin.length-1];
+  const others=READERS.filter(r=>last[r]&&last[r]!==featured).map(r=>last[r]).slice(0,3);
+  const g=mk('div','dernieres-grid fade');
 
-  const grid = el('div','stats-magazine fade-in');
+  // featured
+  const fc=mk('div','featured-book');
+  const col=COLORS[featured?.lectrice]||'#999';
+  const tags=featured?.motsCles?featured.motsCles.split(',').map(t=>`<span class="btag">${t.trim()}</span>`).join(''):'';
+  fc.innerHTML=`<div class="bcover">${ge(featured?.genre)}</div><div style="flex:1;min-width:0"><span class="rtag" style="background:${col}">${EMOJI[featured?.lectrice]||''} ${featured?.lectrice||''}</span><div class="btitle-lg">${featured?.titre||''}</div><div class="bauthor">👤 ${featured?.auteur||''}</div><div class="bmeta">${featured?.note>0?`<span style="color:#f59e0b">★ ${featured.note}/5</span>`:''}${featured?.pagesTotales?`<span>📄 ${featured.pagesTotales}p</span>`:''}${featured?.genre?`<span style="color:${gc(featured.genre)}"># ${featured.genre}</span>`:''}</div>${featured?.avis?`<div class="breview">« ${featured.avis} »</div>`:''}${tags?`<div class="btags">${tags}</div>`:''}</div>`;
+  g.appendChild(fc);
 
-  const totalBooks = books.length;
-  const totalPages = books.reduce((s,b)=>s+b.pagesTotales,0);
-  const rated = books.filter(b=>b.note!==null&&b.note>0);
-  const avgNote = rated.length ? (rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1) : '—';
-  const avgPages = totalBooks ? Math.round(totalPages/totalBooks) : 0;
-  const avgJours = (() => {
-    const withDays = books.filter(b=>b.jours>0&&b.jours<400);
-    return withDays.length ? (withDays.reduce((s,b)=>s+b.jours,0)/withDays.length).toFixed(1) : '—';
-  })();
-  const goalTotal = 100; // annual goal — adjust if needed
-  const pct = Math.min(100, Math.round((totalBooks/goalTotal)*100));
+  others.forEach(b=>{
+    const c=COLORS[b.lectrice]||'#999';
+    const mini=mk('div','mini-book');
+    mini.innerHTML=`<div class="bcover sm">${ge(b.genre)}</div><div class="mini-content"><span class="rtag" style="background:${c};font-size:10px;padding:2px 7px">${EMOJI[b.lectrice]||''} ${b.lectrice}</span><div class="mini-title">${b.titre}</div><div class="mini-author">${b.auteur}</div><div class="mini-meta">${b.pagesTotales?b.pagesTotales+'p ':''}${b.genre?`<span style="color:${gc(b.genre)}"># ${b.genre}</span>`:''}</div>${b.note>0?`<div style="color:#f59e0b;font-size:12px;margin-top:3px;font-weight:700">★ ${b.note}/5</div>`:''}</div>`;
+    g.appendChild(mini);
+  });
+  w.appendChild(g);return w;
+}
 
-  // Hero
-  const hero = el('div','stat-hero');
-  hero.innerHTML = `
-    <div>
-      <div class="hero-label">Livres lus</div>
-      <div class="hero-number">${totalBooks}</div>
-      <div class="hero-unit">livres</div>
-      <div class="hero-sub">depuis janvier 2026</div>
-    </div>
-    <div>
-      <div class="hero-bar-label"><span>Objectif annuel</span><span>${totalBooks} / ${goalTotal}</span></div>
-      <div class="hero-bar"><div class="hero-bar-fill" style="width:${pct}%"></div></div>
-    </div>`;
-  grid.appendChild(hero);
+// ── READER CARDS ───────────────────────
+function secReaders(books,goals){
+  const w=sec();
+  w.appendChild(slabel('Les Lectrices','#0891b2'));
+  const g=mk('div','readers-grid fade');
+  const totalBooks=books.length;
+  READERS.forEach(r=>{
+    const rb=books.filter(b=>b.lectrice===r);
+    const pages=rb.reduce((s,b)=>s+b.pagesTotales,0);
+    const rated=rb.filter(b=>b.note&&b.note>0);
+    const avgN=rated.length?(rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1):'—';
+    const avgP=rb.length?Math.round(pages/rb.length):0;
+    const pctG=totalBooks?Math.round(rb.length/totalBooks*100):0;
+    const col=COLORS[r],goal=goals?.[r]||100;
+    const pctC=Math.min(100,Math.round(rb.length/goal*100));
+    const link=goals?.[r+'_link']||'#';
+    const card=mk('div','reader-card');
+    card.style.borderTop=`4px solid ${col}`;
+    card.innerHTML=`<div class="rc-header"><div class="rc-name" style="color:${col}">${EMOJI[r]} ${r}</div><a href="${link}" target="_blank" class="rc-link" title="Goodreads">↗</a></div><div class="rc-rows"><div class="rc-row"><span>Livres</span><strong>${rb.length}</strong></div><div class="rc-row"><span>Pages</span><strong>${pages.toLocaleString('fr-FR')}</strong></div><div class="rc-row"><span>Note moy.</span><strong style="color:${col}">${avgN}${avgN!=='—'?' ★':''}</strong></div><div class="rc-row"><span>Pages / livre</span><strong>${avgP}</strong></div></div><div class="rc-progress"><div><div class="prow-label"><span>Part du groupe</span><span>${pctG}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctG}%;background:${col}"></div></div></div><div><div class="prow-label"><span>🎯 Challenge 2026 · ${rb.length}/${goal}</span><span>${pctC}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctC}%;background:${col}88"></div></div></div></div>`;
+    g.appendChild(card);
+  });
+  w.appendChild(g);return w;
+}
 
-  // Wide
-  const wide = el('div','stat-wide');
-  wide.style.gridColumn = '2/5';
-  wide.innerHTML = `
-    <span class="stat-wide-icon">📄</span>
-    <div>
-      <div class="stat-wide-label">Pages lues</div>
-      <div class="stat-wide-value">${Math.round(totalPages/1000)}k</div>
-      <div class="stat-wide-sub">${totalPages.toLocaleString('fr-FR')} pages au total</div>
-    </div>
-    <div class="stat-wide-ghost">${Math.round(totalPages/1000)}k</div>`;
-  grid.appendChild(wide);
+// ── GENRE MULTIPLES ────────────────────
+function secGenres(books){
+  const w=sec();
+  w.appendChild(slabel('Genres lus par lectrice','#0891b2'));
+  const g=mk('div','gm-grid fade');
+  READERS.forEach(r=>{
+    const rb=books.filter(b=>b.lectrice===r);
+    const counts={};rb.forEach(b=>{if(b.genre)counts[b.genre]=(counts[b.genre]||0)+1;});
+    const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    const max=sorted[0]?.[1]||1,col=COLORS[r];
+    const col_el=mk('div','gm-col');
+    const rows=sorted.map(([g,n])=>`<div class="gr-row"><span class="gr-name">${g}</span><div class="gr-bar"><div class="gr-fill" style="width:${Math.round(n/max*100)}%;background:${gc(g)}"></div></div><span class="gr-n">${n}</span></div>`).join('');
+    col_el.innerHTML=`<div class="gm-head" style="border-color:${col}40;color:${col}"><div class="gm-name">${EMOJI[r]} ${r}</div><span class="gm-cnt">${rb.length} livres</span></div>${rows}`;
+    g.appendChild(col_el);
+  });
+  w.appendChild(g);return w;
+}
 
-  // Small cards
-  const cards = [
-    { icon:'⭐', label:'Note moyenne', val: avgNote, unit:'/5', sub:'★★★★☆ collectif', cls:'accent-teal',
-      bar: rated.length ? `width:${(parseFloat(avgNote)/5)*100}%;background:rgba(255,255,255,0.6)` : '' },
-    { icon:'📖', label:'Pages / livre', val: avgPages, unit:'', sub:'moy. par livre lu', cls:'',
-      bar:`width:${Math.min(100,Math.round(avgPages/7))}%;background:linear-gradient(90deg,#0891b2,#22d3ee)` },
-    { icon:'🕐', label:'Jours / livre', val: avgJours, unit:'', sub:'lecture rapide 🔥', cls:'',
-      bar:`width:${Math.min(100,Math.round((parseFloat(avgJours)||0)/20*100))}%;background:linear-gradient(90deg,#e85d3a,#fb8c6e)` },
-  ];
-  cards.forEach(c => {
-    const card = el('div', `stat-card ${c.cls}`);
-    card.innerHTML = `
-      <span class="stat-icon">${c.icon}</span>
-      <div class="stat-label">${c.label}</div>
-      <div class="stat-value">${c.val}<span class="unit">${c.unit}</span></div>
-      <div class="stat-sub">${c.sub}</div>
-      ${c.bar ? `<div class="stat-bar"><div class="stat-bar-fill" style="${c.bar}"></div></div>` : ''}`;
-    grid.appendChild(card);
+// ── ANALYSES ───────────────────────────
+function secAnalyses(books){
+  const w=sec();
+  w.appendChild(slabel('Analyses','#0891b2'));
+  const g=mk('div','analyses-grid fade');
+
+  // genre donut
+  const gc2={};books.forEach(b=>{if(b.genre)gc2[b.genre]=(gc2[b.genre]||0)+1;});
+  g.appendChild(donutCard('Genres littéraires',gc2,books.length,'#0891b2'));
+
+  // auteur donut
+  const ga={};books.forEach(b=>{if(b.genreAuteur)ga[b.genreAuteur]=(ga[b.genreAuteur]||0)+1;});
+  const gaC={'Femme':'#0891b2','Homme':'#1a2f5e','Mixte':'#e85d3a','Non-binaire':'#d4820a','Femmes':'#0891b2','Hommes':'#1a2f5e'};
+  g.appendChild(donutCard('Genre des auteur·ices',ga,books.length,'#059669',gaC));
+
+  // monthly bar
+  const byM={};MONTHS.forEach(m=>byM[m]=0);
+  books.forEach(b=>{if(b.mois&&byM[b.mois]!==undefined)byM[b.mois]++;});
+  const vals=MONTHS.map(m=>byM[m]),maxM=Math.max(...vals,1);
+  const bc=mk('div','acard');
+  bc.innerHTML=`<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>Livres par mois</div>`;
+  const bw=mk('div','monthly-bars');
+  MONTHS.forEach((m,i)=>{
+    const v=vals[i],pct=Math.round(v/maxM*100);
+    const c=mk('div','mbc');
+    c.innerHTML=`${v>0?`<span class="mb-val">${v}</span>`:'<span class="mb-val" style="opacity:0">0</span>'}<div class="mb-bar" style="height:${Math.max(pct,v>0?4:1)}%;background:${v>0?'var(--navy)':'var(--border)'}"></div><span class="mb-lbl">${MSHORT[i]}</span>`;
+    bw.appendChild(c);
+  });
+  bc.appendChild(bw);g.appendChild(bc);
+  w.appendChild(g);return w;
+}
+
+function donutCard(title,counts,total,dotColor,colorMap){
+  const card=mk('div','acard');
+  card.innerHTML=`<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:${dotColor};display:inline-block"></span>${title.toUpperCase()}</div>`;
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,7);
+  const r=38,cx=50,cy=50,circ=2*Math.PI*r;
+  let off=0;
+  const segs=sorted.map(([k,n])=>{
+    const pct=n/total,arc=circ*pct;
+    const s={k,n,pct,arc,off,color:(colorMap&&colorMap[k])||gc(k)};off+=arc;return s;
+  });
+  const svgEl=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svgEl.setAttribute('width','86');svgEl.setAttribute('height','86');svgEl.setAttribute('viewBox','0 0 100 100');
+  svgEl.style.transform='rotate(-90deg)';svgEl.style.flexShrink='0';
+  segs.forEach(s=>{
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);
+    c.setAttribute('fill','none');c.setAttribute('stroke',s.color);c.setAttribute('stroke-width','17');
+    c.setAttribute('stroke-dasharray',`${s.arc} ${circ-s.arc}`);
+    c.setAttribute('stroke-dashoffset',`-${s.off}`);
+    svgEl.appendChild(c);
+  });
+  const leg=mk('div','donut-legend');
+  segs.forEach(s=>{
+    const pct=Math.round(s.n/total*100);
+    leg.innerHTML+=`<div class="dl-item"><div class="dl-dot" style="background:${s.color}"></div>${s.k}<span class="dl-pct">${pct}%</span></div>`;
+  });
+  const wrap=mk('div','donut-wrap');
+  wrap.appendChild(svgEl);wrap.appendChild(leg);card.appendChild(wrap);return card;
+}
+
+// ── FORMATS ────────────────────────────
+function secFormats(books){
+  const w=sec();
+  w.appendChild(slabel('Formats','#6b7fa8'));
+  const counts={};books.forEach(b=>{if(b.format)counts[b.format]=(counts[b.format]||0)+1;});
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]),max=sorted[0]?.[1]||1;
+  const card=mk('div','fcard fade');
+  sorted.forEach(([f,n])=>{
+    const row=mk('div','hb-row');
+    row.innerHTML=`<span class="hb-label">${f}</span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n/max*100)}%"></div></div><span class="hb-val">${n}</span>`;
+    card.appendChild(row);
+  });
+  w.appendChild(card);return w;
+}
+
+// ── TOP + SHARED ───────────────────────
+function secTopShared(books){
+  const w=sec();
+  const g=mk('div','two-col fade');
+
+  // TOP
+  const tp=mk('div','panel');
+  tp.innerHTML=`<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
+  [...books].filter(b=>b.note&&b.note>0).sort((a,b)=>b.note-a.note).slice(0,5).forEach((b,i)=>{
+    const row=mk('div','top-row');
+    row.innerHTML=`<span class="top-rank">#${i+1}</span><div class="tcover">${ge(b.genre)}</div><div class="top-content"><div class="top-title">${b.titre}</div><div class="top-author">${b.auteur}</div><div style="display:flex;align-items:center;gap:7px;margin-top:3px"><span class="rtag" style="background:${COLORS[b.lectrice]||'#999'};font-size:10px;padding:2px 7px">${b.lectrice}</span><div class="stars">${starsHtml(b.note)}</div></div></div>`;
+    tp.appendChild(row);
   });
 
-  frag.appendChild(grid);
-  return frag;
-}
-
-// ── READER CARDS ──
-function buildReaderCards(books) {
-  const frag = document.createDocumentFragment();
-  frag.appendChild(el('div','section-label','Les Lectrices'));
-
-  const section = el('div','readers-section fade-in');
-  const grid = el('div','readers-grid');
-
-  const displayOrder = ['Emiline','Zoé','Laura V','Laura M'];
-  displayOrder.forEach((r, i) => {
-    const rb = books.filter(b=>b.lectrice===r);
-    const totalPages = rb.reduce((s,b)=>s+b.pagesTotales,0);
-    const rated = rb.filter(b=>b.note!==null&&b.note>0);
-    const avgNote = rated.length ? (rated.reduce((s,b)=>s+b.note,0)/rated.length).toFixed(1) : '—';
-    const avgPPB = rb.length ? Math.round(totalPages/rb.length) : 0;
-    const totalAll = books.length;
-    const pct = totalAll ? Math.round((rb.length/totalAll)*100) : 0;
-    const col = COLORS[r];
-
-    const card = el('div','reader-card fade-in');
-    card.style.animationDelay = `${i*0.06}s`;
-    card.style.setProperty('--reader-color', col);
-    card.style.cssText += ``;
-    card.querySelector && null;
-
-    // top stripe
-    const stripe = document.createElement('style');
-    card.innerHTML = `
-      <style>.rc-${i}::before{background:linear-gradient(90deg,${col},${col}99)!important}</style>
-      <span class="reader-emoji">${EMOJI[r]}</span>
-      <div class="reader-name">${r}</div>
-      <div class="reader-stats">
-        <div class="reader-stat-row"><span>Livres</span><strong>${rb.length}</strong></div>
-        <div class="reader-stat-row"><span>Pages</span><strong>${totalPages.toLocaleString('fr-FR')}</strong></div>
-        <div class="reader-stat-row accent"><span>Note moy.</span><strong style="color:${col}">${avgNote}${avgNote!=='—'?' ★':''}</strong></div>
-        <div class="reader-stat-row"><span>Pages / livre</span><strong>${avgPPB}</strong></div>
-      </div>
-      <div class="reader-progress">
-        <div class="progress-label"><span>Part du groupe</span><span>${pct}%</span></div>
-        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:linear-gradient(90deg,${col},${col}88)"></div></div>
-      </div>`;
-    card.classList.add(`rc-${i}`);
-    // inline stripe via box-shadow trick
-    card.style.borderTop = `5px solid ${col}`;
-    card.style.borderRadius = '18px';
-    grid.appendChild(card);
+  // SHARED
+  const sp=mk('div','panel');
+  sp.innerHTML=`<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#059669;display:inline-block"></span>LECTURES EN COMMUN</div>`;
+  const byT={};
+  books.forEach(b=>{
+    const k=b.titre.toLowerCase().replace(/[^a-zàâéèêëîïôùûü]/g,'').slice(0,22);
+    if(!byT[k])byT[k]={titre:b.titre,genre:b.genre,entries:[]};byT[k].entries.push(b);
   });
-
-  section.appendChild(grid);
-  frag.appendChild(section);
-  return frag;
-}
-
-// ── GENRE MULTIPLES ──
-function buildGenreMultiples(books) {
-  const card = el('div','chart-card fade-in');
-  card.innerHTML = `<div class="chart-header"><div class="chart-title"><span class="chart-dot" style="background:var(--teal)"></span>Genres lus par lectrice</div></div>`;
-  const grid = el('div','multiples-grid');
-
-  const displayOrder = ['Emiline','Zoé','Laura V','Laura M'];
-  displayOrder.forEach(r => {
-    const rb = books.filter(b=>b.lectrice===r);
-    const counts = {};
-    rb.forEach(b=>{ if(b.genre) counts[b.genre]=(counts[b.genre]||0)+1; });
-    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-    const max = sorted[0]?.[1] || 1;
-    const col = COLORS[r];
-
-    const mc = el('div','multiple-card');
-    mc.innerHTML = `
-      <div class="multiple-name" style="color:${col};border-color:${col}30">
-        <span>${EMOJI[r]}</span>${r}
-        <span class="book-count">${rb.length} livres</span>
-      </div>
-      <div class="genre-rows"></div>`;
-    const rows = mc.querySelector('.genre-rows');
-    sorted.forEach(([g,cnt]) => {
-      const row = el('div','genre-row');
-      row.innerHTML = `
-        <div class="genre-row-label"><span>${g}</span><span class="genre-cnt">${cnt}</span></div>
-        <div class="genre-track"><div class="genre-fill" style="width:${Math.round((cnt/max)*100)}%;background:${genreColor(g)}"></div></div>`;
-      rows.appendChild(row);
+  Object.values(byT).filter(g=>new Set(g.entries.map(e=>e.lectrice)).size>=2)
+    .sort((a,b)=>new Set(b.entries.map(e=>e.lectrice)).size-new Set(a.entries.map(e=>e.lectrice)).size)
+    .forEach(g=>{
+      const byR={};g.entries.forEach(e=>{if(!byR[e.lectrice])byR[e.lectrice]=e;});
+      const chips=READERS.filter(r=>byR[r]).map(r=>{
+        const e=byR[r],col=COLORS[r];
+        const rate=e.note&&e.note>0?`<span class="crate" style="color:${col}">★ ${e.note}</span>`:`<span class="cnone">—</span>`;
+        return `<div class="sh-chip" style="border-color:${col}30"><span class="cname" style="background:${col}">${EMOJI[r]} ${r}</span>${rate}</div>`;
+      }).join('');
+      const row=mk('div','sh-row');
+      row.innerHTML=`<div class="sh-cover">${ge(g.genre)}</div><div class="sh-content"><div class="sh-title">${g.titre}</div><div class="sh-chips">${chips}</div></div>`;
+      sp.appendChild(row);
     });
-    grid.appendChild(mc);
-  });
-  card.appendChild(grid);
-  return card;
+
+  g.appendChild(tp);g.appendChild(sp);w.appendChild(g);return w;
 }
 
-// ── SHARED READS ──
-function buildSharedReads(books) {
-  const card = el('div','chart-card fade-in');
-  card.innerHTML = `
-    <div class="chart-header">
-      <div class="chart-title"><span class="chart-dot" style="background:var(--gold)"></span>Lectures en commun</div>
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--text-light);font-weight:600;display:flex;align-items:center;gap:6px">
-        <span style="width:10px;height:10px;background:#fef3c7;border-radius:3px;display:inline-block"></span>écart ≥ 1★ = divisif
-      </div>
-    </div>`;
-
-  const byTitle = {};
-  books.forEach(b => {
-    const key = b.titre.toLowerCase().replace(/[^a-zàâéèêëîïôùûü]/g,'').slice(0,22);
-    if (!byTitle[key]) byTitle[key] = { titre: b.titre, genre: b.genre, entries: [] };
-    byTitle[key].entries.push(b);
+// ── KEYWORDS ───────────────────────────
+function secKeywords(books){
+  const w=sec();
+  w.appendChild(slabel('Mots-clés populaires','#e85d3a'));
+  const counts={};
+  books.forEach(b=>{if(!b.motsCles)return;b.motsCles.split(',').forEach(k=>{const t=k.trim().toLowerCase();if(t)counts[t]=(counts[t]||0)+1;});});
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]),maxC=sorted[0]?.[1]||1;
+  const card=mk('div','kcard fade');
+  const cloud=mk('div','kcloud');
+  sorted.forEach(([k,n])=>{
+    const tag=mk('span','ktag');
+    tag.style.fontSize=(11+Math.round(n/maxC*5))+'px';
+    tag.style.opacity=(0.55+n/maxC*0.45)+'';
+    tag.textContent=`${k} (${n})`;
+    cloud.appendChild(tag);
   });
-
-  const shared = Object.values(byTitle)
-    .filter(g => new Set(g.entries.map(e=>e.lectrice)).size >= 2)
-    .sort((a,b) => new Set(b.entries.map(e=>e.lectrice)).size - new Set(a.entries.map(e=>e.lectrice)).size);
-
-  const list = el('div','shared-list');
-
-  shared.forEach(g => {
-    const byReader = {};
-    g.entries.forEach(e => { if (!byReader[e.lectrice]) byReader[e.lectrice] = e; });
-    const rated = Object.values(byReader).map(e=>e.note).filter(n=>n!==null&&n>0);
-    const delta = rated.length>=2 ? (Math.max(...rated)-Math.min(...rated)).toFixed(1) : null;
-    const isDivisive = delta!==null && parseFloat(delta)>=1;
-
-    const chipsHtml = READERS.filter(r=>byReader[r]).map(r => {
-      const e = byReader[r]; const col = COLORS[r];
-      const ratingPart = e.note&&e.note>0
-        ? `<span class="chip-rating" style="color:${col}">★ ${e.note}</span>`
-        : `<span class="chip-no-rating">—</span>`;
-      return `<div class="reader-chip" style="border-color:${col}20"><span class="chip-name" style="background:${col}">${EMOJI[r]} ${r}</span>${ratingPart}</div>`;
-    }).join('');
-
-    const deltaHtml = delta!==null
-      ? `<div class="delta-badge ${isDivisive?'divisive':'agree'}">${isDivisive?'⚡':'✓'} ${delta}★</div>`
-      : `<div class="delta-badge no-data">pas de notes</div>`;
-
-    const row = el('div','shared-row');
-    row.innerHTML = `
-      <div class="cover-placeholder">${GENRE_EMOJI[g.genre]||'📚'}</div>
-      <div class="shared-meta">
-        <div class="shared-title">${g.titre}</div>
-        <div class="reader-chips">${chipsHtml}</div>
-      </div>
-      ${deltaHtml}`;
-    list.appendChild(row);
-  });
-
-  if (shared.length === 0) {
-    list.innerHTML = '<p style="color:var(--text-light);font-size:13px;padding:16px 0">Aucune lecture en commun pour l\'instant.</p>';
-  }
-
-  card.appendChild(list);
-  return card;
+  card.appendChild(cloud);w.appendChild(card);return w;
 }
 
-// ── BUBBLES ──
-function buildBubbles(books) {
-  const card = el('div','chart-card fade-in');
-  card.innerHTML = `<div class="chart-header"><div class="chart-title"><span class="chart-dot" style="background:var(--navy)"></span>Pages par livre</div></div>`;
-
-  const wrap = el('div','bubble-wrap');
-  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.classList.add('bubble-svg');
-  svg.setAttribute('height','260');
-  wrap.appendChild(svg);
-  card.appendChild(wrap);
-
-  const tooltip = document.getElementById('tooltip');
-
-  setTimeout(() => {
-    const W = wrap.clientWidth - 32;
-    const H = 240;
-    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-    svg.setAttribute('width', W);
-
-    const allPages = books.filter(b=>b.pagesTotales>0).map(b=>b.pagesTotales);
-    const maxP = Math.max(...allPages, 1);
-    const minR = 3, maxR = 42;
-    const radiusOf = p => minR + Math.pow(Math.max(0,(p-40))/(maxP-40), 0.6)*(maxR-minR);
-
-    const slotW = W / READERS.length;
-
-    READERS.forEach((r, ri) => {
-      const rb = books.filter(b=>b.lectrice===r&&b.pagesTotales>0);
-      const col = COLORS[r];
-      const cx0 = slotW*ri + slotW/2;
-
-      // reader label
-      const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
-      txt.setAttribute('x',cx0); txt.setAttribute('y',H-2);
-      txt.setAttribute('text-anchor','middle'); txt.setAttribute('font-size','12');
-      txt.setAttribute('fill','#3a4f7a'); txt.setAttribute('font-family','Space Grotesk,sans-serif');
-      txt.setAttribute('font-weight','700'); txt.textContent=`${EMOJI[r]} ${r}`;
-      svg.appendChild(txt);
-
-      const placed = [];
-      [...rb].sort((a,b)=>b.pagesTotales-a.pagesTotales).forEach(b => {
-        const rad = radiusOf(b.pagesTotales);
-        let cx = cx0+(Math.random()-0.5)*(slotW*0.4);
-        let cy = (H-24)/2+(Math.random()-0.5)*((H-24)*0.5);
-        const clampX=()=>{ cx=Math.max(slotW*ri+rad+4, Math.min(slotW*(ri+1)-rad-4, cx)); };
-        const clampY=()=>{ cy=Math.max(rad+4, Math.min(H-24-rad, cy)); };
-        clampX(); clampY();
-        for(let i=0;i<60;i++){
-          placed.forEach(p=>{
-            const dx=cx-p.cx,dy=cy-p.cy,dist=Math.sqrt(dx*dx+dy*dy),min=rad+p.r+4;
-            if(dist<min&&dist>0.01){const push=(min-dist)*0.55;cx+=dx/dist*push;cy+=dy/dist*push;}
-          });
-          clampX(); clampY();
-        }
-        placed.push({cx,cy,r:rad});
-
-        const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-        circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',rad);
-        circle.setAttribute('fill',col); circle.setAttribute('fill-opacity','0.72');
-        circle.setAttribute('stroke',col); circle.setAttribute('stroke-width','1.5');
-        circle.style.cursor='pointer';
-        circle.addEventListener('mouseenter',()=>{
-          tooltip.style.opacity=1;
-          tooltip.innerHTML=`<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note&&b.note>0?' · '+b.note+'★':''}`;
-        });
-        circle.addEventListener('mousemove',e=>{
-          const rect=wrap.getBoundingClientRect();
-          tooltip.style.left=(e.clientX-rect.left+14)+'px';
-          tooltip.style.top=(e.clientY-rect.top-40)+'px';
-        });
-        circle.addEventListener('mouseleave',()=>{ tooltip.style.opacity=0; });
-        svg.appendChild(circle);
-
-        if(rad>=24){
-          const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
-          lbl.setAttribute('x',cx); lbl.setAttribute('y',cy+4);
-          lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('font-size','9');
-          lbl.setAttribute('fill','#fff'); lbl.setAttribute('font-family','Space Grotesk,sans-serif');
-          lbl.setAttribute('font-weight','700'); lbl.setAttribute('pointer-events','none');
-          lbl.textContent=b.titre.length>18?b.titre.slice(0,16)+'…':b.titre;
-          svg.appendChild(lbl);
-        }
+// ── BUBBLES ────────────────────────────
+function secBubbles(books){
+  const w=sec();
+  w.appendChild(slabel('Pages par livre','#1a2f5e'));
+  const card=mk('div','card fade');
+  card.style.cssText='padding:20px;margin-bottom:0';
+  const wrap=mk('div','bubble-wrap');
+  const svgEl=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svgEl.classList.add('bubble-svg');svgEl.setAttribute('height','260');
+  wrap.appendChild(svgEl);card.appendChild(wrap);
+  const tip=document.getElementById('tooltip');
+  setTimeout(()=>{
+    const W=wrap.clientWidth-8,H=240;
+    svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);svgEl.setAttribute('width',W);
+    const allP=books.filter(b=>b.pagesTotales>0).map(b=>b.pagesTotales),maxP=Math.max(...allP,1);
+    const rad=p=>3+Math.pow(Math.max(0,(p-40))/(maxP-40),0.6)*39;
+    const slotW=W/READERS.length;
+    READERS.forEach((r,ri)=>{
+      const rb=books.filter(b=>b.lectrice===r&&b.pagesTotales>0),col=COLORS[r],cx0=slotW*ri+slotW/2;
+      const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+      lbl.setAttribute('x',cx0);lbl.setAttribute('y',H-2);lbl.setAttribute('text-anchor','middle');
+      lbl.setAttribute('font-size','12');lbl.setAttribute('fill','#3a4f7a');lbl.setAttribute('font-family','Space Grotesk,sans-serif');lbl.setAttribute('font-weight','700');lbl.textContent=`${EMOJI[r]} ${r}`;svgEl.appendChild(lbl);
+      const placed=[];
+      [...rb].sort((a,b)=>b.pagesTotales-a.pagesTotales).forEach(b=>{
+        const rr=rad(b.pagesTotales);
+        let cx=cx0+(Math.random()-0.5)*(slotW*0.4),cy=(H-24)/2+(Math.random()-0.5)*((H-24)*0.5);
+        const cx_=()=>{cx=Math.max(slotW*ri+rr+4,Math.min(slotW*(ri+1)-rr-4,cx));};
+        const cy_=()=>{cy=Math.max(rr+4,Math.min(H-24-rr,cy));};
+        cx_();cy_();
+        for(let i=0;i<60;i++){placed.forEach(p=>{const dx=cx-p.cx,dy=cy-p.cy,d=Math.sqrt(dx*dx+dy*dy),mn=rr+p.r+4;if(d<mn&&d>0.01){const push=(mn-d)*0.55;cx+=dx/d*push;cy+=dy/d*push;}});cx_();cy_();}
+        placed.push({cx,cy,r:rr});
+        const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+        c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',rr);c.setAttribute('fill',col);c.setAttribute('fill-opacity','0.72');c.setAttribute('stroke',col);c.setAttribute('stroke-width','1.5');c.style.cursor='pointer';
+        c.addEventListener('mouseenter',()=>{tip.style.opacity=1;tip.innerHTML=`<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note&&b.note>0?' · '+b.note+'★':''}`;});
+        c.addEventListener('mousemove',e=>{tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-40)+'px';});
+        c.addEventListener('mouseleave',()=>{tip.style.opacity=0;});
+        svgEl.appendChild(c);
+        if(rr>=22){const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',cx);t.setAttribute('y',cy+4);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','8');t.setAttribute('fill','#fff');t.setAttribute('font-family','Space Grotesk,sans-serif');t.setAttribute('font-weight','700');t.setAttribute('pointer-events','none');t.textContent=b.titre.length>18?b.titre.slice(0,16)+'…':b.titre;svgEl.appendChild(t);}
       });
     });
-  }, 50);
-
-  card.innerHTML += '';
-  // size legend
-  const legend = el('div','size-legend');
-  legend.innerHTML = `<span>Taille = nombre de pages :</span>
-    <div class="size-legend-item"><div class="size-circle" style="width:10px;height:10px"></div>100p</div>
-    <div class="size-legend-item"><div class="size-circle" style="width:22px;height:22px"></div>400p</div>
-    <div class="size-legend-item"><div class="size-circle" style="width:36px;height:36px"></div>700p</div>`;
-  card.appendChild(wrap);
-  card.appendChild(legend);
-  return card;
+  },60);
+  const leg=mk('div','sz-legend');
+  leg.innerHTML=`<span>Taille = pages :</span><div class="sz-item"><div class="sz-circle" style="width:9px;height:9px"></div>100p</div><div class="sz-item"><div class="sz-circle" style="width:20px;height:20px"></div>400p</div><div class="sz-item"><div class="sz-circle" style="width:34px;height:34px"></div>700p</div>`;
+  card.appendChild(leg);w.appendChild(card);return w;
 }
 
-// ── SETUP GUIDE ──
-function setupGuide() {
-  return `
-  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;margin-top:16px;font-family:'Nunito',sans-serif;line-height:1.8">
-    <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px;color:var(--text)">
-      📋 Guide d'installation (5 minutes)
-    </div>
-    <ol style="padding-left:20px;display:flex;flex-direction:column;gap:16px;color:var(--text-mid);font-size:14px">
-      <li><strong>Ouvrez votre Google Sheet</strong> → menu <em>Extensions</em> → <em>Apps Script</em></li>
-      <li><strong>Supprimez</strong> le contenu existant et <strong>collez</strong> le contenu du fichier <code>Code.gs</code> fourni avec ce dashboard</li>
-      <li>Si votre onglet 2026 s'appelle autrement, modifiez <code>getSheetByName("2026")</code> en conséquence</li>
-      <li>Cliquez <strong>Déployer</strong> → <strong>Nouveau déploiement</strong> → type : <em>Application Web</em><br>
-          → Exécuter en tant que : <em>Moi</em><br>
-          → Accès : <em>Tout le monde</em><br>
-          → cliquez <strong>Déployer</strong></li>
-      <li>Copiez l'<strong>URL du déploiement</strong> (commence par <code>https://script.google.com/macros/s/…</code>)</li>
-      <li>Dans ce fichier HTML, remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> par cette URL</li>
-      <li>Rouvrez le fichier — les données se chargeront automatiquement ✅</li>
-    </ol>
-  </div>`;
+// ── ALL BOOKS ──────────────────────────
+function secAllBooks(books){
+  const w=sec();
+  w.appendChild(slabel('Toutes les lectures 2026','#1a2f5e'));
+  const card=mk('div','card fade');
+  card.style.padding='20px';
+  const fin=books.filter(b=>b.fini);
+  let activeF='Toutes';
+
+  const header=mk('div','ab-header');
+  const tabs=mk('div','filter-tabs');
+  ['Toutes',...READERS].forEach(r=>{
+    const tab=mk('div',`ftab${r==='Toutes'?' active':''}`);
+    if(r!=='Toutes')tab.innerHTML=`<span style="width:8px;height:8px;border-radius:50%;background:${COLORS[r]};display:inline-block"></span>${r}`;
+    else tab.textContent='Toutes';
+    tab.addEventListener('click',()=>{
+      tabs.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');activeF=r;renderBList();
+    });
+    tabs.appendChild(tab);
+  });
+  header.appendChild(tabs);card.appendChild(header);
+
+  const listEl=mk('div','blist');
+  card.appendChild(listEl);
+  const countEl=mk('div','blist-count');
+  card.appendChild(countEl);
+
+  function renderBList(){
+    listEl.innerHTML='';
+    const filtered=activeF==='Toutes'?fin:fin.filter(b=>b.lectrice===activeF);
+    filtered.forEach(b=>{
+      const col=COLORS[b.lectrice]||'#999';
+      const row=mk('div','brow');
+      row.innerHTML=`<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title">${b.titre}</div><div class="brow-meta">${b.auteur}${b.pagesTotales?' · '+b.pagesTotales+'p':''}<span class="gtext">${b.genre?' · # '+b.genre:''}</span></div>${b.avis?`<div class="brow-review">« ${b.avis} »</div>`:''}</div><div class="brow-right">${b.note&&b.note>0?`<span class="bstar">★ ${b.note}</span>`:''}${b.mois?`<span class="mbadge">${b.mois.slice(0,3)}</span>`:''}</div></div>`;
+      listEl.appendChild(row);
+    });
+    countEl.textContent=`${filtered.length} lecture${filtered.length>1?'s':''}`;
+  }
+  renderBList();
+  w.appendChild(card);return w;
 }
 
-// ── Helper ──
-function el(tag, cls='', text='') {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text) e.textContent = text;
-  return e;
-}
+// ── HELPERS ────────────────────────────
+function mk(tag,cls=''){const e=document.createElement(tag);if(cls)e.className=cls;return e;}
+function sec(){const d=mk('div','sec');return d;}
+function slabel(text,dotColor){const d=mk('div','section-label');d.innerHTML=`<span class="sdot" style="background:${dotColor}"></span>${text.toUpperCase()}`;return d;}
+function starsHtml(n){let s='';const f=Math.floor(n),h=n%1>=0.5;for(let i=0;i<f;i++)s+='<span>★</span>';if(h)s+='<span style="font-size:10px">½</span>';return s;}
 
-// ── Init ──
+function setupGuide(){return `<div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;font-family:'Nunito',sans-serif;line-height:1.8"><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px">📋 Guide d'installation</div><ol style="padding-left:20px;display:flex;flex-direction:column;gap:14px;color:var(--text-mid);font-size:14px"><li>Google Sheets → <em>Extensions</em> → <em>Apps Script</em></li><li>Collez le contenu du fichier <code>Code.gs</code> fourni</li><li>Vérifiez <code>getSheetByName("2026")</code> et <code>getSheetByName("Listes")</code></li><li><strong>Déployer</strong> → Nouveau déploiement → Application Web → Accès : <em>Tout le monde</em></li><li>Copiez l'URL et remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> dans ce fichier</li></ol></div>`;}
+
 loadData();
 </script>
 </body>
-</html>`;
+</html>
