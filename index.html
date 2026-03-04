@@ -88,8 +88,8 @@
       main.appendChild(secDernieres(books));
       main.appendChild(secReaders(fin, goals));
       main.appendChild(secGenres(fin));
-      main.appendChild(secAnalyses(fin));
-      main.appendChild(secFormats(fin));
+      main.appendChild(secAnalyses(books));
+      main.appendChild(secFormats(books));
       main.appendChild(secTopShared(fin));
       main.appendChild(secKeywords(fin));
       main.appendChild(secBubbles(fin));
@@ -247,11 +247,12 @@
     function donutCard(title, counts, total, dotColor, colorMap) {
       const card = mk('div', 'acard');
       card.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:${dotColor};display:inline-block"></span>${title.toUpperCase()}</div>`;
+      const localTotal = Object.values(counts).reduce((s, v) => s + v, 0) || 1;
       const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 7);
       const r = 38, cx = 50, cy = 50, circ = 2 * Math.PI * r;
       let off = 0;
       const segs = sorted.map(([k, n]) => {
-        const pct = n / total, arc = circ * pct;
+        const pct = n / localTotal, arc = circ * pct;
         const s = { k, n, pct, arc, off, color: (colorMap && colorMap[k]) || gc(k) }; off += arc; return s;
       });
       const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -266,10 +267,15 @@
         svgEl.appendChild(c);
       });
       const leg = mk('div', 'donut-legend');
+      const sumUsed = sorted.reduce((s, v) => s + v[1], 0);
       segs.forEach(s => {
-        const pct = Math.round(s.n / total * 100);
+        const pct = Math.round(s.n / localTotal * 100);
         leg.innerHTML += `<div class="dl-item"><div class="dl-dot" style="background:${s.color}"></div>${s.k}<span class="dl-pct">${pct}%</span></div>`;
       });
+      if (sumUsed < localTotal) {
+        const otherPct = Math.round((localTotal - sumUsed) / localTotal * 100);
+        leg.innerHTML += `<div class="dl-item"><div class="dl-dot" style="background:#cbd5e1"></div>Autres<span class="dl-pct">${otherPct}%</span></div>`;
+      }
       const wrap = mk('div', 'donut-wrap');
       wrap.appendChild(svgEl); wrap.appendChild(leg); card.appendChild(wrap); return card;
     }
