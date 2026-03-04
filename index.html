@@ -176,22 +176,20 @@
         const card = mk('div', 'derniere-card');
         card.style.borderTop = `3px solid ${col}`;
         if (!b) {
-          card.innerHTML = `<div class="dc-header"><span class="rtag" style="background:${col}">${EMOJI[r] || ''} ${r}</span></div><div class="dc-empty">Rien encore… 📚</div>`;
+          card.innerHTML = `<span class="rtag" style="background:${col};position:absolute;top:10px;right:10px">${EMOJI[r] || ''} ${r}</span><div class="dc-empty">Rien encore… 📚</div>`;
         } else {
           const tags = b.motsCles ? b.motsCles.split(',').slice(0, 3).map(t => `<span class="btag">${t.trim()}</span>`).join('') : '';
           card.innerHTML = `
-            <div class="dc-header">
-              <span class="rtag" style="background:${col}">${EMOJI[r] || ''} ${r}</span>
-              ${b.note > 0 ? `<span class="dc-stars" style="color:#f59e0b">★ ${b.note}/5</span>` : ''}
-            </div>
+            <span class="rtag" style="background:${col};position:absolute;top:10px;right:10px">${EMOJI[r] || ''} ${r}</span>
             <div class="dc-cover-row">
               <div class="bcover sm js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div>
               <div class="dc-info">
                 <div class="dc-title">${b.titre}</div>
-                <div class="bauthor">👤 ${b.auteur}</div>
+                <div class="bauthor"><i data-lucide="user"></i> ${b.auteur}</div>
                 <div class="dc-meta">
-                  ${b.pagesTotales ? `<span>📄 ${b.pagesTotales}p</span>` : ''}
-                  ${b.genre ? `<span style="color:${gc(b.genre)}"># ${b.genre}</span>` : ''}
+                  ${b.note > 0 ? `<span class="dc-stars"><span class="rating-star">★</span> ${b.note}/5</span>` : ''}
+                  ${b.pagesTotales ? `<span>${b.pagesTotales}p</span>` : ''}
+                  ${b.genre ? `<span style="color:${gc(b.genre)}">${b.genre}</span>` : ''}
                 </div>
               </div>
             </div>
@@ -223,7 +221,7 @@
         const link = goals?.[r + '_link'] || '#';
         const card = mk('div', 'reader-card');
         card.style.borderTop = `4px solid ${col}`;
-        card.innerHTML = `<div class="rc-header"><div class="rc-name" style="color:${col}">${EMOJI[r]} ${r}</div><a href="${link}" target="_blank" class="rc-link" title="Goodreads">↗</a></div><div class="rc-rows"><div class="rc-row"><span>Livres</span><strong>${rb.length}</strong></div><div class="rc-row"><span>Pages</span><strong>${pages.toLocaleString('fr-FR')}</strong></div><div class="rc-row"><span>Note moy.</span><strong style="color:${col}">${avgN}${avgN !== '—' ? ' ★' : ''}</strong></div><div class="rc-row"><span>Pages / livre</span><strong>${avgP}</strong></div></div><div class="rc-progress"><div><div class="prow-label"><span>Part du groupe</span><span>${pctG}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctG}%;background:${col}"></div></div></div><div><div class="prow-label"><span>🎯 Challenge 2026 · ${rb.length}/${goal}</span><span>${pctC}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctC}%;background:${col}88"></div></div></div></div>`;
+        card.innerHTML = `<div class="rc-header"><div class="rc-name" style="color:${col}">${EMOJI[r]} ${r}</div><a href="${link}" target="_blank" class="rc-link" title="Goodreads">↗</a></div><div class="rc-rows"><div class="rc-row"><span>Livres</span><strong>${rb.length}</strong></div><div class="rc-row"><span>Pages</span><strong>${pages.toLocaleString('fr-FR')}</strong></div><div class="rc-row"><span>Note moy.</span><strong>${avgN}${avgN !== '—' ? ' <span class="rating-star">★</span>' : ''}</strong></div><div class="rc-row"><span>Pages / livre</span><strong>${avgP}</strong></div></div><div class="rc-progress"><div><div class="prow-label"><span>Part du groupe</span><span>${pctG}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctG}%;background:${col}"></div></div></div><div><div class="prow-label"><span>🎯 Challenge 2026 · ${rb.length}/${goal}</span><span>${pctC}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctC}%;background:${col}88"></div></div></div></div>`;
         g.appendChild(card);
       });
       w.appendChild(g); return w;
@@ -363,7 +361,7 @@
           const byR = {}; g.entries.forEach(e => { if (!byR[e.lectrice]) byR[e.lectrice] = e; });
           const chips = READERS.filter(r => byR[r]).map(r => {
             const e = byR[r], col = COLORS[r];
-            const rate = e.note && e.note > 0 ? `<span class="crate" style="color:${col}">★ ${e.note}</span>` : `<span class="cnone">—</span>`;
+            const rate = e.note && e.note > 0 ? `<span class="crate"><span class="rating-star">★</span> ${e.note}</span>` : `<span class="cnone">—</span>`;
             return `<div class="sh-chip" style="border-color:${col}30"><span class="cname" style="background:${col}">${EMOJI[r]} ${r}</span>${rate}</div>`;
           }).join('');
           const row = mk('div', 'sh-row');
@@ -473,7 +471,7 @@
         filtered.forEach(b => {
           const col = COLORS[b.lectrice] || '#999';
           const row = mk('div', 'brow');
-          row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title">${b.titre}</div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ' · # ' + b.genre : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar">★ ${b.note}</span>` : ''}${b.mois ? `<span class="mbadge">${b.mois.slice(0, 3)}</span>` : ''}</div></div>`;
+          row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title">${b.titre}</div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ' · # ' + b.genre : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar"><span class="rating-star">★</span> ${b.note}</span>` : ''}${b.mois ? `<span class="mbadge">${b.mois.slice(0, 3)}</span>` : ''}</div></div>`;
           listEl.appendChild(row);
         });
         countEl.textContent = `${filtered.length} lecture${filtered.length > 1 ? 's' : ''}`;
@@ -487,7 +485,7 @@
     function mk(tag, cls = '') { const e = document.createElement(tag); if (cls) e.className = cls; return e; }
     function sec() { const d = mk('div', 'sec'); return d; }
     function slabel(text, dotColor) { const d = mk('div', 'section-label'); d.innerHTML = `<span class="sdot" style="background:${dotColor}"></span>${text.toUpperCase()}`; return d; }
-    function starsHtml(n) { let s = ''; const f = Math.floor(n), h = n % 1 >= 0.5; for (let i = 0; i < f; i++)s += '<span>★</span>'; if (h) s += '<span style="font-size:10px">½</span>'; return s; }
+    function starsHtml(n) { let s = ''; const f = Math.floor(n), h = n % 1 >= 0.5; for (let i = 0; i < f; i++)s += '<span class="rating-star">★</span>'; if (h) s += '<span class="rating-star" style="font-size:10px">½</span>'; return s; }
 
     // ── GOOGLE BOOKS COVERS ────────────────
     const _coverCache = new Map();
