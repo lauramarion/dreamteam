@@ -221,7 +221,31 @@
         const link = goals?.[r + '_link'] || '#';
         const card = mk('div', 'reader-card');
         card.style.borderTop = `4px solid ${col}`;
-        card.innerHTML = `<div class="rc-header"><div class="rc-name" style="color:${col}">${EMOJI[r]} ${r}</div><a href="${link}" target="_blank" class="rc-link" title="Goodreads">↗</a></div><div class="rc-rows"><div class="rc-row"><span>Livres</span><strong>${rb.length}</strong></div><div class="rc-row"><span>Pages</span><strong>${pages.toLocaleString('fr-FR')}</strong></div><div class="rc-row"><span>Note moy.</span><strong>${avgN}${avgN !== '—' ? ' <span class="rating-star">★</span>' : ''}</strong></div><div class="rc-row"><span>Pages / livre</span><strong>${avgP}</strong></div></div><div class="rc-progress"><div><div class="prow-label"><span>Part du groupe</span><span>${pctG}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctG}%;background:${col}"></div></div></div><div><div class="prow-label"><span>🎯 Challenge 2026 · ${rb.length}/${goal}</span><span>${pctC}%</span></div><div class="pbar"><div class="pbar-f" style="width:${pctC}%;background:${col}88"></div></div></div></div>`;
+        card.innerHTML = `
+          <div class="rc-header">
+            <div class="rc-name">${EMOJI[r]} ${r}</div>
+            <a href="${link}" target="_blank" class="rc-link" title="Goodreads">↗</a>
+          </div>
+          <div class="rc-rows">
+            <div class="rc-row"><span>Livres</span><strong>${rb.length}</strong></div>
+            <div class="rc-row"><span>Pages</span><strong>${pages.toLocaleString('fr-FR')}</strong></div>
+            <div class="rc-row">
+              <span>Note moy.</span>
+              <strong>${avgN !== '—' ? '<span class="rating-star">★</span> ' : ''}${avgN}</strong>
+            </div>
+            <div class="rc-row"><span>Pages / livre</span><strong>${avgP}</strong></div>
+          </div>
+          <div class="rc-progress">
+            <div>
+              <div class="prow-label"><span>Part du groupe</span><span>${pctG}%</span></div>
+              <div class="pbar"><div class="pbar-f" style="width:${pctG}%;background:${col}"></div></div>
+            </div>
+            <div>
+              <div class="prow-label"><span>Objectif · ${rb.length}/${goal}</span><span>${pctC}%</span></div>
+              <div class="pbar"><div class="pbar-f" style="width:${pctC}%;background:${col}88"></div></div>
+            </div>
+          </div>
+        `;
         g.appendChild(card);
       });
       w.appendChild(g); return w;

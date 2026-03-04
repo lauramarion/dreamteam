@@ -546,11 +546,12 @@ main {
 
 .rc-name {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 7px;
+  color: #0f1e3d;
 }
 
 .rc-link {
@@ -576,8 +577,7 @@ main {
   font-size: 12px;
   color: var(--text-light);
   font-weight: 600;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 4px 0;
 }
 
 .rc-row:last-child {
@@ -603,10 +603,9 @@ main {
 .prow-label {
   display: flex;
   justify-content: space-between;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   color: var(--text-light);
   font-weight: 600;
   margin-bottom: 4px;
