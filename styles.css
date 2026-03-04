@@ -225,6 +225,17 @@ main {
   border-color: transparent;
 }
 
+.sti-wrap {
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.sti-wrap i {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.2px;
+}
+
 .stl {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
@@ -241,11 +252,12 @@ main {
 
 .stv {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -1.5px;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
   color: var(--text);
+  margin-bottom: 2px;
 }
 
 .stat-tile.dark .stv {
@@ -257,35 +269,35 @@ main {
   font-weight: 500;
   opacity: 0.45;
   letter-spacing: 0;
+  margin-left: 2px;
 }
 
 .sts {
   font-size: 11px;
   color: var(--text-light);
-  margin-top: 4px;
+  margin-top: 0px;
   font-weight: 600;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 14px;
 }
 
 .stat-tile.dark .sts {
   color: rgba(255, 255, 255, 0.4);
 }
 
-.sbar {
-  height: 3px;
+.st-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 36px;
+  height: 5px;
   border-radius: 99px;
-  overflow: hidden;
-  margin-top: 10px;
-  background: rgba(255, 255, 255, 0.15);
+  opacity: 0.8;
 }
 
-.sbar-f {
-  height: 100%;
-  border-radius: 99px;
-  background: var(--teal-light);
-}
-
-.stat-tile:not(.dark) .sbar {
-  background: var(--border);
+.stat-tile.dark .st-accent {
+  opacity: 1;
 }
 
 

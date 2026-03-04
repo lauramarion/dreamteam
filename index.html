@@ -10,6 +10,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -116,7 +117,10 @@
       main.appendChild(secBubbles(fin));
       main.appendChild(secAllBooks(books));
       app.appendChild(main);
-      setTimeout(loadCovers, 0);
+      setTimeout(() => {
+        loadCovers();
+        if (window.lucide) lucide.createIcons();
+      }, 0);
       const tp = fin.reduce((s, b) => s + b.pagesTotales, 0);
       document.getElementById('footerStats').textContent = `${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages · 6 lectrices`;
     }
@@ -133,14 +137,24 @@
       const wd = books.filter(b => b.jours > 0 && b.jours < 365);
       const avgJ = wd.length ? (wd.reduce((s, b) => s + b.jours, 0) / wd.length).toFixed(1) : '—';
       [
-        { i: '📚', l: 'Livres lus', v: total, u: '', s: 'depuis janvier 2026', dark: true, b: Math.min(100, total) },
-        { i: '📄', l: 'Pages lues', v: `${Math.round(pages / 1000)}k`, u: '', s: `${pages.toLocaleString('fr-FR')} pages`, dark: false, b: 0 },
-        { i: '⭐', l: 'Note moyenne', v: avgN, u: '/5', s: 'collectif', dark: false, b: rated.length ? (parseFloat(avgN) / 5 * 100) : 0 },
-        { i: '📖', l: 'Pages / livre', v: avgP, u: '', s: 'moy. par livre', dark: false, b: Math.min(100, avgP / 5) },
-        { i: '🕐', l: 'Jours / livre', v: avgJ, u: '', s: 'lecture rapide 🔥', dark: false, b: Math.min(100, (parseFloat(avgJ) || 0) / 20 * 100) },
+        { i: 'book', l: 'Livres lus', v: total, u: '', s: 'depuis janvier 2026', dark: true, c: '#fff' },
+        { i: 'file-text', l: 'Pages lues', v: pages.toLocaleString('fr-FR'), u: '', s: 'pages', dark: false, c: 'var(--teal)' },
+        { i: 'star', l: 'Note moyenne', v: avgN, s: '/5', dark: false, c: 'var(--gold)' },
+        { i: 'book-open', l: 'Pages / livre', v: avgP, u: '', s: 'moyenne par livre', dark: false, c: 'var(--mint)' },
+        { i: 'timer', l: 'Jours / livre', v: avgJ, u: '', s: 'moyenne par livre', dark: false, c: 'var(--coral)' },
       ].forEach(t => {
         const tile = mk('div', `stat-tile${t.dark ? ' dark' : ''}`);
-        tile.innerHTML = `<div style="font-size:18px;margin-bottom:5px">${t.i}</div><div class="stl">${t.l}</div><div class="stv">${t.v}<span class="u">${t.u}</span></div><div class="sts">${t.s}</div>${t.b ? `<div class="sbar"><div class="sbar-f" style="width:${t.b}%"></div></div>` : ''}`;
+        tile.innerHTML = `
+          <div class="sti-wrap"><i data-lucide="${t.i}" style="stroke:${t.c}"></i></div>
+          <div class="stl">${t.l}</div>
+          <div class="stv">
+            ${t.v}${t.u ? `<span class="u">${t.u}</span>` : ''}
+          </div>
+          <div class="sts">
+            ${t.s}
+            <div class="st-accent" style="background:${t.c}"></div>
+          </div>
+        `;
         g.appendChild(tile);
       });
       w.appendChild(g); return w;
