@@ -76,6 +76,10 @@
     }
 
     function render(books, goals, gen) {
+      // Normalize: pagesLues >= pagesTotales > 0 means the book is finished
+      books.forEach(b => {
+        if (!b.fini && b.pagesTotales > 0 && b.pagesLues >= b.pagesTotales) b.fini = true;
+      });
       const fin = books.filter(b => b.fini);
       const app = document.getElementById('app');
       app.innerHTML = '';
