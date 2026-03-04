@@ -45,6 +45,18 @@
   margin-right: 2px;
 }
 
+.book-title-link {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s;
+}
+
+.book-title-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -656,11 +668,12 @@ main {
 
 .gm-name {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 5px;
+  color: #0f1e3d;
 }
 
 .gm-cnt {
@@ -724,6 +737,8 @@ main {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 1px 6px var(--shadow);
+  display: flex;
+  flex-direction: column;
 }
 
 .acard-title {
@@ -742,23 +757,34 @@ main {
 .donut-wrap {
   display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 .donut-legend {
-  flex: 1;
+  flex: 0 0 120px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
+  min-width: 0;
+  margin-left: auto;
 }
 
 .dl-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
+  gap: 4px;
+  font-size: 9.5px;
   font-weight: 700;
   color: var(--text-mid);
+  min-width: 0;
+}
+
+.dl-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dl-dot {
@@ -771,17 +797,19 @@ main {
 .dl-pct {
   margin-left: auto;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--text);
+  flex-shrink: 0;
 }
 
 .monthly-bars {
   display: flex;
   align-items: flex-end;
   gap: 4px;
-  height: 110px;
   margin-top: 8px;
+  flex-grow: 1;
+  min-height: 120px;
 }
 
 .mbc {
@@ -789,7 +817,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 2px;
 }
 
 .mb-bar {
@@ -1050,6 +1080,9 @@ main {
   flex-wrap: wrap;
   gap: 7px;
   margin-top: 4px;
+  max-height: 175px;
+  /* Roughly 5 lines of tags */
+  overflow: hidden;
 }
 
 .ktag {
@@ -1256,7 +1289,7 @@ main {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #f59e0b;
+  color: var(--text);
 }
 
 .blist-count {

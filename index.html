@@ -184,7 +184,7 @@
             <div class="dc-cover-row">
               <div class="bcover sm js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div>
               <div class="dc-info">
-                <div class="dc-title">${b.titre}</div>
+                <div class="dc-title"><a href="${getGoodreadsLink(b.titre, b.auteur)}" target="_blank" class="book-title-link">${b.titre}</a></div>
                 <div class="bauthor"><i data-lucide="user"></i> ${b.auteur}</div>
                 <div class="dc-meta">
                   ${b.note > 0 ? `<span class="dc-stars"><span class="rating-star">★</span> ${b.note}/5</span>` : ''}
@@ -263,7 +263,13 @@
         const max = sorted[0]?.[1] || 1, col = COLORS[r];
         const col_el = mk('div', 'gm-col');
         const rows = sorted.map(([g, n]) => `<div class="gr-row"><span class="gr-name">${g}</span><div class="gr-bar"><div class="gr-fill" style="width:${Math.round(n / max * 100)}%;background:${gc(g)}"></div></div><span class="gr-n">${n}</span></div>`).join('');
-        col_el.innerHTML = `<div class="gm-head" style="border-color:${col}40;color:${col}"><div class="gm-name">${EMOJI[r]} ${r}</div><span class="gm-cnt">${rb.length} livres</span></div>${rows}`;
+        col_el.innerHTML = `
+          <div class="gm-head" style="border-color:${col}40">
+            <div class="gm-name">${EMOJI[r]} ${r}</div>
+            <span class="gm-cnt">${rb.length} livres</span>
+          </div>
+          ${rows}
+        `;
         g.appendChild(col_el);
       });
       w.appendChild(g); return w;
@@ -275,18 +281,20 @@
       w.appendChild(slabel('Analyses', '#0891b2'));
       const g = mk('div', 'analyses-grid fade');
 
+      const fin = books.filter(b => b.fini);
+
       // genre donut
-      const gc2 = {}; books.forEach(b => { if (b.genre) gc2[b.genre] = (gc2[b.genre] || 0) + 1; });
-      g.appendChild(donutCard('Genres littéraires', gc2, books.length, '#0891b2'));
+      const gc2 = {}; fin.forEach(b => { if (b.genre) gc2[b.genre] = (gc2[b.genre] || 0) + 1; });
+      g.appendChild(donutCard('Genres littéraires', gc2, fin.length, '#0891b2'));
 
       // auteur donut
-      const ga = {}; books.forEach(b => { if (b.genreAuteur) ga[b.genreAuteur] = (ga[b.genreAuteur] || 0) + 1; });
+      const ga = {}; fin.forEach(b => { if (b.genreAuteur) ga[b.genreAuteur] = (ga[b.genreAuteur] || 0) + 1; });
       const gaC = { 'Femme': '#0891b2', 'Homme': '#1a2f5e', 'Mixte': '#e85d3a', 'Non-binaire': '#d4820a', 'Femmes': '#0891b2', 'Hommes': '#1a2f5e' };
-      g.appendChild(donutCard('Genre des auteur·ices', ga, books.length, '#059669', gaC));
+      g.appendChild(donutCard('Genre des auteur·ices', ga, fin.length, '#059669', gaC));
 
       // monthly bar
       const byM = {}; MONTHS.forEach(m => byM[m] = 0);
-      books.forEach(b => { if (b.mois && byM[b.mois] !== undefined) byM[b.mois]++; });
+      fin.forEach(b => { if (b.mois && byM[b.mois] !== undefined) byM[b.mois]++; });
       const vals = MONTHS.map(m => byM[m]), maxM = Math.max(...vals, 1);
       const bc = mk('div', 'acard');
       bc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>Livres par mois</div>`;
@@ -322,12 +330,12 @@
       }
 
       const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svgEl.setAttribute('width', '86'); svgEl.setAttribute('height', '86'); svgEl.setAttribute('viewBox', '0 0 100 100');
+      svgEl.setAttribute('width', '145'); svgEl.setAttribute('height', '145'); svgEl.setAttribute('viewBox', '0 0 100 100');
       svgEl.style.transform = 'rotate(-90deg)'; svgEl.style.flexShrink = '0';
       segs.forEach(s => {
         const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
-        c.setAttribute('fill', 'none'); c.setAttribute('stroke', s.color); c.setAttribute('stroke-width', '17');
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', s.color); c.setAttribute('stroke-width', '24');
         c.setAttribute('stroke-dasharray', `${s.arc} ${circ - s.arc}`);
         c.setAttribute('stroke-dashoffset', `-${s.off}`);
         svgEl.appendChild(c);
@@ -336,7 +344,12 @@
       const leg = mk('div', 'donut-legend');
       segs.forEach(s => {
         const pct = Math.round(s.pct * 100);
-        leg.innerHTML += `<div class="dl-item"><div class="dl-dot" style="background:${s.color}"></div>${s.k}<span class="dl-pct">${pct}%</span></div>`;
+        leg.innerHTML += `
+          <div class="dl-item">
+            <div class="dl-dot" style="background:${s.color}"></div>
+            <span class="dl-name" title="${s.k}">${s.k}</span>
+            <span class="dl-pct">${pct}%</span>
+          </div>`;
       });
       const wrap = mk('div', 'donut-wrap');
       wrap.appendChild(svgEl); wrap.appendChild(leg); card.appendChild(wrap); return card;
@@ -346,7 +359,8 @@
     function secFormats(books) {
       const w = sec();
       w.appendChild(slabel('Formats', '#6b7fa8'));
-      const counts = {}; books.forEach(b => { if (b.format) counts[b.format] = (counts[b.format] || 0) + 1; });
+      const fin = books.filter(b => b.fini);
+      const counts = {}; fin.forEach(b => { if (b.format) counts[b.format] = (counts[b.format] || 0) + 1; });
       const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]), max = sorted[0]?.[1] || 1;
       const card = mk('div', 'fcard fade');
       sorted.forEach(([f, n]) => {
@@ -367,7 +381,19 @@
       tp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
       [...books].filter(b => b.note && b.note > 0).sort((a, b) => b.note - a.note).slice(0, 5).forEach((b, i) => {
         const row = mk('div', 'top-row');
-        row.innerHTML = `<span class="top-rank">#${i + 1}</span><div class="tcover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="top-content"><div class="top-title">${b.titre}</div><div class="top-author">${b.auteur}</div><div style="display:flex;align-items:center;gap:7px;margin-top:3px"><span class="rtag" style="background:${COLORS[b.lectrice] || '#999'};font-size:10px;padding:2px 7px">${b.lectrice}</span><div class="stars">${starsHtml(b.note)}</div></div></div>`;
+        const col = COLORS[b.lectrice] || '#999';
+        row.innerHTML = `
+          <span class="top-rank">#${i + 1}</span>
+          <div class="tcover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div>
+          <div class="top-content">
+            <div class="top-title"><a href="${getGoodreadsLink(b.titre, b.auteur)}" target="_blank" class="book-title-link">${b.titre}</a></div>
+            <div class="top-author">${b.auteur}</div>
+            <div class="dc-meta">
+              <span class="rtag" style="background:${col};font-size:10px;padding:2px 7px">${EMOJI[b.lectrice] || ''} ${b.lectrice}</span>
+              ${b.note > 0 ? `<span class="dc-stars"><span class="rating-star">★</span> ${b.note}/5</span>` : ''}
+            </div>
+          </div>
+        `;
         tp.appendChild(row);
       });
 
@@ -389,7 +415,7 @@
             return `<div class="sh-chip" style="border-color:${col}30"><span class="cname" style="background:${col}">${EMOJI[r]} ${r}</span>${rate}</div>`;
           }).join('');
           const row = mk('div', 'sh-row');
-          const _e = g.entries[0]; row.innerHTML = `<div class="sh-cover js-cover" data-title="${g.titre.replace(/"/g, '&quot;')}" data-author="${(_e?.auteur || '').replace(/"/g, '&quot;')}" data-emoji="${ge(g.genre)}">${ge(g.genre)}</div><div class="sh-content"><div class="sh-title">${g.titre}</div><div class="sh-chips">${chips}</div></div>`;
+          const _e = g.entries[0]; row.innerHTML = `<div class="sh-cover js-cover" data-title="${g.titre.replace(/"/g, '&quot;')}" data-author="${(_e?.auteur || '').replace(/"/g, '&quot;')}" data-emoji="${ge(g.genre)}">${ge(g.genre)}</div><div class="sh-content"><div class="sh-title"><a href="${getGoodreadsLink(g.titre, _e?.auteur)}" target="_blank" class="book-title-link">${g.titre}</a></div><div class="sh-chips">${chips}</div></div>`;
           sp.appendChild(row);
         });
 
@@ -448,7 +474,7 @@
             placed.push({ cx, cy, r: rr });
             const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', rr); c.setAttribute('fill', col); c.setAttribute('fill-opacity', '0.72'); c.setAttribute('stroke', col); c.setAttribute('stroke-width', '1.5'); c.style.cursor = 'pointer';
-            c.addEventListener('mouseenter', () => { tip.style.opacity = 1; tip.innerHTML = `<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note && b.note > 0 ? ' · ' + b.note + '★' : ''}`; });
+            c.addEventListener('mouseenter', () => { tip.style.opacity = 1; tip.innerHTML = `<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note && b.note > 0 ? ' · <span class="rating-star">★</span> ' + b.note : ''}`; });
             c.addEventListener('mousemove', e => { tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY - 40) + 'px'; });
             c.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
             svgEl.appendChild(c);
@@ -495,7 +521,7 @@
         filtered.forEach(b => {
           const col = COLORS[b.lectrice] || '#999';
           const row = mk('div', 'brow');
-          row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title">${b.titre}</div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ' · # ' + b.genre : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar"><span class="rating-star">★</span> ${b.note}</span>` : ''}${b.mois ? `<span class="mbadge">${b.mois.slice(0, 3)}</span>` : ''}</div></div>`;
+          row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title"><a href="${getGoodreadsLink(b.titre, b.auteur)}" target="_blank" class="book-title-link">${b.titre}</a></div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ' · # ' + b.genre : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar"><span class="rating-star">★</span> ${b.note}</span>` : ''}${b.mois ? `<span class="mbadge">${b.mois.slice(0, 3)}</span>` : ''}</div></div>`;
           listEl.appendChild(row);
         });
         countEl.textContent = `${filtered.length} lecture${filtered.length > 1 ? 's' : ''}`;
@@ -509,6 +535,10 @@
     function mk(tag, cls = '') { const e = document.createElement(tag); if (cls) e.className = cls; return e; }
     function sec() { const d = mk('div', 'sec'); return d; }
     function slabel(text, dotColor) { const d = mk('div', 'section-label'); d.innerHTML = `<span class="sdot" style="background:${dotColor}"></span>${text.toUpperCase()}`; return d; }
+    function getGoodreadsLink(titre, auteur) {
+      const q = encodeURIComponent(titre + (auteur ? ' ' + auteur : ''));
+      return `https://www.goodreads.com/search?q=${q}`;
+    }
     function starsHtml(n) { let s = ''; const f = Math.floor(n), h = n % 1 >= 0.5; for (let i = 0; i < f; i++)s += '<span class="rating-star">★</span>'; if (h) s += '<span class="rating-star" style="font-size:10px">½</span>'; return s; }
 
     // ── GOOGLE BOOKS COVERS ────────────────
