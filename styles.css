@@ -433,6 +433,7 @@ main {
 
 .bauthor .lucide {
   width: 12px !important;
+  /* for some reason the size is fixed unless marked important */
   height: 12x !important;
   flex-shrink: 0 !important;
   display: inline-block !important;

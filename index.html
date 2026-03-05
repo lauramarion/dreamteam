@@ -10,7 +10,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest"></script> <!-- LIEN VERS LUCIDE inline icons -->
 </head>
 
 <body>
@@ -70,6 +70,8 @@
     const BOOKS = [];
     const GOALS = {};
 
+    // LIEN VERS LE SCRIPT GOOGLE --------------------------
+    // Depuis le google sheet, Extensions > Apps Script > Déployer > Nouvelle version ou gérer les déploiements > Application web
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztvz-9q7dHG5ZoVv0DrULCQrLvKEbAHzbsEeCsW58HHVTEvtISDEdyaekRQXG_NoB6/exec';
 
     function loadData() {
@@ -200,7 +202,7 @@
       w.appendChild(g); return w;
     }
 
-    // ── READER CARDS ───────────────────────
+    // ── LES LECTRICES  ───────────────────────
     function secReaders(books, goals) {
       const w = sec();
       w.appendChild(slabel('Les Lectrices', '#0891b2'));
