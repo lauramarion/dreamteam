@@ -2137,6 +2137,8 @@ textarea {
 
   .header-meta {
     align-items: center;
+    width: 100%;
+    margin-bottom: 4px;
   }
 
   .header-left h1 {
@@ -2146,6 +2148,16 @@ textarea {
   .header-right {
     justify-content: center;
     flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .header-right .btn-refresh {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   main {
