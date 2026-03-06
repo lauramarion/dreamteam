@@ -1181,6 +1181,38 @@ main {
   color: var(--navy);
 }
 
+.mfilter-wrap {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 99px;
+  transition: all 0.2s;
+}
+
+.mfilter-wrap:hover {
+  border-color: var(--navy);
+}
+
+.m-select {
+  border: none;
+  background: transparent;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-mid);
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+
+
+
 .blist {
   display: flex;
   flex-direction: column;

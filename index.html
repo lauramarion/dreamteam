@@ -484,8 +484,11 @@
       card.style.padding = '20px';
       const fin = books.filter(b => b.fini);
       let activeF = 'Toutes';
+      let activeM = 'Tous';
 
       const header = mk('div', 'ab-header');
+
+      // Reader Tabs
       const tabs = mk('div', 'filter-tabs');
       ['Toutes', ...READERS].forEach(r => {
         const tab = mk('div', `ftab${r === 'Toutes' ? ' active' : ''}`);
@@ -497,7 +500,25 @@
         });
         tabs.appendChild(tab);
       });
-      header.appendChild(tabs); card.appendChild(header);
+      header.appendChild(tabs);
+
+      // Month Filter
+      const mWrap = mk('div', 'mfilter-wrap');
+      const mSelect = mk('select', 'm-select');
+      const optAll = mk('option'); optAll.value = 'Tous'; optAll.textContent = 'Tous les mois';
+      mSelect.appendChild(optAll);
+      MONTHS.forEach(m => {
+        const opt = mk('option'); opt.value = m; opt.textContent = m;
+        mSelect.appendChild(opt);
+      });
+      mSelect.addEventListener('change', (e) => {
+        activeM = e.target.value;
+        renderBList();
+      });
+      mWrap.appendChild(mSelect);
+      header.appendChild(mWrap);
+
+      card.appendChild(header);
 
       const listEl = mk('div', 'blist');
       card.appendChild(listEl);
@@ -506,7 +527,11 @@
 
       function renderBList() {
         listEl.innerHTML = '';
-        const filtered = activeF === 'Toutes' ? fin : fin.filter(b => b.lectrice === activeF);
+        const filtered = fin.filter(b => {
+          const matchF = activeF === 'Toutes' || b.lectrice === activeF;
+          const matchM = activeM === 'Tous' || b.mois === activeM;
+          return matchF && matchM;
+        });
         filtered.forEach(b => {
           const col = COLORS[b.lectrice] || '#999';
           const row = mk('div', 'brow');
@@ -519,6 +544,7 @@
       renderBList();
       w.appendChild(card); return w;
     }
+
 
     // ── HELPERS ────────────────────────────
     function mk(tag, cls = '') { const e = document.createElement(tag); if (cls) e.className = cls; return e; }
