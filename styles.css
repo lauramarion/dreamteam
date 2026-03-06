@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════
-   Dream Team Reads — Stylesheet
+   Dream Team Reads — Unified Stylesheet
+   Dashboard (index.html) + Input form (add.html)
    ═══════════════════════════════════════════════ */
 
 
@@ -372,7 +373,6 @@ main {
   margin-bottom: 3px;
   line-height: 1.3;
   padding-right: 75px;
-  /* Space for the absolute rtag */
 }
 
 .dc-meta {
@@ -441,7 +441,7 @@ main {
 
 .bauthor .lucide {
   width: 12px !important;
-  height: 12x !important;
+  height: 12px !important;
   flex-shrink: 0 !important;
   display: inline-block !important;
   stroke-width: 3px !important;
@@ -1087,7 +1087,6 @@ main {
   gap: 7px;
   margin-top: 4px;
   max-height: 175px;
-  /* Roughly 5 lines of tags */
   overflow: hidden;
 }
 
@@ -1218,21 +1217,15 @@ main {
   appearance: none;
 }
 
-
-
-
 .blist {
   display: flex;
   flex-direction: column;
   max-height: 480px;
-  /* ~7 rows */
   overflow-y: auto;
   padding-right: 10px;
   margin-right: -10px;
-  /* Offset the scrollbar padding */
 }
 
-/* Custom scrollbar for better look */
 .blist::-webkit-scrollbar {
   width: 5px;
 }
@@ -1478,6 +1471,552 @@ footer {
   max-width: 1140px;
   margin: 0 auto;
 }
+
+
+/* ═══════════════════════════════════════════════
+   ADD.HTML — Input form
+   Reuses tokens, .card, .two-col, .pbar, .ftab,
+   .mbadge, .ktag, .spinner, .fade from above.
+   ═══════════════════════════════════════════════ */
+
+/* ── Form page layout ── */
+.form-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+}
+
+/* ── Form header (reuses .site-header gradient) ── */
+.form-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 40%, #1a0f2e 100%);
+  border: 1px solid rgba(42, 68, 128, 0.2);
+  border-radius: 16px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.form-header::before {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42, 68, 128, 0.15) 0%, transparent 70%);
+  top: -50px;
+  right: -20px;
+  pointer-events: none;
+}
+
+.form-header-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--teal-light);
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.form-header h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.form-header h1 em {
+  font-style: italic;
+  color: var(--teal-light);
+}
+
+.form-header p {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 5px;
+}
+
+/* ── Form section label (lighter version of .section-label) ── */
+.form-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.form-label .sdot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Form group spacing ── */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* ── Field label ── */
+.field-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.field-label .req {
+  color: var(--coral);
+}
+
+/* ── Inputs ── */
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea {
+  width: 100%;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Mulish', sans-serif;
+  font-size: 15px;
+  padding: 11px 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--navy-mid);
+  box-shadow: 0 0 0 3px var(--navy-pale);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-light);
+}
+
+textarea {
+  resize: none;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+/* ── Reader picker ── */
+.reader-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.reader-btn {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.reader-btn:active {
+  transform: scale(0.96);
+}
+
+.reader-btn.active {
+  border-color: var(--reader-color);
+  background: color-mix(in srgb, var(--reader-color) 8%, var(--white));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--reader-color) 15%, transparent);
+}
+
+.reader-emoji {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.reader-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
+  transition: color 0.15s;
+}
+
+.reader-btn.active .reader-name {
+  color: var(--reader-color);
+}
+
+/* ── Genre/format chips (reuses .ftab logic, different sizing) ── */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip:active {
+  transform: scale(0.95);
+}
+
+.chip.active {
+  background: color-mix(in srgb, var(--chip-color, var(--coral)) 10%, var(--white));
+  border-color: var(--chip-color, var(--coral));
+  color: var(--chip-color, var(--coral));
+}
+
+/* ── Fini toggle ── */
+.fini-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.2s;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.fini-toggle.active {
+  border-color: rgba(5, 150, 105, 0.4);
+  background: rgba(5, 150, 105, 0.04);
+}
+
+.fini-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-pill {
+  width: 42px;
+  height: 24px;
+  border-radius: 99px;
+  background: var(--border);
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.toggle-pill::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.fini-toggle.active .toggle-pill {
+  background: var(--mint);
+}
+
+.fini-toggle.active .toggle-pill::after {
+  transform: translateX(18px);
+}
+
+.dates-area {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
+.dates-area.open {
+  max-height: 120px;
+}
+
+/* ── Star rating ── */
+.star-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 13px;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.star-btn {
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s;
+  opacity: 0.2;
+  filter: grayscale(1);
+  user-select: none;
+}
+
+.star-btn.on {
+  opacity: 1;
+  filter: none;
+}
+
+.star-btn:active {
+  transform: scale(0.85);
+}
+
+.half-toggle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-light);
+  cursor: pointer;
+  margin-left: 4px;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.half-toggle.active {
+  background: rgba(212, 130, 10, 0.1);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.star-display {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-left: auto;
+}
+
+/* ── Tags input ── */
+.tags-wrap {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  min-height: 46px;
+  cursor: text;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.tags-wrap:focus-within {
+  border-color: var(--navy-mid);
+  box-shadow: 0 0 0 3px var(--navy-pale);
+}
+
+/* tag chips reuse .btag but with a remove button */
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fde8e0;
+  border: 1px solid rgba(196, 81, 46, 0.25);
+  border-radius: 99px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #c4512e;
+  white-space: nowrap;
+}
+
+.tag-remove {
+  cursor: pointer;
+  opacity: 0.5;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.tag-remove:hover {
+  opacity: 1;
+}
+
+.tag-input {
+  border: none !important;
+  background: transparent !important;
+  padding: 3px 0 !important;
+  font-size: 13px !important;
+  min-width: 80px;
+  flex: 1;
+  outline: none;
+  color: var(--text);
+}
+
+.tag-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+/* tag suggestions reuse .btag */
+.tag-sug {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tag-sug:hover,
+.tag-sug:active {
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+/* ── Pages progress hint ── */
+.pages-hint {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  color: var(--text-light);
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* ── Submit button ── */
+.btn-submit {
+  width: 100%;
+  background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+}
+
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn-submit.loading .btn-text {
+  opacity: 0;
+}
+
+.btn-submit.loading .btn-spinner {
+  display: block;
+}
+
+/* reuses .spinner from above */
+.btn-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+  position: absolute;
+}
+
+/* ── Toast notification ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: var(--navy);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.25s;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+  background: var(--mint);
+}
+
+.toast.error {
+  background: var(--coral);
+}
+
 
 /* ── RESPONSIVE / MOBILE ────────────────────── */
 

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Dream Team — Ajouter un livre</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Mulish:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="form-page">
+
+    <!-- ── HEADER ── -->
+    <div class="form-header">
+      <div class="form-header-tag">Dream Team Reads · 2026</div>
+      <h1>Ajouter un <em>livre</em></h1>
+      <p>Renseigne ta lecture pour le tableau de bord</p>
+    </div>
+
+    <!-- ── QUI LIT ── -->
+    <div class="form-group">
+      <div class="form-label"><span class="sdot" style="background:var(--coral)"></span>Qui lit ?</div>
+      <div class="reader-grid">
+        <div class="reader-btn" data-reader="Emiline" onclick="selectReader(this)" style="--reader-color:#ca8a04">
+          <span class="reader-emoji">🌸</span><span class="reader-name">Emiline</span>
+        </div>
+        <div class="reader-btn" data-reader="Zoé" onclick="selectReader(this)" style="--reader-color:#7c3aed">
+          <span class="reader-emoji">✨</span><span class="reader-name">Zoé</span>
+        </div>
+        <div class="reader-btn" data-reader="Laura V" onclick="selectReader(this)" style="--reader-color:#16a34a">
+          <span class="reader-emoji">🌿</span><span class="reader-name">Laura V</span>
+        </div>
+        <div class="reader-btn" data-reader="Laura M" onclick="selectReader(this)" style="--reader-color:#1d4ed8">
+          <span class="reader-emoji">📖</span><span class="reader-name">Laura M</span>
+        </div>
+        <div class="reader-btn" data-reader="Lectrice 5" onclick="selectReader(this)" style="--reader-color:#0891b2">
+          <span class="reader-emoji">🌊</span><span class="reader-name">Lectrice 5</span>
+        </div>
+        <div class="reader-btn" data-reader="Lectrice 6" onclick="selectReader(this)" style="--reader-color:#e85d3a">
+          <span class="reader-emoji">🔥</span><span class="reader-name">Lectrice 6</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INFOS DU LIVRE ── -->
+    <div class="form-group">
+      <div class="form-label"><span class="sdot" style="background:var(--navy)"></span>Infos du livre</div>
+
+      <div style="margin-bottom:10px">
+        <div class="field-label">Titre <span class="req">*</span></div>
+        <input type="text" id="titre" placeholder="Le titre du livre…" autocomplete="off">
+      </div>
+
+      <div style="margin-bottom:10px">
+        <div class="field-label">Auteur·ice <span class="req">*</span></div>
+        <input type="text" id="auteur" placeholder="Prénom Nom" autocomplete="off">
+      </div>
+
+      <div>
+        <div class="field-label">Genre de l'auteur·ice</div>
+        <div class="chip-group">
+          <div class="chip" data-value="Femme" data-group="genreAuteur" onclick="toggleChip(this)"
+            style="--chip-color:#0891b2">👩 Femme</div>
+          <div class="chip" data-value="Homme" data-group="genreAuteur" onclick="toggleChip(this)"
+            style="--chip-color:#1a2f5e">👨 Homme</div>
+          <div class="chip" data-value="Mixte" data-group="genreAuteur" onclick="toggleChip(this)"
+            style="--chip-color:#e85d3a">👥 Mixte</div>
+          <div class="chip" data-value="Non-binaire" data-group="genreAuteur" onclick="toggleChip(this)"
+            style="--chip-color:#7c3aed">🏳️‍🌈 NB</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── GENRE & FORMAT ── -->
+    <div class="form-group">
+      <div class="form-label"><span class="sdot" style="background:var(--teal)"></span>Genre &amp; Format</div>
+
+      <div style="margin-bottom:10px">
+        <div class="field-label">Genre littéraire</div>
+        <div class="chip-group">
+          <div class="chip" data-value="BD" data-group="genre" onclick="toggleChip(this)" style="--chip-color:#1a2f5e">
+            📕 BD</div>
+          <div class="chip" data-value="Roman graphique" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#2a4480">📗 Roman graphique</div>
+          <div class="chip" data-value="Manga" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#1e40af">🎌 Manga</div>
+          <div class="chip" data-value="Romance" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#e85d3a">💕 Romance</div>
+          <div class="chip" data-value="Romantasy" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#d4820a">🐉 Romantasy</div>
+          <div class="chip" data-value="(Auto-)biographie" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#0891b2">📔 (Auto-)bio</div>
+          <div class="chip" data-value="Littérature contemporaine" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#0e7490">📖 Litt. contemporaine</div>
+          <div class="chip" data-value="Fantasy" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#059669">⚔️ Fantasy</div>
+          <div class="chip" data-value="Jeunesse" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#7c3aed">🌟 Jeunesse</div>
+          <div class="chip" data-value="Essai" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#6b7fa8">📝 Essai</div>
+          <div class="chip" data-value="Nouvelles" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#94a3b8">📄 Nouvelles</div>
+          <div class="chip" data-value="Thriller" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#c4512e">🔪 Thriller</div>
+          <div class="chip" data-value="Littérature historique" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#78716c">📜 Litt. historique</div>
+          <div class="chip" data-value="Webtoon" data-group="genre" onclick="toggleChip(this)"
+            style="--chip-color:#db2777">📱 Webtoon</div>
+          <div class="chip" data-value="SF" data-group="genre" onclick="toggleChip(this)" style="--chip-color:#2563eb">
+            🚀 SF</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:10px">
+        <div class="field-label">Format</div>
+        <div class="chip-group">
+          <div class="chip" data-value="Grand format" data-group="format" onclick="toggleChip(this)"
+            style="--chip-color:#d4820a">📚 Grand format</div>
+          <div class="chip" data-value="Poche" data-group="format" onclick="toggleChip(this)"
+            style="--chip-color:#059669">🔖 Poche</div>
+          <div class="chip" data-value="Ebook" data-group="format" onclick="toggleChip(this)"
+            style="--chip-color:#0891b2">📱 Ebook</div>
+          <div class="chip" data-value="BD" data-group="format" onclick="toggleChip(this)" style="--chip-color:#1a2f5e">
+            🎨 BD (format)</div>
+          <div class="chip" data-value="Webtoon" data-group="format" onclick="toggleChip(this)"
+            style="--chip-color:#db2777">🌐 Webtoon</div>
+          <div class="chip" data-value="Audio" data-group="format" onclick="toggleChip(this)"
+            style="--chip-color:#7c3aed">🎧 Audio</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="field-label">Pages totales</div>
+          <input type="number" id="pagesTotales" placeholder="320" min="0" inputmode="numeric">
+        </div>
+        <div>
+          <div class="field-label">Pages lues</div>
+          <input type="number" id="pagesLues" placeholder="320" min="0" inputmode="numeric">
+          <div class="pages-hint" id="pagesHint"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AVANCEMENT ── -->
+    <div class="form-group">
+      <div class="form-label"><span class="sdot" style="background:var(--mint)"></span>Avancement</div>
+
+      <div style="margin-bottom:10px">
+        <div class="fini-toggle" id="finiToggle" onclick="toggleFini()">
+          <span class="fini-label">✅ Livre terminé ?</span>
+          <div class="toggle-pill"></div>
+        </div>
+      </div>
+
+      <div class="dates-area" id="datesArea">
+        <div class="two-col" style="padding-top:10px">
+          <div>
+            <div class="field-label">Date de début</div>
+            <input type="date" id="dateDebut">
+          </div>
+          <div>
+            <div class="field-label">Date de fin</div>
+            <input type="date" id="dateFin">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NOTE & AVIS ── -->
+    <div class="form-group">
+      <div class="form-label"><span class="sdot" style="background:var(--gold)"></span>Note &amp; Avis</div>
+
+      <div style="margin-bottom:10px">
+        <div class="field-label">Note</div>
+        <div class="star-row">
+          <span class="star-btn" onclick="setStar(1)">⭐</span>
+          <span class="star-btn" onclick="setStar(2)">⭐</span>
+          <span class="star-btn" onclick="setStar(3)">⭐</span>
+          <span class="star-btn" onclick="setStar(4)">⭐</span>
+          <span class="star-btn" onclick="setStar(5)">⭐</span>
+          <button class="half-toggle" id="halfBtn" onclick="toggleHalf()">+ ½</button>
+          <span class="star-display" id="starDisplay">—</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="field-label">Avis / Impression</div>
+        <textarea id="avis" placeholder="Quelques mots sur ce livre…"></textarea>
+      </div>
+    </div>
+
+    <!-- ── MOTS-CLÉS ── -->
+    <div class="form-group">
+      <div class="form-label"><span class="sdot" style="background:#7c3aed"></span>Mots-clés</div>
+
+      <div class="tags-wrap" id="tagsWrap" onclick="document.getElementById('tagInput').focus()">
+        <input type="text" class="tag-input" id="tagInput" placeholder="Ajouter un mot-clé…"
+          onkeydown="handleTagKey(event)">
+      </div>
+      <div class="tag-suggestions">
+        <span class="tag-sug" onclick="addTag('Romance')">Romance</span>
+        <span class="tag-sug" onclick="addTag('Féminisme')">Féminisme</span>
+        <span class="tag-sug" onclick="addTag('LGBTQIA+')">LGBTQIA+</span>
+        <span class="tag-sug" onclick="addTag('Politique')">Politique</span>
+        <span class="tag-sug" onclick="addTag('Classique')">Classique</span>
+        <span class="tag-sug" onclick="addTag('Autobiographie')">Autobiographie</span>
+        <span class="tag-sug" onclick="addTag('Santé mentale')">Santé mentale</span>
+        <span class="tag-sug" onclick="addTag('Fantasy')">Fantasy</span>
+        <span class="tag-sug" onclick="addTag('Historique')">Historique</span>
+        <span class="tag-sug" onclick="addTag('Philosophie')">Philosophie</span>
+        <span class="tag-sug" onclick="addTag('BD, politique')">BD politique</span>
+        <span class="tag-sug" onclick="addTag('Thriller')">Thriller</span>
+      </div>
+    </div>
+
+    <!-- ── SUBMIT ── -->
+    <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+      <span class="btn-spinner"></span>
+      <span class="btn-text">📚 Ajouter à la liste</span>
+    </button>
+    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--text-light)">
+      Les données seront ajoutées directement dans le Google Sheet
+    </div>
+
+  </div><!-- /.form-page -->
+
+  <script>
+    // ════════════════════════════════════════════════
+    //  ⚙️  CONFIGURATION — seule ligne à modifier
+    //  si l'URL du Apps Script venait à changer
+    // ════════════════════════════════════════════════
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbztvz-9q7dHG5ZoVv0DrULCQrLvKEbAHzbsEeCsW58HHVTEvtISDEdyaekRQXG_NoB6/exec";
+    // ════════════════════════════════════════════════
+
+    const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    let selectedReader = null;
+    let starValue = 0;
+    let halfStar = false;
+    let isFini = false;
+    let tags = [];
+    const chips = {};
+
+    function selectReader(el) {
+      document.querySelectorAll('.reader-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      selectedReader = el.dataset.reader;
+    }
+
+    function toggleChip(el) {
+      const group = el.dataset.group;
+      const wasActive = el.classList.contains('active');
+      document.querySelectorAll(`.chip[data-group="${group}"]`).forEach(c => c.classList.remove('active'));
+      if (!wasActive) { el.classList.add('active'); chips[group] = el.dataset.value; }
+      else { delete chips[group]; }
+    }
+
+    function toggleFini() {
+      isFini = !isFini;
+      document.getElementById('finiToggle').classList.toggle('active', isFini);
+      document.getElementById('datesArea').classList.toggle('open', isFini);
+      if (isFini && !document.getElementById('dateFin').value)
+        document.getElementById('dateFin').value = new Date().toISOString().split('T')[0];
+    }
+
+    function setStar(n) { starValue = n; renderStars(); }
+    function toggleHalf() {
+      halfStar = !halfStar;
+      document.getElementById('halfBtn').classList.toggle('active', halfStar);
+      renderStars();
+    }
+    function renderStars() {
+      document.querySelectorAll('.star-btn').forEach((s, i) => s.classList.toggle('on', i < starValue));
+      const val = starValue + (halfStar && starValue > 0 ? 0.5 : 0);
+      document.getElementById('starDisplay').textContent = val > 0 ? val + ' ★' : '—';
+    }
+
+    document.addEventListener('input', e => {
+      if (e.target.id === 'pagesLues' || e.target.id === 'pagesTotales') {
+        const total = parseInt(document.getElementById('pagesTotales').value) || 0;
+        const lues = parseInt(document.getElementById('pagesLues').value) || 0;
+        document.getElementById('pagesHint').textContent =
+          total > 0 && lues > 0 ? Math.round(lues / total * 100) + '% lu' : '';
+      }
+    });
+
+    function handleTagKey(e) {
+      if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        const val = e.target.value.trim().replace(/,$/, '');
+        if (val) addTag(val);
+      } else if (e.key === 'Backspace' && !e.target.value && tags.length) {
+        removeTag(tags[tags.length - 1]);
+      }
+    }
+    function addTag(val) {
+      const v = val.trim();
+      if (!v || tags.includes(v)) return;
+      tags.push(v);
+      renderTags();
+      document.getElementById('tagInput').value = '';
+    }
+    function removeTag(val) { tags = tags.filter(t => t !== val); renderTags(); }
+    function renderTags() {
+      const wrap = document.getElementById('tagsWrap');
+      wrap.querySelectorAll('.tag-chip').forEach(c => c.remove());
+      const input = document.getElementById('tagInput');
+      tags.forEach(t => {
+        const chip = document.createElement('span');
+        chip.className = 'tag-chip';
+        chip.innerHTML = `${t}<span class="tag-remove" onclick="removeTag('${t.replace(/'/g, "\\'")}')">×</span>`;
+        wrap.insertBefore(chip, input);
+      });
+    }
+
+    function showToast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast ${type} show`;
+      setTimeout(() => { t.className = 'toast'; }, 3200);
+    }
+
+    async function submitForm() {
+      if (!selectedReader) { showToast('⚠️ Choisis une lectrice !', 'error'); return; }
+      const titre = document.getElementById('titre').value.trim();
+      const auteur = document.getElementById('auteur').value.trim();
+      if (!titre) { showToast('⚠️ Le titre est requis !', 'error'); return; }
+      if (!auteur) { showToast("⚠️ L'auteur·ice est requis·e !", 'error'); return; }
+
+      const dateDebut = document.getElementById('dateDebut').value;
+      const dateFin = document.getElementById('dateFin').value;
+      const pagesTotales = parseInt(document.getElementById('pagesTotales').value) || 0;
+      const pagesLues = parseInt(document.getElementById('pagesLues').value) || pagesTotales;
+      const note = starValue > 0 ? starValue + (halfStar ? 0.5 : 0) : null;
+
+      let jours = null;
+      if (dateDebut && dateFin)
+        jours = Math.max(1, Math.round((new Date(dateFin) - new Date(dateDebut)) / 86400000));
+
+      const mois = dateFin
+        ? MONTHS[parseInt(dateFin.split('-')[1]) - 1]
+        : MONTHS[new Date().getMonth()];
+
+      const payload = {
+        lectrice: selectedReader,
+        titre, auteur,
+        genreAuteur: chips['genreAuteur'] || '',
+        format: chips['format'] || '',
+        pagesTotales,
+        pagesLues: isFini ? pagesTotales : pagesLues,
+        genre: chips['genre'] || '',
+        motsCles: tags.join(', '),
+        commence: dateDebut || null,
+        termine: isFini && dateFin ? dateFin : null,
+        jours, mois, note,
+        avis: document.getElementById('avis').value.trim(),
+        fini: isFini,
+      };
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.classList.add('loading');
+
+      try {
+        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        const json = await res.json();
+        if (json.result === 'success') {
+          showToast('📚 Livre ajouté ! Merci ' + selectedReader + ' 🎉', 'success');
+          resetForm();
+        } else {
+          throw new Error(json.error || 'Erreur inconnue');
+        }
+      } catch (err) {
+        showToast('❌ Erreur : ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+      }
+    }
+
+    function resetForm() {
+      document.querySelectorAll('.reader-btn, .chip').forEach(el => el.classList.remove('active'));
+      ['titre', 'auteur', 'avis', 'pagesTotales', 'pagesLues', 'dateDebut', 'dateFin']
+        .forEach(id => { document.getElementById(id).value = ''; });
+      document.getElementById('pagesHint').textContent = '';
+      selectedReader = null; starValue = 0; halfStar = false; isFini = false; tags = [];
+      for (const k in chips) delete chips[k];
+      renderStars();
+      document.getElementById('halfBtn').classList.remove('active');
+      document.getElementById('finiToggle').classList.remove('active');
+      document.getElementById('datesArea').classList.remove('open');
+      renderTags();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('dateFin').value = new Date().toISOString().split('T')[0];
+  </script>
+</body>
+
+</html>
