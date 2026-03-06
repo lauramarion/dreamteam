@@ -81,6 +81,7 @@
       const tag = document.getElementById('updateTag');
       btn.classList.add('loading');
       tag.textContent = 'Chargement…';
+      tag.classList.add('loading');
 
       fetch(APPS_SCRIPT_URL)
         .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
@@ -92,12 +93,14 @@
           const label = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
           const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
           tag.textContent = 'Données au ' + label + ' à ' + time;
+          tag.classList.remove('loading');
           btn.classList.remove('loading');
           render(books, goals, gen);
         })
         .catch(err => {
           console.error('Erreur de chargement:', err);
           tag.textContent = 'Erreur de chargement ⚠️';
+          tag.classList.remove('loading')
           btn.classList.remove('loading');
         });
     }

@@ -152,8 +152,26 @@ body {
 
 .update-tag,
 .commit-tag {
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes chargement-pulse {
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.update-tag.loading {
+  animation: chargement-pulse 1.4s ease-in-out infinite;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 600;
 }
 
 .btn-refresh {
