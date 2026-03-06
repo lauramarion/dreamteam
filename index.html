@@ -337,39 +337,100 @@
       bbCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#1a2f5e;display:inline-block"></span>PAGES PAR LIVRE</div>`;
       const bbWrap = mk('div', 'bubble-wrap');
       const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svgEl.classList.add('bubble-svg'); svgEl.setAttribute('height', '260');
+      svgEl.classList.add('bubble-svg'); svgEl.setAttribute('height', '380'); // Increased height
       bbWrap.appendChild(svgEl); bbCard.appendChild(bbWrap);
+
+      // Add Size Legend
+      const legend = mk('div', 'sz-legend');
+      legend.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:24px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);';
+      [200, 500, 1000].forEach(p => {
+        const item = mk('div', 'sz-item');
+        item.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:11px;font-family:Space Grotesk,sans-serif;font-weight:700;color:var(--text-light);';
+        // Mock radius for legend
+        const sampleMax = 1200; // Reference for legend
+        const r = 3 + Math.pow(Math.max(0, (p - 40)) / (sampleMax - 40), 0.6) * 39;
+        item.innerHTML = `<div style="width:${r * 2}px;height:${r * 2}px;border-radius:50%;background:var(--navy-pale);border:1.5px solid var(--border)"></div><span>${p} pages</span>`;
+        legend.appendChild(item);
+      });
+      bbCard.appendChild(legend);
+
       const tip = document.getElementById('tooltip');
       setTimeout(() => {
-        const W = bbWrap.clientWidth - 8, H = 240;
+        const W = bbWrap.clientWidth - 8, H = 340; // Increased H for more vertical space
         svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`); svgEl.setAttribute('width', W);
         const allP = books.filter(b => b.pagesTotales > 0).map(b => b.pagesTotales), maxP = Math.max(...allP, 1);
         const rad = p => 3 + Math.pow(Math.max(0, (p - 40)) / (maxP - 40), 0.6) * 39;
         const slotW = W / READERS.length;
+
         READERS.forEach((r, ri) => {
           const rb = books.filter(b => b.lectrice === r && b.pagesTotales > 0), col = COLORS[r], cx0 = slotW * ri + slotW / 2;
           const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          lbl.setAttribute('x', cx0); lbl.setAttribute('y', H - 2); lbl.setAttribute('text-anchor', 'middle');
+          lbl.setAttribute('x', cx0); lbl.setAttribute('y', H - 6); lbl.setAttribute('text-anchor', 'middle');
           lbl.setAttribute('font-size', '12'); lbl.setAttribute('fill', '#3a4f7a'); lbl.setAttribute('font-family', 'Space Grotesk,sans-serif'); lbl.setAttribute('font-weight', '700'); lbl.textContent = `${EMOJI[r]} ${r}`; svgEl.appendChild(lbl);
+
           const placed = [];
           [...rb].sort((a, b) => b.pagesTotales - a.pagesTotales).forEach(b => {
             const rr = rad(b.pagesTotales);
-            let cx = cx0 + (Math.random() - 0.5) * (slotW * 0.4), cy = (H - 24) / 2 + (Math.random() - 0.5) * ((H - 24) * 0.5);
-            const cx_ = () => { cx = Math.max(slotW * ri + rr + 4, Math.min(slotW * (ri + 1) - rr - 4, cx)); };
-            const cy_ = () => { cy = Math.max(rr + 4, Math.min(H - 24 - rr, cy)); };
+            // Beeswarm vertical placement: start at center, try to pack
+            let cx = cx0;
+            let cy = (H - 40) / 2;
+
+            // Random jitter for natural look
+            cx += (Math.random() - 0.5) * 10;
+            cy += (Math.random() - 0.5) * (H * 0.4);
+
+            const cx_ = () => { cx = Math.max(slotW * ri + rr + 2, Math.min(slotW * (ri + 1) - rr - 2, cx)); };
+            const cy_ = () => { cy = Math.max(rr + 10, Math.min(H - 30 - rr, cy)); };
+
             cx_(); cy_();
-            for (let i = 0; i < 60; i++) { placed.forEach(p => { const dx = cx - p.cx, dy = cy - p.cy, d = Math.sqrt(dx * dx + dy * dy), mn = rr + p.r + 4; if (d < mn && d > 0.01) { const push = (mn - d) * 0.55; cx += dx / d * push; cy += dy / d * push; } }); cx_(); cy_(); }
+            // Collision resolution
+            for (let i = 0; i < 120; i++) {
+              placed.forEach(p => {
+                const dx = cx - p.cx, dy = cy - p.cy, d = Math.sqrt(dx * dx + dy * dy), mn = rr + p.r + 3;
+                if (d < mn && d > 0.01) {
+                  const push = (mn - d) * 0.6;
+                  cx += (dx / d || 0) * push;
+                  cy += (dy / d || 0) * push;
+                }
+              });
+              cx_(); cy_();
+            }
             placed.push({ cx, cy, r: rr });
+
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.style.transition = 'transform 0.2s';
+            g.style.cursor = 'pointer';
+
             const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', rr); c.setAttribute('fill', col); c.setAttribute('fill-opacity', '0.72'); c.setAttribute('stroke', col); c.setAttribute('stroke-width', '1.5'); c.style.cursor = 'pointer';
-            c.addEventListener('mouseenter', () => { tip.style.opacity = 1; tip.innerHTML = `<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note && b.note > 0 ? ' · <span class="rating-star">★</span> ' + b.note : ''}`; });
-            c.addEventListener('mousemove', e => { tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY - 40) + 'px'; });
-            c.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
-            svgEl.appendChild(c);
-            if (rr >= 22) { const t = document.createElementNS('http://www.w3.org/2000/svg', 'text'); t.setAttribute('x', cx); t.setAttribute('y', cy + 4); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '8'); t.setAttribute('fill', '#fff'); t.setAttribute('font-family', 'Space Grotesk,sans-serif'); t.setAttribute('font-weight', '700'); t.setAttribute('pointer-events', 'none'); t.textContent = b.titre.length > 18 ? b.titre.slice(0, 16) + '…' : b.titre; svgEl.appendChild(t); }
+            c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', rr); c.setAttribute('fill', col); c.setAttribute('fill-opacity', '0.75'); c.setAttribute('stroke', col); c.setAttribute('stroke-width', '1.5');
+
+            g.appendChild(c);
+
+            g.addEventListener('mouseenter', () => {
+              tip.style.opacity = 1;
+              tip.innerHTML = `<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note && b.note > 0 ? ' · <span class="rating-star">★</span> ' + b.note : ''}`;
+              c.setAttribute('fill-opacity', '1');
+              c.setAttribute('stroke-width', '2.5');
+            });
+            g.addEventListener('mousemove', e => { tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY - 40) + 'px'; });
+            g.addEventListener('mouseleave', () => {
+              tip.style.opacity = 0;
+              c.setAttribute('fill-opacity', '0.75');
+              c.setAttribute('stroke-width', '1.5');
+            });
+
+            svgEl.appendChild(g);
+
+            if (rr >= 24) {
+              const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+              t.setAttribute('x', cx); t.setAttribute('y', cy + 3); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '9'); t.setAttribute('fill', '#fff'); t.setAttribute('font-family', 'Space Grotesk,sans-serif'); t.setAttribute('font-weight', '700'); t.setAttribute('pointer-events', 'none');
+              t.textContent = b.titre.length > 14 ? b.titre.slice(0, 12) + '…' : b.titre; svgEl.appendChild(t);
+            }
           });
         });
-      }, 50);
+      }, 100);
+      g.appendChild(bbCard);
+
       g.appendChild(bbCard);
 
       w.appendChild(g); return w;
