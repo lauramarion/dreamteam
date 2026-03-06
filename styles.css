@@ -1540,6 +1540,24 @@ footer {
   margin-top: 5px;
 }
 
+/* ── Form back button ── */
+.form-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: color 0.15s;
+  position: relative;
+  z-index: 1;
+}
+
 /* ── Form section label (lighter version of .section-label) ── */
 .form-label {
   font-family: 'Space Grotesk', sans-serif;
