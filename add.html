@@ -25,6 +25,22 @@
       <p>Renseigne ta lecture pour le tableau de bord</p>
     </div>
 
+    <!-- ── DUPLICATE WARNING ──────────────────────────────────────────
+         Hidden by default. Appears when title + reader already exist.
+         "Modifier" pre-fills the whole form and switches to edit mode.
+         "Ajouter quand même" dismisses and continues as a new entry.  -->
+    <div class="dupe-banner" id="dupeBanner">
+      <div class="dupe-icon">⚠️</div>
+      <div class="dupe-text">
+        <strong id="dupeTitle"></strong>
+        <span>Ce livre existe déjà dans ta liste. Tu veux modifier la ligne existante ?</span>
+        <div class="dupe-actions">
+          <button class="dupe-btn primary" onclick="enterEditMode()">✏️ Modifier la ligne existante</button>
+          <button class="dupe-btn secondary" onclick="dismissDupe()">Ajouter quand même</button>
+        </div>
+      </div>
+    </div>
+
     <!-- ── QUI LIT ── -->
     <div class="form-group">
       <div class="form-label"><span class="sdot" style="background:var(--coral)"></span>Qui lit ?</div>
@@ -56,7 +72,8 @@
 
       <div style="margin-bottom:10px">
         <div class="field-label">Titre <span class="req">*</span></div>
-        <input type="text" id="titre" placeholder="Le titre du livre…" autocomplete="off">
+        <!-- onblur fires the duplicate check when the user leaves the title field -->
+        <input type="text" id="titre" placeholder="Le titre du livre…" autocomplete="off" onblur="checkDuplicate()">
       </div>
 
       <div style="margin-bottom:10px">
@@ -250,12 +267,22 @@
     let tags = [];
     const chips = {};
 
+    // ── Edit-mode state ──────────────────────────────────────────────
+    // null   = normal "add" mode
+    // number = 1-based sheet row of the entry being edited
+    let editRowIndex = null;
+    let _lastCheckKey = ''; // avoids firing the same check twice
+
+    // ── Reader ───────────────────────────────────────────────────────
     function selectReader(el) {
       document.querySelectorAll('.reader-btn').forEach(b => b.classList.remove('active'));
       el.classList.add('active');
       selectedReader = el.dataset.reader;
+      // Re-run duplicate check if a title is already typed
+      if (document.getElementById('titre').value.trim()) checkDuplicate();
     }
 
+    // ── Chips ────────────────────────────────────────────────────────
     function toggleChip(el) {
       const group = el.dataset.group;
       const wasActive = el.classList.contains('active');
@@ -264,6 +291,7 @@
       else { delete chips[group]; }
     }
 
+    // ── Fini toggle ──────────────────────────────────────────────────
     function toggleFini() {
       isFini = !isFini;
       document.getElementById('finiToggle').classList.toggle('active', isFini);
@@ -272,6 +300,7 @@
         document.getElementById('dateFin').value = new Date().toISOString().split('T')[0];
     }
 
+    // ── Stars ────────────────────────────────────────────────────────
     function setStar(n) { starValue = n; renderStars(); }
     function toggleHalf() {
       halfStar = !halfStar;
@@ -284,6 +313,7 @@
       document.getElementById('starDisplay').textContent = val > 0 ? val + ' ★' : '—';
     }
 
+    // ── Pages hint ───────────────────────────────────────────────────
     document.addEventListener('input', e => {
       if (e.target.id === 'pagesLues' || e.target.id === 'pagesTotales') {
         const total = parseInt(document.getElementById('pagesTotales').value) || 0;
@@ -293,6 +323,7 @@
       }
     });
 
+    // ── Tags ─────────────────────────────────────────────────────────
     function handleTagKey(e) {
       if (e.key === 'Enter' || e.key === ',') {
         e.preventDefault();
@@ -312,8 +343,8 @@
     function removeTag(val) { tags = tags.filter(t => t !== val); renderTags(); }
     function renderTags() {
       const wrap = document.getElementById('tagsWrap');
-      wrap.querySelectorAll('.tag-chip').forEach(c => c.remove());
       const input = document.getElementById('tagInput');
+      wrap.querySelectorAll('.tag-chip').forEach(c => c.remove());
       tags.forEach(t => {
         const chip = document.createElement('span');
         chip.className = 'tag-chip';
@@ -322,6 +353,7 @@
       });
     }
 
+    // ── Toast ─────────────────────────────────────────────────────────
     function showToast(msg, type = '') {
       const t = document.getElementById('toast');
       t.textContent = msg;
@@ -329,6 +361,116 @@
       setTimeout(() => { t.className = 'toast'; }, 3200);
     }
 
+    // ── Duplicate check ───────────────────────────────────────────────
+    // Triggered on title blur and on reader selection (if title is already set).
+    // Calls Apps Script GET with action=check. Fails silently on network error.
+    async function checkDuplicate() {
+      const titre = document.getElementById('titre').value.trim();
+      const lectrice = selectedReader;
+
+      if (!titre || !lectrice) return;
+
+      // Skip identical repeated checks
+      const key = `${lectrice}::${titre.toLowerCase()}`;
+      if (key === _lastCheckKey) return;
+      _lastCheckKey = key;
+
+      hideDupeBanner();
+
+      try {
+        const url = `${SCRIPT_URL}?action=check&lectrice=${encodeURIComponent(lectrice)}&titre=${encodeURIComponent(titre)}`;
+        const json = await fetch(url).then(r => r.json());
+
+        if (json.result === 'found') {
+          // Stash existing data on the banner so enterEditMode() can read it
+          document.getElementById('dupeBanner').dataset.existing = JSON.stringify(json.book);
+          document.getElementById('dupeTitle').textContent = `"${json.book.titre}" — ${lectrice}`;
+          document.getElementById('dupeBanner').classList.add('visible');
+          document.getElementById('dupeBanner').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      } catch (_) { /* silent — check is a convenience, not a blocker */ }
+    }
+
+    function hideDupeBanner() {
+      const b = document.getElementById('dupeBanner');
+      b.classList.remove('visible');
+      b.dataset.existing = '';
+    }
+
+    // "Modifier la ligne existante" — pre-fill form, switch to edit mode
+    function enterEditMode() {
+      const existing = JSON.parse(document.getElementById('dupeBanner').dataset.existing || 'null');
+      if (!existing) return;
+
+      hideDupeBanner();
+      editRowIndex = existing.rowIndex;
+      fillForm(existing);
+
+      document.getElementById('submitBtn').classList.add('edit-mode');
+      document.querySelector('#submitBtn .btn-text').textContent = '💾 Mettre à jour';
+
+      showToast('✏️ Mode modification — modifie puis valide', '');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // "Ajouter quand même" — dismiss banner, stay in add mode
+    function dismissDupe() {
+      hideDupeBanner();
+      editRowIndex = null;
+      _lastCheckKey = ''; // allow re-check if the title is later changed
+    }
+
+    // Pre-fill every form field from an existing book object
+    function fillForm(b) {
+      // Reader button
+      const btn = document.querySelector(`.reader-btn[data-reader="${b.lectrice}"]`);
+      if (btn) {
+        document.querySelectorAll('.reader-btn').forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        selectedReader = b.lectrice;
+      }
+
+      // Plain text fields
+      document.getElementById('titre').value = b.titre || '';
+      document.getElementById('auteur').value = b.auteur || '';
+      document.getElementById('avis').value = b.avis || '';
+      document.getElementById('pagesTotales').value = b.pagesTotales || '';
+      document.getElementById('pagesLues').value = b.pagesLues || '';
+
+      // Pages hint
+      const total = parseInt(b.pagesTotales) || 0;
+      const lues = parseInt(b.pagesLues) || 0;
+      document.getElementById('pagesHint').textContent =
+        total > 0 && lues > 0 ? Math.round(lues / total * 100) + '% lu' : '';
+
+      // Chips
+      ['genreAuteur', 'genre', 'format'].forEach(group => {
+        document.querySelectorAll(`.chip[data-group="${group}"]`).forEach(c => {
+          const on = c.dataset.value === b[group];
+          c.classList.toggle('active', on);
+          if (on) chips[group] = b[group]; else delete chips[group];
+        });
+      });
+
+      // Fini + dates
+      isFini = !!b.fini;
+      document.getElementById('finiToggle').classList.toggle('active', isFini);
+      document.getElementById('datesArea').classList.toggle('open', isFini);
+      document.getElementById('dateDebut').value = b.commence || '';
+      document.getElementById('dateFin').value = b.termine || '';
+
+      // Stars
+      starValue = b.note ? Math.floor(b.note) : 0;
+      halfStar = b.note ? (b.note % 1) >= 0.5 : false;
+      document.getElementById('halfBtn').classList.toggle('active', halfStar);
+      renderStars();
+
+      // Tags
+      tags = b.motsCles ? b.motsCles.split(',').map(t => t.trim()).filter(Boolean) : [];
+      renderTags();
+    }
+
+    // ── Submit ────────────────────────────────────────────────────────
     async function submitForm() {
       if (!selectedReader) { showToast('⚠️ Choisis une lectrice !', 'error'); return; }
       const titre = document.getElementById('titre').value.trim();
@@ -351,6 +493,9 @@
         : MONTHS[new Date().getMonth()];
 
       const payload = {
+        // action tells Apps Script to append (add) or overwrite (update)
+        action: editRowIndex !== null ? 'update' : 'add',
+        rowIndex: editRowIndex,               // null for add, row number for update
         lectrice: selectedReader,
         titre, auteur,
         genreAuteur: chips['genreAuteur'] || '',
@@ -374,7 +519,10 @@
         const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         const json = await res.json();
         if (json.result === 'success') {
-          showToast('📚 Livre ajouté ! Merci ' + selectedReader + ' 🎉', 'success');
+          const msg = editRowIndex !== null
+            ? '✅ Mis à jour ! Merci ' + selectedReader + ' 🎉'
+            : '📚 Livre ajouté ! Merci ' + selectedReader + ' 🎉';
+          showToast(msg, 'success');
           resetForm();
         } else {
           throw new Error(json.error || 'Erreur inconnue');
@@ -387,18 +535,25 @@
       }
     }
 
+    // ── Reset ─────────────────────────────────────────────────────────
     function resetForm() {
       document.querySelectorAll('.reader-btn, .chip').forEach(el => el.classList.remove('active'));
       ['titre', 'auteur', 'avis', 'pagesTotales', 'pagesLues', 'dateDebut', 'dateFin']
         .forEach(id => { document.getElementById(id).value = ''; });
       document.getElementById('pagesHint').textContent = '';
       selectedReader = null; starValue = 0; halfStar = false; isFini = false; tags = [];
+      editRowIndex = null; _lastCheckKey = '';
       for (const k in chips) delete chips[k];
       renderStars();
       document.getElementById('halfBtn').classList.remove('active');
       document.getElementById('finiToggle').classList.remove('active');
       document.getElementById('datesArea').classList.remove('open');
+      hideDupeBanner();
       renderTags();
+      // Restore submit button to add-mode appearance
+      const btn = document.getElementById('submitBtn');
+      btn.classList.remove('edit-mode');
+      btn.querySelector('.btn-text').textContent = '📚 Ajouter à la liste';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 

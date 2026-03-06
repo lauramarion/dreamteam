@@ -2018,6 +2018,90 @@ textarea {
 }
 
 
+/* ── Duplicate warning banner (add.html) ────────── */
+
+.dupe-banner {
+  display: none;
+  background: #fffbeb;
+  border: 1.5px solid var(--gold);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.dupe-banner.visible {
+  display: flex;
+}
+
+.dupe-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.dupe-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.dupe-text strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.dupe-text span {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.4;
+}
+
+.dupe-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.dupe-btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  border: 1.5px solid;
+}
+
+.dupe-btn.primary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+.dupe-btn.secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-mid);
+}
+
+.dupe-btn:active {
+  transform: scale(0.96);
+}
+
+/* Submit button edit-mode variant */
+.btn-submit.edit-mode {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+}
+
+
 /* ── RESPONSIVE / MOBILE ────────────────────── */
 
 @media (max-width: 992px) {
