@@ -21,7 +21,10 @@
       <p>Inventaire des lectures 2026</p>
     </div>
     <div class="header-right">
-      <span class="update-tag" id="updateTag">Chargement…</span>
+      <div class="header-meta">
+        <span class="update-tag" id="updateTag">Chargement…</span>
+        <span class="commit-tag">Dernière mise à jour du site : 06 mars 2026 à 11:04</span>
+      </div>
       <button class="btn-refresh" id="refreshBtn" onclick="loadData()">↻ Actualiser</button>
     </div>
   </header>
@@ -86,7 +89,8 @@
           const gen = data.generated || new Date().toISOString();
           const d = new Date(gen);
           const label = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-          tag.textContent = 'Données au ' + label;
+          const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+          tag.textContent = 'Données au ' + label + ' à ' + time;
           btn.classList.remove('loading');
           render(books, goals, gen);
         })
@@ -430,9 +434,6 @@
         });
       }, 100);
       g.appendChild(bbCard);
-
-      g.appendChild(bbCard);
-
       w.appendChild(g); return w;
     }
 
@@ -600,11 +601,12 @@
           listEl.appendChild(row);
         });
         countEl.textContent = `${filtered.length} lecture${filtered.length > 1 ? 's' : ''}`;
-        setTimeout(loadCovers, 0);
+        setTimeout(() => loadCovers(listEl), 50);
       }
       renderBList();
       w.appendChild(card); return w;
     }
+
 
 
     // ── HELPERS ────────────────────────────
@@ -634,8 +636,9 @@
       } catch { _coverCache.set(key, null); return null; }
     }
 
-    function loadCovers() {
-      document.querySelectorAll('.js-cover[data-title]').forEach(async el => {
+    function loadCovers(root) {
+      const scope = root || document;
+      scope.querySelectorAll('.js-cover[data-title]').forEach(async el => {
         if (el.dataset.loaded) return;
         el.dataset.loaded = '1';
         const url = await fetchCover(el.dataset.title, el.dataset.author || '');

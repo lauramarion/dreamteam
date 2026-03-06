@@ -137,12 +137,20 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 20px;
   position: relative;
   z-index: 1;
 }
 
-.update-tag {
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.update-tag,
+.commit-tag {
   font-size: 11px;
   color: rgba(255, 255, 255, 0.4);
 }
