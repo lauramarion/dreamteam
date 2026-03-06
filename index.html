@@ -116,6 +116,7 @@
       main.appendChild(secReaders(fin, goals));
       main.appendChild(secGenres(fin));
       main.appendChild(secAnalyses(books));
+      main.appendChild(secEditions(books));
       main.appendChild(secTopShared(fin));
       main.appendChild(secAllBooks(books));
       app.appendChild(main);
@@ -485,6 +486,91 @@
     }
 
 
+    // ── MAISONS D'ÉDITION ──────────────────
+    function secEditions(books) {
+      const w = sec();
+      w.appendChild(slabel("Maisons d'édition", '#db2777'));
+      const g = mk('div', 'two-col fade');
+
+      const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
+      // TOP 10 MAISONS
+      const meCounts = {};
+      books.forEach(b => {
+        if (b.maisonEdition) {
+          const v = b.maisonEdition.trim();
+          if (v) {
+            const nv = capitalize(v);
+            meCounts[nv] = (meCounts[nv] || 0) + 1;
+          }
+        }
+      });
+      const meSorted = Object.entries(meCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+      const meMax = meSorted[0]?.[1] || 1;
+
+      const p1 = mk('div', 'panel');
+      p1.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#db2777;display:inline-block"></span>TOP 10 MAISONS D'ÉDITION</div>`;
+      const w1 = mk('div', '');
+      if (meSorted.length === 0) {
+        w1.innerHTML = '<div style="color:var(--text-light);font-size:12px;font-style:italic">Aucune donnée trouvée</div>';
+      } else {
+        meSorted.forEach(([f, n]) => {
+          const row = mk('div', 'hb-row');
+          row.style.marginBottom = '12px';
+          row.innerHTML = `<span class="hb-label" style="text-transform:none;width:130px;text-align:left;font-size:12px;color:var(--text)">${f}</span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n / meMax * 100)}%;background:#db2777"></div></div><span class="hb-val">${n}</span>`;
+          w1.appendChild(row);
+        });
+      }
+      p1.appendChild(w1);
+      g.appendChild(p1);
+
+      // MOST COMMON PER GENRE
+      const byGenre = {};
+      books.forEach(b => {
+        if (b.genre && b.maisonEdition) {
+          const gn = b.genre;
+          const m = b.maisonEdition.trim();
+          if (m) {
+            const nv = capitalize(m);
+            if (!byGenre[gn]) byGenre[gn] = {};
+            byGenre[gn][nv] = (byGenre[gn][nv] || 0) + 1;
+          }
+        }
+      });
+
+      const p2 = mk('div', 'panel');
+      p2.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#0891b2;display:inline-block"></span>ÉDITEURS FAVORIS PAR GENRE</div>`;
+
+      const gSorted = Object.keys(byGenre).sort((a, b) => Object.values(byGenre[b]).reduce((x, y) => x + y, 0) - Object.values(byGenre[a]).reduce((x, y) => x + y, 0));
+      const w2 = mk('div', '');
+
+      if (gSorted.length === 0) {
+        w2.innerHTML = '<div style="color:var(--text-light);font-size:12px;font-style:italic">Aucune donnée trouvée</div>';
+      } else {
+        gSorted.forEach(genre => {
+          const gc_res = byGenre[genre];
+          const topM = Object.entries(gc_res).sort((a, b) => b[1] - a[1])[0];
+
+          const row = mk('div', 'top-row');
+          row.style.cssText = "padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between";
+          row.innerHTML = \`
+            <div style="font-size:13px;font-weight:700;color:\${gc(genre)};display:flex;align-items:center;gap:10px">
+              <span style="font-size:18px">\${ge(genre)}</span> <span>\${genre}</span>
+            </div>
+            <div style="font-size:13px;color:var(--text);font-weight:700;text-align:right">
+              \${topM[0]} <span style="background:var(--bg);color:var(--text-mid);padding:3px 8px;border-radius:99px;font-size:11px;margin-left:8px;border:1px solid var(--border)">\${topM[1]} livres</span>
+            </div>
+          \`;
+          w2.appendChild(row);
+        });
+        if(w2.lastChild) w2.lastChild.style.borderBottom = 'none';
+      }
+      p2.appendChild(w2);
+      g.appendChild(p2);
+
+      w.appendChild(g);
+      return w;
+    }
 
     // ── TOP + SHARED ───────────────────────
     function secTopShared(books) {
@@ -493,28 +579,29 @@
 
       // TOP
       const tp = mk('div', 'panel');
-      tp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
+      tp.innerHTML = `< div class="panel-title" > <span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div > `;
       [...books].filter(b => b.note && b.note > 0).sort((a, b) => b.note - a.note).slice(0, 5).forEach((b, i) => {
         const row = mk('div', 'top-row');
         const col = COLORS[b.lectrice] || '#999';
         row.innerHTML = `
-          <span class="top-rank">#${i + 1}</span>
-          <div class="tcover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div>
-          <div class="top-content">
+            < span class="top-rank" > #${ i + 1 }</span >
+              <div class="tcover js-cover" data-title="${b.titre.replace(/" /g, '&quot;')
+      } " data-author="${ b.auteur.replace(/"/g, '&quot;') } " data-emoji="${ ge(b.genre) } ">${ge(b.genre)}</div>
+        < div class="top-content" >
             <div class="top-title"><a href="${getGoodreadsLink(b.titre, b.auteur)}" target="_blank" class="book-title-link">${b.titre}</a></div>
             <div class="top-author">${b.auteur}</div>
             <div class="dc-meta">
               <span class="rtag" style="background:${col};font-size:10px;padding:2px 7px">${EMOJI[b.lectrice] || ''} ${b.lectrice}</span>
               ${b.note > 0 ? `<span class="dc-stars"><span class="rating-star">★</span> ${b.note}/5</span>` : ''}
             </div>
-          </div>
+          </div >
         `;
         tp.appendChild(row);
       });
 
       // SHARED
       const sp = mk('div', 'panel');
-      sp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#059669;display:inline-block"></span>LECTURES EN COMMUN</div>`;
+      sp.innerHTML = `< div class="panel-title" > <span style="width:8px;height:8px;border-radius:50%;background:#059669;display:inline-block"></span>LECTURES EN COMMUN</div > `;
       const byT = {};
       books.forEach(b => {
         const k = b.titre.toLowerCase().replace(/[^a-zàâéèêëîïôùûü]/g, '').slice(0, 22);
@@ -526,15 +613,16 @@
           const byR = {}; g.entries.forEach(e => { if (!byR[e.lectrice]) byR[e.lectrice] = e; });
           const chips = READERS.filter(r => byR[r]).map(r => {
             const e = byR[r], col = COLORS[r];
-            const rate = e.note && e.note > 0 ? `<span class="crate"><span class="rating-star">★</span> ${e.note}</span>` : `<span class="cnone">—</span>`;
-            return `<div class="sh-chip" style="border-color:${col}30"><span class="cname" style="background:${col}">${EMOJI[r]} ${r}</span>${rate}</div>`;
+            const rate = e.note && e.note > 0 ? `< span class="crate" > <span class="rating-star">★</span> ${ e.note }</span > ` : ` < span class="cnone" >—</span > `;
+            return `< div class="sh-chip" style = "border-color:${col}30" > <span class="cname" style="background:${col}">${EMOJI[r]} ${r}</span>${ rate }</div > `;
           }).join('');
           const row = mk('div', 'sh-row');
-          const _e = g.entries[0]; row.innerHTML = `<div class="sh-cover js-cover" data-title="${g.titre.replace(/"/g, '&quot;')}" data-author="${(_e?.auteur || '').replace(/"/g, '&quot;')}" data-emoji="${ge(g.genre)}">${ge(g.genre)}</div><div class="sh-content"><div class="sh-title"><a href="${getGoodreadsLink(g.titre, _e?.auteur)}" target="_blank" class="book-title-link">${g.titre}</a></div><div class="sh-chips">${chips}</div></div>`;
-          sp.appendChild(row);
+          const _e = g.entries[0]; row.innerHTML = `< div class="sh-cover js-cover" data - title="${g.titre.replace(/" / g, '&quot;')
+    } " data-author="${ (_e?.auteur || '').replace(/"/g, '&quot;') } " data-emoji="${ ge(g.genre) } ">${ge(g.genre)}</div><div class="sh - content"><div class="sh - title"><a href="${ getGoodreadsLink(g.titre, _e?.auteur) } " target="_blank" class="book - title - link">${g.titre}</a></div><div class="sh - chips">${chips}</div></div>`;
+    sp.appendChild(row);
         });
 
-      g.appendChild(tp); g.appendChild(sp); w.appendChild(g); return w;
+    g.appendChild(tp); g.appendChild(sp); w.appendChild(g); return w;
     }
 
 
