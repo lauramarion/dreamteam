@@ -16,7 +16,7 @@
 
   <div class="toast" id="toast"></div>
 
-  <div class="form-page">
+  <div class="form-page" id="formContainer">
 
     <!-- ── HEADER ── -->
     <div class="form-header">
@@ -254,6 +254,24 @@
     </div>
 
   </div><!-- /.form-page -->
+
+  <!-- ── SUCCESS SCREEN ── -->
+  <div class="form-page" id="successContainer" style="display: none; text-align: center; margin-top: 40px;">
+    <div style="font-size: 54px; margin-bottom: 16px;">🎉</div>
+    <h2
+      style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 8px;"
+      id="successTitle">Mission accomplie !</h2>
+    <p style="color: var(--text-mid); font-size: 14px; margin-bottom: 32px; line-height: 1.5;" id="successDesc">Le livre
+      a bien été ajouté à la liste.</p>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+      <button class="btn-submit" onclick="window.location.href='index.html'" style="padding: 14px; font-size: 13px;">📊
+        Retour au tableau de bord</button>
+      <button class="dupe-btn secondary" onclick="showForm()"
+        style="padding: 14px; font-size: 13px; width: 100%; border-color: var(--border); background: var(--white); cursor: pointer;">➕
+        Ajouter une autre lecture</button>
+    </div>
+  </div>
 
   <script>
     // ════════════════════════════════════════════════
@@ -530,7 +548,15 @@
             ? '✅ Mis à jour ! Merci ' + selectedReader + ' 🎉'
             : '📚 Livre ajouté ! Merci ' + selectedReader + ' 🎉';
           showToast(msg, 'success');
+
+          document.getElementById('successTitle').textContent = editRowIndex !== null ? 'Lecture mise à jour !' : 'Nouvelle lecture ajoutée !';
+          document.getElementById('successDesc').textContent = 'Merci ' + selectedReader + ' pour ta contribution ✨';
+
+          document.getElementById('formContainer').style.display = 'none';
+          document.getElementById('successContainer').style.display = 'block';
+
           resetForm();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           throw new Error(json.error || 'Erreur inconnue');
         }
@@ -565,6 +591,13 @@
     }
 
     document.getElementById('dateFin').value = new Date().toISOString().split('T')[0];
+
+    // ── Navigation ───────────────────────────────────────────────────
+    function showForm() {
+      document.getElementById('successContainer').style.display = 'none';
+      document.getElementById('formContainer').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   </script>
 </body>
 
