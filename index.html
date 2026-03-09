@@ -10,7 +10,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script src="https://unpkg.com/lucide@latest"></script> <!-- LIEN VERS LUCIDE inline icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -21,7 +21,11 @@
       <p>Inventaire des lectures 2026</p>
     </div>
     <div class="header-right">
-      <span class="update-tag" id="updateTag">Chargement…</span>
+      <div class="header-meta">
+        <span class="update-tag" id="updateTag">Chargement…</span>
+        <span class="commit-tag">Dernière mise à jour du site : 06 mars 2026 à 11:04</span>
+      </div>
+      <a href="add.html" class="btn-refresh" style="text-decoration: none; color: white;">+ Ajouter un livre</a>
       <button class="btn-refresh" id="refreshBtn" onclick="loadData()">↻ Actualiser</button>
     </div>
   </header>
@@ -70,15 +74,14 @@
     const BOOKS = [];
     const GOALS = {};
 
-    // LIEN VERS LE SCRIPT GOOGLE --------------------------
-    // Depuis le google sheet, Extensions > Apps Script > Déployer > Nouvelle version ou gérer les déploiements > Application web
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztvz-9q7dHG5ZoVv0DrULCQrLvKEbAHzbsEeCsW58HHVTEvtISDEdyaekRQXG_NoB6/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtk_FIGTuZ2NyM5ZT-9n2NOMaMvVe9yQulpv6NZyHkOR_TXj9ghUQHlMkWS5FA7BNr/exec';
 
     function loadData() {
       const btn = document.getElementById('refreshBtn');
       const tag = document.getElementById('updateTag');
       btn.classList.add('loading');
       tag.textContent = 'Chargement…';
+      tag.classList.add('loading');
 
       fetch(APPS_SCRIPT_URL)
         .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
@@ -88,13 +91,16 @@
           const gen = data.generated || new Date().toISOString();
           const d = new Date(gen);
           const label = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-          tag.textContent = 'Données au ' + label;
+          const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+          tag.textContent = 'Données au ' + label + ' à ' + time;
+          tag.classList.remove('loading');
           btn.classList.remove('loading');
           render(books, goals, gen);
         })
         .catch(err => {
           console.error('Erreur de chargement:', err);
           tag.textContent = 'Erreur de chargement ⚠️';
+          tag.classList.remove('loading')
           btn.classList.remove('loading');
         });
     }
@@ -113,6 +119,7 @@
       main.appendChild(secReaders(fin, goals));
       main.appendChild(secGenres(fin));
       main.appendChild(secAnalyses(books));
+      main.appendChild(secEditions(books));
       main.appendChild(secTopShared(fin));
       main.appendChild(secAllBooks(books));
       app.appendChild(main);
@@ -202,7 +209,7 @@
       w.appendChild(g); return w;
     }
 
-    // ── LES LECTRICES  ───────────────────────
+    // ── READER CARDS ───────────────────────
     function secReaders(books, goals) {
       const w = sec();
       w.appendChild(slabel('Les Lectrices', '#0891b2'));
@@ -339,41 +346,99 @@
       bbCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#1a2f5e;display:inline-block"></span>PAGES PAR LIVRE</div>`;
       const bbWrap = mk('div', 'bubble-wrap');
       const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svgEl.classList.add('bubble-svg'); svgEl.setAttribute('height', '260');
+      svgEl.classList.add('bubble-svg'); svgEl.setAttribute('height', '380'); // Increased height
       bbWrap.appendChild(svgEl); bbCard.appendChild(bbWrap);
+
+      // Add Size Legend
+      const legend = mk('div', 'sz-legend');
+      legend.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:24px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);';
+      [200, 500, 1000].forEach(p => {
+        const item = mk('div', 'sz-item');
+        item.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:11px;font-family:Space Grotesk,sans-serif;font-weight:700;color:var(--text-light);';
+        // Mock radius for legend
+        const sampleMax = 1200; // Reference for legend
+        const r = 3 + Math.pow(Math.max(0, (p - 40)) / (sampleMax - 40), 0.6) * 39;
+        item.innerHTML = `<div style="width:${r * 2}px;height:${r * 2}px;border-radius:50%;background:var(--navy-pale);border:1.5px solid var(--border)"></div><span>${p} pages</span>`;
+        legend.appendChild(item);
+      });
+      bbCard.appendChild(legend);
+
       const tip = document.getElementById('tooltip');
       setTimeout(() => {
-        const W = bbWrap.clientWidth - 8, H = 240;
+        const W = bbWrap.clientWidth - 8, H = 340; // Increased H for more vertical space
         svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`); svgEl.setAttribute('width', W);
         const allP = books.filter(b => b.pagesTotales > 0).map(b => b.pagesTotales), maxP = Math.max(...allP, 1);
         const rad = p => 3 + Math.pow(Math.max(0, (p - 40)) / (maxP - 40), 0.6) * 39;
         const slotW = W / READERS.length;
+
         READERS.forEach((r, ri) => {
           const rb = books.filter(b => b.lectrice === r && b.pagesTotales > 0), col = COLORS[r], cx0 = slotW * ri + slotW / 2;
           const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          lbl.setAttribute('x', cx0); lbl.setAttribute('y', H - 2); lbl.setAttribute('text-anchor', 'middle');
+          lbl.setAttribute('x', cx0); lbl.setAttribute('y', H - 6); lbl.setAttribute('text-anchor', 'middle');
           lbl.setAttribute('font-size', '12'); lbl.setAttribute('fill', '#3a4f7a'); lbl.setAttribute('font-family', 'Space Grotesk,sans-serif'); lbl.setAttribute('font-weight', '700'); lbl.textContent = `${EMOJI[r]} ${r}`; svgEl.appendChild(lbl);
+
           const placed = [];
           [...rb].sort((a, b) => b.pagesTotales - a.pagesTotales).forEach(b => {
             const rr = rad(b.pagesTotales);
-            let cx = cx0 + (Math.random() - 0.5) * (slotW * 0.4), cy = (H - 24) / 2 + (Math.random() - 0.5) * ((H - 24) * 0.5);
-            const cx_ = () => { cx = Math.max(slotW * ri + rr + 4, Math.min(slotW * (ri + 1) - rr - 4, cx)); };
-            const cy_ = () => { cy = Math.max(rr + 4, Math.min(H - 24 - rr, cy)); };
+            // Beeswarm vertical placement: start at center, try to pack
+            let cx = cx0;
+            let cy = (H - 40) / 2;
+
+            // Random jitter for natural look
+            cx += (Math.random() - 0.5) * 10;
+            cy += (Math.random() - 0.5) * (H * 0.4);
+
+            const cx_ = () => { cx = Math.max(slotW * ri + rr + 2, Math.min(slotW * (ri + 1) - rr - 2, cx)); };
+            const cy_ = () => { cy = Math.max(rr + 10, Math.min(H - 30 - rr, cy)); };
+
             cx_(); cy_();
-            for (let i = 0; i < 60; i++) { placed.forEach(p => { const dx = cx - p.cx, dy = cy - p.cy, d = Math.sqrt(dx * dx + dy * dy), mn = rr + p.r + 4; if (d < mn && d > 0.01) { const push = (mn - d) * 0.55; cx += dx / d * push; cy += dy / d * push; } }); cx_(); cy_(); }
+            // Collision resolution
+            for (let i = 0; i < 120; i++) {
+              placed.forEach(p => {
+                const dx = cx - p.cx, dy = cy - p.cy, d = Math.sqrt(dx * dx + dy * dy), mn = rr + p.r + 3;
+                if (d < mn && d > 0.01) {
+                  const push = (mn - d) * 0.6;
+                  cx += (dx / d || 0) * push;
+                  cy += (dy / d || 0) * push;
+                }
+              });
+              cx_(); cy_();
+            }
             placed.push({ cx, cy, r: rr });
+
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.style.transition = 'transform 0.2s';
+            g.style.cursor = 'pointer';
+
             const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', rr); c.setAttribute('fill', col); c.setAttribute('fill-opacity', '0.72'); c.setAttribute('stroke', col); c.setAttribute('stroke-width', '1.5'); c.style.cursor = 'pointer';
-            c.addEventListener('mouseenter', () => { tip.style.opacity = 1; tip.innerHTML = `<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note && b.note > 0 ? ' · <span class="rating-star">★</span> ' + b.note : ''}`; });
-            c.addEventListener('mousemove', e => { tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY - 40) + 'px'; });
-            c.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
-            svgEl.appendChild(c);
-            if (rr >= 22) { const t = document.createElementNS('http://www.w3.org/2000/svg', 'text'); t.setAttribute('x', cx); t.setAttribute('y', cy + 4); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '8'); t.setAttribute('fill', '#fff'); t.setAttribute('font-family', 'Space Grotesk,sans-serif'); t.setAttribute('font-weight', '700'); t.setAttribute('pointer-events', 'none'); t.textContent = b.titre.length > 18 ? b.titre.slice(0, 16) + '…' : b.titre; svgEl.appendChild(t); }
+            c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', rr); c.setAttribute('fill', col); c.setAttribute('fill-opacity', '0.75'); c.setAttribute('stroke', col); c.setAttribute('stroke-width', '1.5');
+
+            g.appendChild(c);
+
+            g.addEventListener('mouseenter', () => {
+              tip.style.opacity = 1;
+              tip.innerHTML = `<strong>${b.titre}</strong><br>${b.lectrice} · ${b.pagesTotales}p${b.note && b.note > 0 ? ' · <span class="rating-star">★</span> ' + b.note : ''}`;
+              c.setAttribute('fill-opacity', '1');
+              c.setAttribute('stroke-width', '2.5');
+            });
+            g.addEventListener('mousemove', e => { tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY - 40) + 'px'; });
+            g.addEventListener('mouseleave', () => {
+              tip.style.opacity = 0;
+              c.setAttribute('fill-opacity', '0.75');
+              c.setAttribute('stroke-width', '1.5');
+            });
+
+            svgEl.appendChild(g);
+
+            if (rr >= 24) {
+              const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+              t.setAttribute('x', cx); t.setAttribute('y', cy + 3); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '9'); t.setAttribute('fill', '#fff'); t.setAttribute('font-family', 'Space Grotesk,sans-serif'); t.setAttribute('font-weight', '700'); t.setAttribute('pointer-events', 'none');
+              t.textContent = b.titre.length > 14 ? b.titre.slice(0, 12) + '…' : b.titre; svgEl.appendChild(t);
+            }
           });
         });
-      }, 50);
+      }, 100);
       g.appendChild(bbCard);
-
       w.appendChild(g); return w;
     }
 
@@ -424,6 +489,95 @@
     }
 
 
+    // ── MAISONS D'ÉDITION ──────────────────
+    function secEditions(books) {
+      const w = sec();
+      w.appendChild(slabel("Maisons d'édition", '#db2777'));
+      const g = mk('div', 'two-col fade');
+
+      const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
+      // TOP 20 MAISONS
+      const meCounts = {};
+      books.forEach(b => {
+        if (b.maisonEdition) {
+          const v = b.maisonEdition.trim();
+          if (v) {
+            const nv = capitalize(v);
+            if (!meCounts[nv]) meCounts[nv] = { total: 0, genres: new Set() };
+            meCounts[nv].total += 1;
+            if (b.genre) meCounts[nv].genres.add(b.genre);
+          }
+        }
+      });
+      const meSorted = Object.entries(meCounts).sort((a, b) => b[1].total - a[1].total).slice(0, 20);
+      const meMax = meSorted[0]?.[1].total || 1;
+
+      const p1 = mk('div', 'panel');
+      p1.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#db2777;display:inline-block"></span>TOP 20 MAISONS D'ÉDITION</div>`;
+      const w1 = mk('div', '');
+      if (meSorted.length === 0) {
+        w1.innerHTML = '<div style="color:var(--text-light);font-size:12px;font-style:italic">Aucune donnée trouvée</div>';
+      } else {
+        meSorted.forEach(([f, info]) => {
+          const n = info.total;
+          const emojis = Array.from(info.genres).map(g => ge(g)).join('');
+          const row = mk('div', 'hb-row');
+          row.style.marginBottom = '12px';
+          row.innerHTML = `<span class="hb-label" style="text-transform:none;width:160px;text-align:left;font-size:12px;color:var(--text);display:flex;align-items:center;justify-content:space-between;gap:5px"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${f}">${f}</span><span style="font-size:11px;flex-shrink:0;letter-spacing:-1px">${emojis}</span></span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n / meMax * 100)}%;background:#db2777"></div></div><span class="hb-val">${n}</span>`;
+          w1.appendChild(row);
+        });
+      }
+      p1.appendChild(w1);
+      g.appendChild(p1);
+
+      // MOST COMMON PER GENRE
+      const byGenre = {};
+      books.forEach(b => {
+        if (b.genre && b.maisonEdition) {
+          const gn = b.genre;
+          const m = b.maisonEdition.trim();
+          if (m) {
+            const nv = capitalize(m);
+            if (!byGenre[gn]) byGenre[gn] = {};
+            byGenre[gn][nv] = (byGenre[gn][nv] || 0) + 1;
+          }
+        }
+      });
+
+      const p2 = mk('div', 'panel');
+      p2.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#0891b2;display:inline-block"></span>ÉDITEURS FAVORIS PAR GENRE</div>`;
+
+      const gSorted = Object.keys(byGenre).sort((a, b) => Object.values(byGenre[b]).reduce((x, y) => x + y, 0) - Object.values(byGenre[a]).reduce((x, y) => x + y, 0));
+      const w2 = mk('div', '');
+
+      if (gSorted.length === 0) {
+        w2.innerHTML = '<div style="color:var(--text-light);font-size:12px;font-style:italic">Aucune donnée trouvée</div>';
+      } else {
+        gSorted.forEach(genre => {
+          const gc_res = byGenre[genre];
+          const topM = Object.entries(gc_res).sort((a, b) => b[1] - a[1])[0];
+
+          const row = mk('div', 'top-row');
+          row.style.cssText = "padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between";
+          row.innerHTML = `
+            <div style="font-size:13px;font-weight:700;color:${gc(genre)};display:flex;align-items:center;gap:10px">
+              <span style="font-size:18px">${ge(genre)}</span> <span>${genre}</span>
+            </div>
+            <div style="font-size:13px;color:var(--text);font-weight:700;text-align:right">
+              ${topM[0]} <span style="background:var(--bg);color:var(--text-mid);padding:3px 8px;border-radius:99px;font-size:11px;margin-left:8px;border:1px solid var(--border)">${topM[1]} livres</span>
+            </div>
+          `;
+          w2.appendChild(row);
+        });
+        if (w2.lastChild) w2.lastChild.style.borderBottom = 'none';
+      }
+      p2.appendChild(w2);
+      g.appendChild(p2);
+
+      w.appendChild(g);
+      return w;
+    }
 
     // ── TOP + SHARED ───────────────────────
     function secTopShared(books) {
@@ -486,8 +640,11 @@
       card.style.padding = '20px';
       const fin = books.filter(b => b.fini);
       let activeF = 'Toutes';
+      let activeM = 'Tous';
 
       const header = mk('div', 'ab-header');
+
+      // Reader Tabs
       const tabs = mk('div', 'filter-tabs');
       ['Toutes', ...READERS].forEach(r => {
         const tab = mk('div', `ftab${r === 'Toutes' ? ' active' : ''}`);
@@ -499,7 +656,25 @@
         });
         tabs.appendChild(tab);
       });
-      header.appendChild(tabs); card.appendChild(header);
+      header.appendChild(tabs);
+
+      // Month Filter
+      const mWrap = mk('div', 'mfilter-wrap');
+      const mSelect = mk('select', 'm-select');
+      const optAll = mk('option'); optAll.value = 'Tous'; optAll.textContent = 'Tous les mois';
+      mSelect.appendChild(optAll);
+      MONTHS.forEach(m => {
+        const opt = mk('option'); opt.value = m; opt.textContent = m;
+        mSelect.appendChild(opt);
+      });
+      mSelect.addEventListener('change', (e) => {
+        activeM = e.target.value;
+        renderBList();
+      });
+      mWrap.appendChild(mSelect);
+      header.appendChild(mWrap);
+
+      card.appendChild(header);
 
       const listEl = mk('div', 'blist');
       card.appendChild(listEl);
@@ -508,7 +683,11 @@
 
       function renderBList() {
         listEl.innerHTML = '';
-        const filtered = activeF === 'Toutes' ? fin : fin.filter(b => b.lectrice === activeF);
+        const filtered = fin.filter(b => {
+          const matchF = activeF === 'Toutes' || b.lectrice === activeF;
+          const matchM = activeM === 'Tous' || b.mois === activeM;
+          return matchF && matchM;
+        });
         filtered.forEach(b => {
           const col = COLORS[b.lectrice] || '#999';
           const row = mk('div', 'brow');
@@ -516,11 +695,13 @@
           listEl.appendChild(row);
         });
         countEl.textContent = `${filtered.length} lecture${filtered.length > 1 ? 's' : ''}`;
-        setTimeout(loadCovers, 0);
+        setTimeout(() => loadCovers(listEl), 50);
       }
       renderBList();
       w.appendChild(card); return w;
     }
+
+
 
     // ── HELPERS ────────────────────────────
     function mk(tag, cls = '') { const e = document.createElement(tag); if (cls) e.className = cls; return e; }
@@ -549,8 +730,9 @@
       } catch { _coverCache.set(key, null); return null; }
     }
 
-    function loadCovers() {
-      document.querySelectorAll('.js-cover[data-title]').forEach(async el => {
+    function loadCovers(root) {
+      const scope = root || document;
+      scope.querySelectorAll('.js-cover[data-title]').forEach(async el => {
         if (el.dataset.loaded) return;
         el.dataset.loaded = '1';
         const url = await fetchCover(el.dataset.title, el.dataset.author || '');
