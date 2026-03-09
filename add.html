@@ -46,11 +46,14 @@
     <div class="form-group">
       <div class="form-label"><span class="sdot" style="background:var(--coral)"></span>Qui lit ?</div>
       <div class="reader-grid">
+        <div class="reader-btn" data-reader="Emilie" onclick="selectReader(this)" style="--reader-color:#0891b2">
+          <span class="reader-emoji">🦋</span><span class="reader-name">Emilie</span>
+        </div>
         <div class="reader-btn" data-reader="Emiline" onclick="selectReader(this)" style="--reader-color:#ca8a04">
           <span class="reader-emoji">🌸</span><span class="reader-name">Emiline</span>
         </div>
-        <div class="reader-btn" data-reader="Zoé" onclick="selectReader(this)" style="--reader-color:#7c3aed">
-          <span class="reader-emoji">✨</span><span class="reader-name">Zoé</span>
+        <div class="reader-btn" data-reader="Julie" onclick="selectReader(this)" style="--reader-color:#e85d3a">
+          <span class="reader-emoji">🌺</span><span class="reader-name">Julie</span>
         </div>
         <div class="reader-btn" data-reader="Laura V" onclick="selectReader(this)" style="--reader-color:#16a34a">
           <span class="reader-emoji">🌿</span><span class="reader-name">Laura V</span>
@@ -58,11 +61,8 @@
         <div class="reader-btn" data-reader="Laura M" onclick="selectReader(this)" style="--reader-color:#1d4ed8">
           <span class="reader-emoji">📖</span><span class="reader-name">Laura M</span>
         </div>
-        <div class="reader-btn" data-reader="Emilie" onclick="selectReader(this)" style="--reader-color:#0891b2">
-          <span class="reader-emoji">🦋</span><span class="reader-name">Emilie</span>
-        </div>
-        <div class="reader-btn" data-reader="Julie" onclick="selectReader(this)" style="--reader-color:#e85d3a">
-          <span class="reader-emoji">🌺</span><span class="reader-name">Julie</span>
+        <div class="reader-btn" data-reader="Zoé" onclick="selectReader(this)" style="--reader-color:#7c3aed">
+          <span class="reader-emoji">✨</span><span class="reader-name">Zoé</span>
         </div>
       </div>
     </div>
@@ -278,6 +278,7 @@
     // ════════════════════════════════════════════════
     //  ⚙️  CONFIGURATION — seule ligne à modifier
     //  si l'URL du Apps Script venait à changer
+    // Now using the real Gsheet file, owned by Laura V
     // ════════════════════════════════════════════════
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtk_FIGTuZ2NyM5ZT-9n2NOMaMvVe9yQulpv6NZyHkOR_TXj9ghUQHlMkWS5FA7BNr/exec";
     // ════════════════════════════════════════════════
