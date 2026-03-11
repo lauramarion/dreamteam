@@ -77,7 +77,12 @@ function render(books, goals, gen) {
             btn.dataset.lucideDown = 'chevron-down';
             btn.dataset.lucideUp = 'chevron-up';
             setReadMoreLabel(btn, false);
-            el.parentNode.insertBefore(btn, el.nextSibling);
+            const footer = el.parentNode.querySelector('.dc-footer');
+            if (footer) {
+                footer.appendChild(btn);
+            } else {
+                el.parentNode.insertBefore(btn, el.nextSibling);
+            }
             btn.addEventListener('click', () => {
                 const expanded = el.classList.toggle('expanded');
                 setReadMoreLabel(btn, expanded);
@@ -191,7 +196,9 @@ function secDernieres(books) {
               </div>
             </div>
             ${b.avis ? `<div class="breview">« ${b.avis} »</div>` : ''}
-            ${tags ? `<div class="btags">${tags}</div>` : ''}
+            <div class="dc-footer">
+              ${tags ? `<div class="btags">${tags}</div>` : ''}
+            </div>
           `;
         }
         g.appendChild(card);
