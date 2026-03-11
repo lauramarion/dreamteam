@@ -1,3 +1,6 @@
+// MAIN DASHBOARD
+//==============================================
+
 const BOOKS = [];
 const GOALS = {};
 
