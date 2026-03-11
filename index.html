@@ -40,22 +40,6 @@
 
   <script>
 
-    // Get the last commit date from GitHub
-    // ════════════════════════════════════════════════    
-    async function loadCommitDate() {
-      try {
-        const res = await fetch('https://api.github.com/repos/lauramarion/dreamteam/commits/main');
-        const data = await res.json();
-        const d = new Date(data.commit.committer.date);
-        const date = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-        const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        document.getElementById('commitTag').textContent = 'Dernière mise à jour du site : ' + date + ' à ' + time;
-      } catch (e) {
-        document.getElementById('commitTag').textContent = 'Dernière mise à jour : inconnue';
-      }
-    }
-    // ════════════════════════════════════════════════    
-
     const READERS = [
       'Emiline',
       'Emilie',
@@ -98,6 +82,22 @@
     // Now using the real Gsheet file, owned by Laura V
     // ════════════════════════════════════════════════
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtk_FIGTuZ2NyM5ZT-9n2NOMaMvVe9yQulpv6NZyHkOR_TXj9ghUQHlMkWS5FA7BNr/exec';
+
+    // Get the last commit date from GitHub
+    // ════════════════════════════════════════════════    
+    async function loadCommitDate() {
+      try {
+        const res = await fetch('https://api.github.com/repos/lauramarion/dreamteam/commits/main');
+        const data = await res.json();
+        const d = new Date(data.commit.committer.date);
+        const date = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('commitTag').textContent = 'Dernière mise à jour du site : ' + date + ' à ' + time;
+      } catch (e) {
+        document.getElementById('commitTag').textContent = 'Dernière mise à jour : inconnue';
+      }
+    }
+    // ════════════════════════════════════════════════    
 
     function loadData() {
       const btn = document.getElementById('refreshBtn');
@@ -777,6 +777,7 @@
     function setupGuide() { return `<div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;font-family:'Nunito',sans-serif;line-height:1.8"><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px">📋 Guide d'installation</div><ol style="padding-left:20px;display:flex;flex-direction:column;gap:14px;color:var(--text-mid);font-size:14px"><li>Google Sheets → <em>Extensions</em> → <em>Apps Script</em></li><li>Collez le contenu du fichier <code>Code.gs</code> fourni</li><li>Vérifiez <code>getSheetByName("2026")</code> et <code>getSheetByName("Listes")</code></li><li><strong>Déployer</strong> → Nouveau déploiement → Application Web → Accès : <em>Tout le monde</em></li><li>Copiez l'URL et remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> dans ce fichier</li></ol></div>`; }
 
     loadData();
+    loadCommitDate();
   </script>
 </body>
 
