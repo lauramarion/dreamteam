@@ -17,8 +17,8 @@ const COLORS = {
 const EMOJI = {
   'Emiline': '🌸',
   'Emilie': '🦋',
-  'Julie': '🌺',
-  'Laura M': '📖',
+  'Julie': '🍂',
+  'Laura M': '👻',
   'Laura V': '☀️',
   'Zoé': '✨'
 };
