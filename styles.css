@@ -1507,12 +1507,13 @@ footer {
 /* ── Form header (reuses .site-header gradient) ── */
 .form-header {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 40%, #1a0f2e 100%);
-  border: 1px solid rgba(42, 68, 128, 0.2);
-  border-radius: 16px;
   padding: 22px;
   position: relative;
   overflow: hidden;
   margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .form-header::before {
@@ -1558,23 +1559,7 @@ footer {
   margin-top: 5px;
 }
 
-/* ── Form back button ── */
-.form-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  text-decoration: none;
-  margin-bottom: 12px;
-  transition: color 0.15s;
-  position: relative;
-  z-index: 1;
-}
+
 
 /* ── Form section label (lighter version of .section-label) ── */
 .form-label {
