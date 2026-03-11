@@ -1794,7 +1794,7 @@ textarea {
 }
 
 .dates-area.open {
-  max-height: 120px;
+  max-height: 250px;
 }
 
 /* ── Star rating ── */
