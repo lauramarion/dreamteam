@@ -489,6 +489,31 @@ main {
   margin-top: auto;
 }
 
+.breview.expanded {
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  display: block;
+}
+
+.read-more-btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--teal);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 2px;
+  transition: color 0.15s;
+}
+
+.read-more-btn:hover {
+  color: var(--navy);
+}
+
 .btags {
   display: flex;
   gap: 5px;

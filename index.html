@@ -109,7 +109,26 @@
       app.appendChild(main);
       setTimeout(() => {
         loadCovers();
-        if (window.lucide) lucide.createIcons();
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+        document.querySelectorAll('.breview').forEach(el => {
+          if (el.scrollHeight > el.clientHeight) {
+            const btn = document.createElement('div');
+            btn.className = 'read-more-btn';
+            btn.innerHTML = 'Lire la suite <i data-lucide="chevron-down" style="width:12px;height:12px;stroke-width:3px;vertical-align:-2px"></i>';
+            el.parentNode.insertBefore(btn, el.nextSibling);
+
+            btn.onclick = () => {
+              const expand = el.classList.toggle('expanded');
+              btn.innerHTML = expand 
+                ? 'Réduire <i data-lucide="chevron-up" style="width:12px;height:12px;stroke-width:3px;vertical-align:-2px"></i>' 
+                : 'Lire la suite <i data-lucide="chevron-down" style="width:12px;height:12px;stroke-width:3px;vertical-align:-2px"></i>';
+              if (window.lucide) lucide.createIcons({root: btn});
+            };
+            if (window.lucide) lucide.createIcons({root: btn});
+          }
+        });
       }, 0);
       const tp = fin.reduce((s, b) => s + b.pagesTotales, 0);
       document.getElementById('footerStats').textContent = `${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages · 6 lectrices`;
