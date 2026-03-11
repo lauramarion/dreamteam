@@ -99,7 +99,8 @@
 
       <div>
         <div class="field-label">Maison d'édition</div>
-        <input type="text" id="maisonEdition" placeholder="Ex : Gallimard, Rageot…" autocomplete="off">
+        <input type="text" id="maisonEdition" placeholder="Ex : Gallimard, Rageot…" autocomplete="off" list="editions-suggestions">
+        <datalist id="editions-suggestions"></datalist>
       </div>
     </div>
 
@@ -292,6 +293,7 @@
       .then(data => {
         allBooks = data.books || [];
         if (selectedReader) updateTitleSuggestions();
+        updateEditionSuggestions();
       })
       .catch(e => console.error("Erreur chargement livres:", e));
 
@@ -314,6 +316,33 @@
           }
         }
       }
+    }
+
+    function updateEditionSuggestions() {
+      const datalist = document.getElementById('editions-suggestions');
+      datalist.innerHTML = '';
+      
+      const seen = new Set();
+      // Collect frequencies to sort by most popular, or just add all unique
+      const counts = {};
+      allBooks.forEach(b => {
+        if (b.maisonEdition) {
+          const m = b.maisonEdition.trim();
+          if (m) {
+            // standardize capitalization to count properly
+            const mc = m.charAt(0).toUpperCase() + m.slice(1).toLowerCase();
+            counts[mc] = (counts[mc] || 0) + 1;
+            // also we can store the exact casing if we want, but let's use standardized
+          }
+        }
+      });
+      
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      sorted.forEach(([m, count]) => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        datalist.appendChild(opt);
+      });
     }
 
     // ── Edit-mode state ──────────────────────────────────────────────
