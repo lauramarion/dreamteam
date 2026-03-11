@@ -41,6 +41,70 @@
   --shadow: rgba(26, 47, 94, 0.09);
 }
 
+/* ── SHARED UTILITIES ──────────────────────── */
+
+/* Heading font shorthand — apply via class or reference in rules */
+:root {
+  --font-heading: 'Space Grotesk', sans-serif;
+}
+
+/* Base card surface (white, bordered, rounded, shadowed) */
+.base-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 6px var(--shadow);
+}
+
+/* Cover thumbnail (small book cover placeholder) */
+.cover-thumb {
+  background: var(--navy-pale);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Flex content area that shrinks gracefully */
+.flex-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Single-line text truncation */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Bordered list row (used by top-row, sh-row) */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+.list-row:last-child {
+  border-bottom: none;
+}
+
+/* Section card title (used by .acard-title, .panel-title) */
+.card-heading {
+  font-family: var(--font-heading);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
 .rating-star {
   color: #f59e0b;
   margin-right: 2px;
@@ -252,6 +316,8 @@ main {
   box-shadow: 0 1px 6px var(--shadow);
 }
 
+/* Cards that extend .base-card only need their unique props */
+
 
 /* ── STATS ──────────────────────────────────── */
 
@@ -262,11 +328,7 @@ main {
 }
 
 .stat-tile {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
   padding: 18px 18px 14px;
-  box-shadow: 0 1px 6px var(--shadow);
 }
 
 .stat-tile.dark {
@@ -359,11 +421,7 @@ main {
 }
 
 .derniere-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 1px 6px var(--shadow);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -470,16 +528,7 @@ main {
   stroke-width: 3px !important;
 }
 
-.bmeta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: var(--text-mid);
-  font-weight: 600;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
+/* (removed unused .bmeta) */
 
 .breview {
   font-size: 11px;
@@ -535,58 +584,8 @@ main {
   border: 1px solid var(--border);
 }
 
-/* legacy — kept for any future reuse */
-.btitle-lg {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.5px;
-  margin-bottom: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.mini-book {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px;
-  box-shadow: 0 1px 6px var(--shadow);
-  display: flex;
-  gap: 10px;
-}
-
-.mini-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.mini-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 2px;
-  margin-top: 5px;
-}
-
-.mini-author {
-  font-size: 11px;
-  color: var(--text-light);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.mini-meta {
-  font-size: 11px;
-  color: var(--text-mid);
-  font-weight: 600;
-}
+/* (removed unused .btitle-lg, .mini-book, .mini-content,
+   .mini-title, .mini-author, .mini-meta) */
 
 
 /* ── READER CARDS ───────────────────────────── */
@@ -598,11 +597,7 @@ main {
 }
 
 .reader-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
   padding: 18px;
-  box-shadow: 0 1px 6px var(--shadow);
 }
 
 .rc-header {
@@ -792,17 +787,15 @@ main {
 }
 
 .acard {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 1px 6px var(--shadow);
   display: flex;
   flex-direction: column;
 }
 
-.acard-title {
-  font-family: 'Space Grotesk', sans-serif;
+/* .acard-title and .panel-title are aliases for .card-heading */
+.acard-title,
+.panel-title {
+  font-family: var(--font-heading);
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -961,27 +954,14 @@ main {
 }
 
 .panel {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 1px 6px var(--shadow);
 }
 
-.panel-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
+/* .panel-title is merged with .acard-title above */
 
-.top-row {
+/* .top-row and .sh-row share .list-row base */
+.top-row,
+.sh-row {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -989,7 +969,8 @@ main {
   border-bottom: 1px solid var(--border);
 }
 
-.top-row:last-child {
+.top-row:last-child,
+.sh-row:last-child {
   border-bottom: none;
 }
 
@@ -1002,57 +983,8 @@ main {
   flex-shrink: 0;
 }
 
-.tcover {
-  width: 34px;
-  height: 46px;
-  border-radius: 4px;
-  background: var(--navy-pale);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.top-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.top-title {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.top-author {
-  font-size: 11px;
-  color: var(--text-light);
-  font-weight: 600;
-  margin-bottom: 3px;
-}
-
-.stars span {
-  color: #f59e0b;
-  font-size: 12px;
-}
-
-.sh-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.sh-row:last-child {
-  border-bottom: none;
-}
-
+/* .tcover and .sh-cover share the cover-thumb base */
+.tcover,
 .sh-cover {
   width: 34px;
   height: 46px;
@@ -1066,20 +998,35 @@ main {
   flex-shrink: 0;
 }
 
+.top-content,
 .sh-content {
   flex: 1;
   min-width: 0;
 }
 
+.top-title,
 .sh-title {
   font-size: 13px;
   font-weight: 800;
   color: var(--text);
-  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.sh-title {
+  margin-bottom: 5px;
+}
+
+.top-author {
+  font-size: 11px;
+  color: var(--text-light);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+
+/* (removed duplicate .sh-row / .sh-cover / .sh-content / .sh-title — merged above) */
 
 .sh-chips {
   display: flex;
@@ -1121,13 +1068,7 @@ main {
 
 /* ── MOTS-CLÉS ──────────────────────────────── */
 
-.kcard {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 1px 6px var(--shadow);
-}
+/* (removed unused .kcard) */
 
 .kcloud {
   display: flex;
@@ -1184,12 +1125,7 @@ main {
   gap: 6px;
 }
 
-.sz-circle {
-  border-radius: 50%;
-  background: var(--navy-pale);
-  border: 1.5px solid #3d5fa0;
-  flex-shrink: 0;
-}
+/* (removed unused .sz-circle) */
 
 
 /* ── TOUTES LES LECTURES ────────────────────── */
@@ -1428,16 +1364,7 @@ main {
 
 /* ── LOADING & ERROR ────────────────────────── */
 
-.loading-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  gap: 16px;
-  font-family: 'Space Grotesk', sans-serif;
-  color: var(--text-light);
-}
+/* (removed unused .loading-screen) */
 
 .spinner {
   width: 36px;
@@ -1454,33 +1381,7 @@ main {
   }
 }
 
-.error-box {
-  background: #fff1ee;
-  border: 1.5px solid #fca5a5;
-  border-radius: 12px;
-  padding: 24px 32px;
-  max-width: 580px;
-  margin: 40px auto;
-  font-family: 'Space Grotesk', sans-serif;
-}
-
-.error-box h3 {
-  color: var(--coral);
-  margin-bottom: 8px;
-}
-
-.error-box p {
-  color: var(--text-mid);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.error-box code {
-  background: var(--bg);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 12px;
-}
+/* (removed unused .error-box) */
 
 
 /* ── ANIMATIONS ─────────────────────────────── */
@@ -1608,11 +1509,7 @@ footer {
   color: var(--teal-light);
 }
 
-.form-header p {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.35);
-  margin-top: 5px;
-}
+/* (removed unused .form-header p) */
 
 
 

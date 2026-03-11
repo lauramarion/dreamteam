@@ -121,11 +121,11 @@ function secStats(books) {
     [
         { i: 'book', l: 'Livres lus', v: total, animate: { end: total, decimals: 0 }, s: 'depuis janvier 2026', dark: true, c: '#fff' },
         { i: 'file-text', l: 'Pages lues', v: pages, animate: { end: pages, decimals: 0 }, s: 'pages', dark: false, c: 'var(--teal)' },
-        { i: 'star', l: 'Note moyenne', v: avgN, animate: avgN ? { end: avgN, decimals: 1, suffix: '/5' } : null, s: '/5', dark: false, c: 'var(--gold)' },
+        { i: 'star', l: 'Note moyenne', v: avgN, animate: avgN ? { end: avgN, decimals: 1 } : null, s: '/5', dark: false, c: 'var(--gold)' },
         { i: 'book-open', l: 'Pages / livre', v: avgP, animate: { end: avgP, decimals: 0 }, s: 'moyenne par livre', dark: false, c: 'var(--mint)' },
         { i: 'timer', l: 'Jours / livre', v: avgJ, animate: avgJ ? { end: avgJ, decimals: 1 } : null, s: 'moyenne par livre', dark: false, c: 'var(--coral)' },
     ].forEach((t, idx) => {
-        const tile = mk('div', `stat-tile${t.dark ? ' dark' : ''}`);
+        const tile = mk('div', `base-card stat-tile${t.dark ? ' dark' : ''}`);
         const displayVal = t.v == null ? '—' : (t.animate ? '0' : t.v);
         const stvEl = mk('div', 'stv');
         stvEl.textContent = displayVal;
@@ -170,7 +170,7 @@ function secDernieres(books) {
     READERS.forEach(r => {
         const b = last[r];
         const col = COLORS[r] || '#999';
-        const card = mk('div', 'derniere-card');
+        const card = mk('div', 'base-card derniere-card');
         card.style.borderTop = `3px solid ${col}`;
         if (!b) {
             card.innerHTML = `<span class="rtag" style="background:${col};position:absolute;top:10px;right:10px">${EMOJI[r] || ''} ${r}</span><div class="dc-empty">Rien encore… 📚</div>`;
@@ -216,7 +216,7 @@ function secReaders(books, goals) {
         const col = COLORS[r], goal = goals?.[r] || 100;
         const pctC = Math.min(100, Math.round(rb.length / goal * 100));
         const link = goals?.[r + '_link'] || '#';
-        const card = mk('div', 'reader-card');
+        const card = mk('div', 'base-card reader-card');
         card.style.borderTop = `4px solid ${col}`;
         card.innerHTML = `
           <div class="rc-header">
@@ -293,7 +293,7 @@ function secAnalyses(books) {
     const byM = {}; MONTHS.forEach(m => byM[m] = 0);
     fin.forEach(b => { if (b.mois && byM[b.mois] !== undefined) byM[b.mois]++; });
     const vals = MONTHS.map(m => byM[m]), maxM = Math.max(...vals, 1);
-    const bc = mk('div', 'acard');
+    const bc = mk('div', 'base-card acard');
     bc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>Livres par mois</div>`;
     const bw = mk('div', 'monthly-bars');
     MONTHS.forEach((m, i) => {
@@ -307,7 +307,7 @@ function secAnalyses(books) {
     // format horizontal bar
     const fCounts = {}; fin.forEach(b => { if (b.format) fCounts[b.format] = (fCounts[b.format] || 0) + 1; });
     const fSorted = Object.entries(fCounts).sort((a, b) => b[1] - a[1]), fMax = fSorted[0]?.[1] || 1;
-    const fc = mk('div', 'acard ac-full');
+    const fc = mk('div', 'base-card acard ac-full');
     fc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#6b7fa8;display:inline-block"></span>FORMATS</div>`;
     fSorted.forEach(([f, n]) => {
         const row = mk('div', 'hb-row');
@@ -320,7 +320,7 @@ function secAnalyses(books) {
     const kwCounts = {};
     books.forEach(b => { if (!b.motsCles) return; b.motsCles.split(',').forEach(k => { const t = k.trim().toLowerCase(); if (t) kwCounts[t] = (kwCounts[t] || 0) + 1; }); });
     const kwSorted = Object.entries(kwCounts).sort((a, b) => b[1] - a[1]), maxC = kwSorted[0]?.[1] || 1;
-    const kwCard = mk('div', 'acard ac-full');
+    const kwCard = mk('div', 'base-card acard ac-full');
     kwCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>MOTS-CLÉS POPULAIRES</div>`;
     const cloud = mk('div', 'kcloud');
     kwSorted.forEach(([k, n]) => {
@@ -333,7 +333,7 @@ function secAnalyses(books) {
     kwCard.appendChild(cloud); g.appendChild(kwCard);
 
     // pages bubbles
-    const bbCard = mk('div', 'acard ac-full');
+    const bbCard = mk('div', 'base-card acard ac-full');
     bbCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#1a2f5e;display:inline-block"></span>PAGES PAR LIVRE</div>`;
     const bbWrap = mk('div', 'bubble-wrap');
     const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -434,7 +434,7 @@ function secAnalyses(books) {
 }
 
 function donutCard(title, counts, total, dotColor, colorMap) {
-    const card = mk('div', 'acard');
+    const card = mk('div', 'base-card acard');
     card.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:${dotColor};display:inline-block"></span>${title.toUpperCase()}</div>`;
     const localTotal = Object.values(counts).reduce((s, v) => s + v, 0) || 1;
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 7);
@@ -515,7 +515,7 @@ function secEditions(books) {
     const meSorted = Object.entries(meCounts).sort((a, b) => b[1].total - a[1].total).slice(0, 20);
     const meMax = meSorted[0]?.[1].total || 1;
 
-    const p1 = mk('div', 'panel');
+    const p1 = mk('div', 'base-card panel');
     p1.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#db2777;display:inline-block"></span>TOP 20 MAISONS D'ÉDITION</div>`;
     const w1 = mk('div', '');
     if (meSorted.length === 0) {
@@ -547,7 +547,7 @@ function secEditions(books) {
         }
     });
 
-    const p2 = mk('div', 'panel');
+    const p2 = mk('div', 'base-card panel');
     p2.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#0891b2;display:inline-block"></span>ÉDITEURS FAVORIS PAR GENRE</div>`;
 
     const gSorted = Object.keys(byGenre).sort((a, b) => Object.values(byGenre[b]).reduce((x, y) => x + y, 0) - Object.values(byGenre[a]).reduce((x, y) => x + y, 0));
@@ -587,7 +587,7 @@ function secTopShared(books) {
     const g = mk('div', 'two-col fade');
 
     // TOP
-    const tp = mk('div', 'panel');
+    const tp = mk('div', 'base-card panel');
     tp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
     [...books].filter(b => b.note && b.note > 0).sort((a, b) => b.note - a.note).slice(0, 5).forEach((b, i) => {
         const row = mk('div', 'top-row');
@@ -608,7 +608,7 @@ function secTopShared(books) {
     });
 
     // SHARED
-    const sp = mk('div', 'panel');
+    const sp = mk('div', 'base-card panel');
     sp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#059669;display:inline-block"></span>LECTURES EN COMMUN</div>`;
     const byT = {};
     books.forEach(b => {
