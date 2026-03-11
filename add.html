@@ -74,7 +74,8 @@
       <div style="margin-bottom:10px">
         <div class="field-label">Titre <span class="req">*</span></div>
         <!-- onblur fires the duplicate check when the user leaves the title field -->
-        <input type="text" id="titre" placeholder="Le titre du livre…" autocomplete="off" onblur="checkDuplicate()">
+        <input type="text" id="titre" placeholder="Le titre du livre…" autocomplete="off" list="livres-suggestions" onblur="checkDuplicate()">
+        <datalist id="livres-suggestions"></datalist>
       </div>
 
       <div style="margin-bottom:10px">
@@ -283,6 +284,38 @@
     let tags = [];
     const chips = {};
 
+    let allBooks = [];
+    
+    // Fetch all books on load to populate the title datalist
+    fetch(APPS_SCRIPT_URL)
+      .then(r => r.json())
+      .then(data => {
+        allBooks = data.books || [];
+        if (selectedReader) updateTitleSuggestions();
+      })
+      .catch(e => console.error("Erreur chargement livres:", e));
+
+    function updateTitleSuggestions() {
+      const datalist = document.getElementById('livres-suggestions');
+      datalist.innerHTML = '';
+      if (!selectedReader) return;
+      
+      const seen = new Set();
+      // Iterate backwards to get most recent first
+      for (let i = allBooks.length - 1; i >= 0; i--) {
+        const b = allBooks[i];
+        if (b.lectrice === selectedReader && b.titre) {
+          const t = b.titre.trim();
+          if (!seen.has(t.toLowerCase())) {
+            seen.add(t.toLowerCase());
+            const opt = document.createElement('option');
+            opt.value = t;
+            datalist.appendChild(opt);
+          }
+        }
+      }
+    }
+
     // ── Edit-mode state ──────────────────────────────────────────────
     // null   = normal "add" mode
     // number = 1-based sheet row of the entry being edited
@@ -294,6 +327,7 @@
       document.querySelectorAll('.reader-btn').forEach(b => b.classList.remove('active'));
       el.classList.add('active');
       selectedReader = el.dataset.reader;
+      updateTitleSuggestions();
       // Re-run duplicate check if a title is already typed
       if (document.getElementById('titre').value.trim()) checkDuplicate();
     }
