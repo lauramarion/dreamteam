@@ -95,35 +95,59 @@ function render(books, goals, gen) {
 }
 
 // ── STATS ──────────────────────────────
+function animateCount(el, endValue, { duration = 900, decimals = 0, suffix = '', delay = 0 } = {}) {
+    setTimeout(() => {
+        const startTime = performance.now();
+        function step(now) {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            const value = eased * endValue;
+            el.textContent = (decimals > 0 ? value.toFixed(decimals) : Math.round(value).toLocaleString('fr-FR')) + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }, delay);
+}
+
 function secStats(books) {
     const w = sec();
     w.appendChild(slabel('Vue d\'ensemble', '#1a2f5e'));
     const g = mk('div', 'stats-row fade');
     const total = books.length, pages = books.reduce((s, b) => s + b.pagesTotales, 0);
     const rated = books.filter(b => b.note && b.note > 0);
-    const avgN = rated.length ? (rated.reduce((s, b) => s + b.note, 0) / rated.length).toFixed(1) : '—';
+    const avgN = rated.length ? (rated.reduce((s, b) => s + b.note, 0) / rated.length) : null;
     const avgP = total ? Math.round(pages / total) : 0;
     const wd = books.filter(b => b.jours > 0 && b.jours < 365);
-    const avgJ = wd.length ? (wd.reduce((s, b) => s + b.jours, 0) / wd.length).toFixed(1) : '—';
+    const avgJ = wd.length ? (wd.reduce((s, b) => s + b.jours, 0) / wd.length) : null;
     [
-        { i: 'book', l: 'Livres lus', v: total, u: '', s: 'depuis janvier 2026', dark: true, c: '#fff' },
-        { i: 'file-text', l: 'Pages lues', v: pages.toLocaleString('fr-FR'), u: '', s: 'pages', dark: false, c: 'var(--teal)' },
-        { i: 'star', l: 'Note moyenne', v: avgN, s: '/5', dark: false, c: 'var(--gold)' },
-        { i: 'book-open', l: 'Pages / livre', v: avgP, u: '', s: 'moyenne par livre', dark: false, c: 'var(--mint)' },
-        { i: 'timer', l: 'Jours / livre', v: avgJ, u: '', s: 'moyenne par livre', dark: false, c: 'var(--coral)' },
-    ].forEach(t => {
+        { i: 'book', l: 'Livres lus', v: total, animate: { end: total, decimals: 0 }, s: 'depuis janvier 2026', dark: true, c: '#fff' },
+        { i: 'file-text', l: 'Pages lues', v: pages, animate: { end: pages, decimals: 0 }, s: 'pages', dark: false, c: 'var(--teal)' },
+        { i: 'star', l: 'Note moyenne', v: avgN, animate: avgN ? { end: avgN, decimals: 1, suffix: '/5' } : null, s: '/5', dark: false, c: 'var(--gold)' },
+        { i: 'book-open', l: 'Pages / livre', v: avgP, animate: { end: avgP, decimals: 0 }, s: 'moyenne par livre', dark: false, c: 'var(--mint)' },
+        { i: 'timer', l: 'Jours / livre', v: avgJ, animate: avgJ ? { end: avgJ, decimals: 1 } : null, s: 'moyenne par livre', dark: false, c: 'var(--coral)' },
+    ].forEach((t, idx) => {
         const tile = mk('div', `stat-tile${t.dark ? ' dark' : ''}`);
+        const displayVal = t.v == null ? '—' : (t.animate ? '0' : t.v);
+        const stvEl = mk('div', 'stv');
+        stvEl.textContent = displayVal;
         tile.innerHTML = `
           <div class="sti-wrap"><i data-lucide="${t.i}" style="stroke:${t.c}"></i></div>
           <div class="stl">${t.l}</div>
-          <div class="stv">
-            ${t.v}${t.u ? `<span class="u">${t.u}</span>` : ''}
-          </div>
+        `;
+        tile.appendChild(stvEl);
+        tile.insertAdjacentHTML('beforeend', `
           <div class="sts">
             ${t.s}
             <div class="st-accent" style="background:${t.c}"></div>
           </div>
-        `;
+        `);
+        if (t.animate && t.v != null) {
+            animateCount(stvEl, t.animate.end, {
+                decimals: t.animate.decimals || 0,
+                suffix: t.animate.suffix || '',
+                delay: idx * 80,
+            });
+        }
         g.appendChild(tile);
     });
     w.appendChild(g); return w;
