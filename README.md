@@ -4,13 +4,14 @@ Les données sont dans un Google Sheet, rendues accessibles par l'extension App 
 Les covers sont viennent de l'API Google Books, Les icones de lucide.dev
 
 TO DO 
-[] dark mode
-[] better comments
-[] integrate 2020-2025 data
-[] better authors handling, plus authors charts
-[] series tracker
-[] PAL/wishlists
-[] search field
-[] recent activities (has started/edited/finished a book)
-[] "currently reading" section
-[] better cover handling
+- [ ] dark mode
+- [ ] better comments
+- [ ] integrate 2020-2025 data
+- [ ] better authors handling, plus authors charts
+- [ ] series tracker
+- [ ] PAL/wishlists
+- [ ] search field
+- [ ] recent activities (has started/edited/finished a book)
+- [ ] "currently reading" section
+- [ ] better cover handling
+- [x] make the team spirit animal a peacock
