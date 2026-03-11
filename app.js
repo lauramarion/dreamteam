@@ -69,29 +69,28 @@ function render(books, goals, gen) {
     app.appendChild(main);
     setTimeout(() => {
         loadCovers();
-        if (window.lucide) {
-            lucide.createIcons();
-        }
+        if (window.lucide) lucide.createIcons();
         document.querySelectorAll('.breview').forEach(el => {
-            if (el.scrollHeight > el.clientHeight) {
-                const btn = document.createElement('div');
-                btn.className = 'read-more-btn';
-                btn.innerHTML = 'Lire la suite <i data-lucide="chevron-down" style="width:12px;height:12px;stroke-width:3px;vertical-align:-2px"></i>';
-                el.parentNode.insertBefore(btn, el.nextSibling);
-
-                btn.onclick = () => {
-                    const expand = el.classList.toggle('expanded');
-                    btn.innerHTML = expand
-                        ? 'Réduire <i data-lucide="chevron-up" style="width:12px;height:12px;stroke-width:3px;vertical-align:-2px"></i>'
-                        : 'Lire la suite <i data-lucide="chevron-down" style="width:12px;height:12px;stroke-width:3px;vertical-align:-2px"></i>';
-                    if (window.lucide) lucide.createIcons({ root: btn });
-                };
+            if (el.scrollHeight <= el.clientHeight) return;
+            const btn = document.createElement('div');
+            btn.className = 'read-more-btn';
+            btn.dataset.lucideDown = 'chevron-down';
+            btn.dataset.lucideUp = 'chevron-up';
+            setReadMoreLabel(btn, false);
+            el.parentNode.insertBefore(btn, el.nextSibling);
+            btn.addEventListener('click', () => {
+                const expanded = el.classList.toggle('expanded');
+                setReadMoreLabel(btn, expanded);
                 if (window.lucide) lucide.createIcons({ root: btn });
-            }
+            });
+            if (window.lucide) lucide.createIcons({ root: btn });
         });
     }, 0);
     const tp = fin.reduce((s, b) => s + b.pagesTotales, 0);
-    document.getElementById('footerStats').textContent = `${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages · 6 lectrices`;
+    const nReaders = READERS.length;
+    document.getElementById('footerStats').textContent =
+        `${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages`
+        + ` · ${nReaders} lectrice${nReaders > 1 ? 's' : ''}`;
 }
 
 // ── STATS ──────────────────────────────
@@ -130,17 +129,22 @@ function secStats(books) {
         const displayVal = t.v == null ? '—' : (t.animate ? '0' : t.v);
         const stvEl = mk('div', 'stv');
         stvEl.textContent = displayVal;
-        tile.innerHTML = `
-          <div class="sti-wrap"><i data-lucide="${t.i}" style="stroke:${t.c}"></i></div>
-          <div class="stl">${t.l}</div>
-        `;
+        const stiWrap = mk('div', 'sti-wrap');
+        const icon = document.createElement('i');
+        icon.dataset.lucide = t.i;
+        icon.style.stroke = t.c;
+        stiWrap.appendChild(icon);
+        const stl = mk('div', 'stl');
+        stl.textContent = t.l;
+        tile.appendChild(stiWrap);
+        tile.appendChild(stl);
         tile.appendChild(stvEl);
-        tile.insertAdjacentHTML('beforeend', `
-          <div class="sts">
-            ${t.s}
-            <div class="st-accent" style="background:${t.c}"></div>
-          </div>
-        `);
+        const sts = mk('div', 'sts');
+        sts.textContent = t.s;
+        const accent = mk('div', 'st-accent');
+        accent.style.background = t.c;
+        sts.appendChild(accent);
+        tile.appendChild(sts);
         if (t.animate && t.v != null) {
             animateCount(stvEl, t.animate.end, {
                 decimals: t.animate.decimals || 0,
@@ -462,17 +466,28 @@ function donutCard(title, counts, total, dotColor, colorMap) {
     });
 
     const leg = mk('div', 'donut-legend');
+    const frag = document.createDocumentFragment();
     segs.forEach(s => {
         const pct = Math.round(s.pct * 100);
-        leg.innerHTML += `
-          <div class="dl-item">
-            <div class="dl-dot" style="background:${s.color}"></div>
-            <span class="dl-name" title="${s.k}">${s.k}</span>
-            <span class="dl-pct">${pct}%</span>
-          </div>`;
+        const item = mk('div', 'dl-item');
+        const dot = mk('div', 'dl-dot');
+        dot.style.background = s.color;
+        const name = mk('span', 'dl-name');
+        name.title = s.k;
+        name.textContent = s.k;
+        const pctEl = mk('span', 'dl-pct');
+        pctEl.textContent = pct + '%';
+        item.appendChild(dot);
+        item.appendChild(name);
+        item.appendChild(pctEl);
+        frag.appendChild(item);
     });
+    leg.appendChild(frag);
     const wrap = mk('div', 'donut-wrap');
-    wrap.appendChild(svgEl); wrap.appendChild(leg); card.appendChild(wrap); return card;
+    wrap.appendChild(svgEl);
+    wrap.appendChild(leg);
+    card.appendChild(wrap);
+    return card;
 }
 
 
@@ -691,14 +706,36 @@ function secAllBooks(books) {
 
 
 // ── HELPERS ────────────────────────────
-function mk(tag, cls = '') { const e = document.createElement(tag); if (cls) e.className = cls; return e; }
-function sec() { const d = mk('div', 'sec'); return d; }
-function slabel(text, dotColor) { const d = mk('div', 'section-label'); d.innerHTML = `<span class="sdot" style="background:${dotColor}"></span>${text.toUpperCase()}`; return d; }
+function mk(tag, cls = '') {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    return e;
+}
+function sec() { return mk('div', 'sec'); }
+function slabel(text, dotColor) {
+    const d = mk('div', 'section-label');
+    const dot = mk('span', 'sdot');
+    dot.style.background = dotColor;
+    d.appendChild(dot);
+    d.appendChild(document.createTextNode(text.toUpperCase()));
+    return d;
+}
 function getGoodreadsLink(titre, auteur) {
-    const q = encodeURIComponent(titre + (auteur ? ' ' + auteur : ''));
+    const q = encodeURIComponent(
+        titre + (auteur ? ' ' + auteur : '')
+    );
     return `https://www.goodreads.com/search?q=${q}`;
 }
-function starsHtml(n) { let s = ''; const f = Math.floor(n), h = n % 1 >= 0.5; for (let i = 0; i < f; i++)s += '<span class="rating-star">★</span>'; if (h) s += '<span class="rating-star" style="font-size:10px">½</span>'; return s; }
+function setReadMoreLabel(btn, expanded) {
+    const icon = expanded ? 'chevron-up' : 'chevron-down';
+    const label = expanded ? 'Réduire' : 'Lire la suite';
+    const i = document.createElement('i');
+    i.dataset.lucide = icon;
+    i.style.cssText =
+        'width:12px;height:12px;stroke-width:3px;vertical-align:-2px';
+    btn.textContent = label + ' ';
+    btn.appendChild(i);
+}
 
 // ── GOOGLE BOOKS COVERS ────────────────
 const _coverCache = new Map();
@@ -738,7 +775,13 @@ function loadCovers(root) {
     });
 }
 
-function setupGuide() { return `<div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;font-family:'Nunito',sans-serif;line-height:1.8"><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px">📋 Guide d'installation</div><ol style="padding-left:20px;display:flex;flex-direction:column;gap:14px;color:var(--text-mid);font-size:14px"><li>Google Sheets → <em>Extensions</em> → <em>Apps Script</em></li><li>Collez le contenu du fichier <code>Code.gs</code> fourni</li><li>Vérifiez <code>getSheetByName("2026")</code> et <code>getSheetByName("Listes")</code></li><li><strong>Déployer</strong> → Nouveau déploiement → Application Web → Accès : <em>Tout le monde</em></li><li>Copiez l'URL et remplacez <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> dans ce fichier</li></ol></div>`; }
+// ── INIT ────────────────────────────────
+// Attach the refresh button listener unobtrustively,
+// then kick off the initial data load.
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('refreshBtn')
+        .addEventListener('click', loadData);
+});
 
 loadData();
 loadCommitDate();

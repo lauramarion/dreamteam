@@ -168,9 +168,10 @@ body {
   }
 }
 
+.site-header .update-tag.loading,
 .update-tag.loading {
   animation: chargement-pulse 1.4s ease-in-out infinite;
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 600;
 }
 
@@ -1530,11 +1531,32 @@ footer {
    .mbadge, .ktag, .spinner, .fade from above.
    ═══════════════════════════════════════════════ */
 
+.form-header-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* "← Retour" link inside form header */
+.btn-back {
+  text-decoration: none;
+  color: white;
+  white-space: nowrap;
+}
+
 /* ── Form page layout ── */
 .form-page {
   max-width: 480px;
   margin: 0 auto;
   padding: 20px 20px 60px;
+}
+
+/* Remove top padding on the form container */
+#formContainer {
+  padding-top: 0;
 }
 
 /* ── Form header (reuses .site-header gradient) ── */
@@ -2153,6 +2175,62 @@ textarea {
 /* Submit button edit-mode variant */
 .btn-submit.edit-mode {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+}
+
+/* ── Form footer hint text ── */
+.form-hint {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+/* ── Success screen ── */
+.success-page {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 40px;
+  max-width: 480px;
+  margin-inline: auto;
+  padding: 20px 20px 60px;
+}
+
+.success-icon {
+  font-size: 54px;
+  margin-bottom: 16px;
+}
+
+.success-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.success-desc {
+  color: var(--text-mid);
+  font-size: 14px;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.success-secondary-btn {
+  padding: 14px;
+  font-size: 13px;
+  width: 100%;
+  border-color: var(--border);
+  background: var(--white);
+  cursor: pointer;
 }
 
 

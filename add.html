@@ -3,11 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dream Team — Ajouter un livre</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Mulish:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Mulish:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -18,89 +18,112 @@
 
   <!-- ── HEADER ── -->
   <div class="form-header">
-    <div style="max-width: 520px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 30px;">
-      <a href="index.html" class="btn-refresh" style="text-decoration: none; color: white; white-space: nowrap;">←
-        Retour</a>
+    <div class="form-header-inner">
+      <a href="index.html" class="btn-refresh btn-back">← Retour</a>
       <div>
-        <div class="form-header-tag">Lectures de la <em>Dream Team</em></div>
+        <div class="form-header-tag">
+          Lectures de la <em>Dream Team</em>
+        </div>
         <h1>Ajouter un livre</h1>
       </div>
     </div>
   </div>
 
-  <div class="form-page" id="formContainer" style="padding-top: 0;">
+  <div class="form-page" id="formContainer">
 
-    <!-- ── DUPLICATE WARNING ──────────────────────────────────────────
+    <!-- ── DUPLICATE WARNING ─────────────────────────────────────────
          Hidden by default. Appears when title + reader already exist.
          "Modifier" pre-fills the whole form and switches to edit mode.
-         "Ajouter quand même" dismisses and continues as a new entry.  -->
+         "Ajouter quand même" dismisses and continues as a new entry. -->
     <div class="dupe-banner" id="dupeBanner">
       <div class="dupe-icon">⚠️</div>
       <div class="dupe-text">
         <strong id="dupeTitle"></strong>
-        <span>Ce livre existe déjà dans ta liste. Tu veux modifier la ligne existante ?</span>
+        <span>
+          Ce livre existe déjà dans ta liste.
+          Tu veux modifier la ligne existante ?
+        </span>
         <div class="dupe-actions">
-          <button class="dupe-btn primary" onclick="enterEditMode()">✏️ Modifier la ligne existante</button>
-          <button class="dupe-btn secondary" onclick="dismissDupe()">Ajouter quand même</button>
+          <button
+            class="dupe-btn primary"
+            id="enterEditBtn">
+            ✏️ Modifier la ligne existante
+          </button>
+          <button
+            class="dupe-btn secondary"
+            id="dismissDupeBtn">
+            Ajouter quand même
+          </button>
         </div>
       </div>
     </div>
 
     <!-- ── QUI LIT ── -->
     <div class="form-group">
-      <div class="form-label"><span class="sdot" style="background:var(--coral)"></span>Qui lit ?</div>
-      <div class="reader-grid" id="readerGrid">
+      <div class="form-label">
+        <span class="sdot" style="background:var(--coral)"></span>
+        Qui lit ?
       </div>
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const grid = document.getElementById('readerGrid');
-          READERS.forEach(r => {
-            const btn = document.createElement('div');
-            btn.className = 'reader-btn';
-            btn.dataset.reader = r;
-            btn.onclick = function () { selectReader(this) };
-            btn.style.setProperty('--reader-color', COLORS[r]);
-            btn.innerHTML = `<span class="reader-emoji">${EMOJI[r]}</span><span class="reader-name">${r}</span>`;
-            grid.appendChild(btn);
-          });
-        });
-      </script>
+      <div class="reader-grid" id="readerGrid"></div>
     </div>
 
     <!-- ── INFOS DU LIVRE ── -->
     <div class="form-group">
-      <div class="form-label"><span class="sdot" style="background:var(--navy)"></span>Infos du livre</div>
+      <div class="form-label">
+        <span class="sdot" style="background:var(--navy)"></span>
+        Infos du livre
+      </div>
 
       <div style="margin-bottom:10px">
-        <div class="field-label">Titre <span class="req">*</span></div>
-        <!-- onblur fires the duplicate check when the user leaves the title field -->
-        <input type="text" id="titre" placeholder="Le titre du livre…" autocomplete="off" list="livres-suggestions"
-          onblur="checkDuplicate()">
+        <div class="field-label">
+          Titre <span class="req">*</span>
+        </div>
+        <!-- blur fires the duplicate check when the user leaves the field -->
+        <input
+          type="text"
+          id="titre"
+          placeholder="Le titre du livre…"
+          autocomplete="off"
+          list="livres-suggestions">
         <datalist id="livres-suggestions"></datalist>
       </div>
 
       <div style="margin-bottom:10px">
-        <div class="field-label">Auteur·ice <span class="req">*</span></div>
-        <input type="text" id="auteur" placeholder="Prénom Nom" autocomplete="off">
+        <div class="field-label">
+          Auteur·ice <span class="req">*</span>
+        </div>
+        <input
+          type="text"
+          id="auteur"
+          placeholder="Prénom Nom"
+          autocomplete="off">
       </div>
 
       <div style="margin-bottom:10px">
         <div class="field-label">Genre de l'auteur·ice</div>
         <div class="chip-group">
-          <div class="chip" data-value="Femme" data-group="genreAuteur" onclick="toggleChip(this)"
+          <div class="chip" data-value="Femme"
+            data-group="genreAuteur"
             style="--chip-color:#0891b2">👩 Femme</div>
-          <div class="chip" data-value="Homme" data-group="genreAuteur" onclick="toggleChip(this)"
+          <div class="chip" data-value="Homme"
+            data-group="genreAuteur"
             style="--chip-color:#1a2f5e">👨 Homme</div>
-          <div class="chip" data-value="Mixte" data-group="genreAuteur" onclick="toggleChip(this)"
+          <div class="chip" data-value="Mixte"
+            data-group="genreAuteur"
             style="--chip-color:#e85d3a">👥 Mixte</div>
-          <div class="chip" data-value="Non-binaire" data-group="genreAuteur" onclick="toggleChip(this)"
+          <div class="chip" data-value="Non-binaire"
+            data-group="genreAuteur"
             style="--chip-color:#7c3aed">🏳️‍🌈 NB</div>
         </div>
       </div>
 
       <div>
         <div class="field-label">Maison d'édition</div>
-        <input type="text" id="maisonEdition" placeholder="Ex : Gallimard, Rageot…" autocomplete="off"
+        <input
+          type="text"
+          id="maisonEdition"
+          placeholder="Ex : Gallimard, Rageot…"
+          autocomplete="off"
           list="editions-suggestions">
         <datalist id="editions-suggestions"></datalist>
       </div>
@@ -108,58 +131,82 @@
 
     <!-- ── GENRE & FORMAT ── -->
     <div class="form-group">
-      <div class="form-label"><span class="sdot" style="background:var(--teal)"></span>Genre &amp; Format</div>
+      <div class="form-label">
+        <span class="sdot" style="background:var(--teal)"></span>
+        Genre &amp; Format
+      </div>
 
       <div style="margin-bottom:10px">
         <div class="field-label">Genre littéraire</div>
         <div class="chip-group">
-          <div class="chip" data-value="BD" data-group="genre" onclick="toggleChip(this)" style="--chip-color:#1a2f5e">
-            📕 BD</div>
-          <div class="chip" data-value="Roman graphique" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="BD"
+            data-group="genre"
+            style="--chip-color:#1a2f5e">📕 BD</div>
+          <div class="chip" data-value="Roman graphique"
+            data-group="genre"
             style="--chip-color:#2a4480">📗 Roman graphique</div>
-          <div class="chip" data-value="Manga" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Manga"
+            data-group="genre"
             style="--chip-color:#1e40af">🎌 Manga</div>
-          <div class="chip" data-value="Romance" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Romance"
+            data-group="genre"
             style="--chip-color:#e85d3a">💕 Romance</div>
-          <div class="chip" data-value="Romantasy" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Romantasy"
+            data-group="genre"
             style="--chip-color:#d4820a">🐉 Romantasy</div>
-          <div class="chip" data-value="(Auto-)biographie" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="(Auto-)biographie"
+            data-group="genre"
             style="--chip-color:#0891b2">📔 (Auto-)bio</div>
-          <div class="chip" data-value="Littérature contemporaine" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Littérature contemporaine"
+            data-group="genre"
             style="--chip-color:#0e7490">📖 Litt. contemporaine</div>
-          <div class="chip" data-value="Fantasy" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Fantasy"
+            data-group="genre"
             style="--chip-color:#059669">⚔️ Fantasy</div>
-          <div class="chip" data-value="Jeunesse" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Jeunesse"
+            data-group="genre"
             style="--chip-color:#7c3aed">🌟 Jeunesse</div>
-          <div class="chip" data-value="Essai" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Essai"
+            data-group="genre"
             style="--chip-color:#6b7fa8">📝 Essai</div>
-          <div class="chip" data-value="Nouvelles" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Nouvelles"
+            data-group="genre"
             style="--chip-color:#94a3b8">📄 Nouvelles</div>
-          <div class="chip" data-value="Thriller" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Thriller"
+            data-group="genre"
             style="--chip-color:#c4512e">🔪 Thriller</div>
-          <div class="chip" data-value="Littérature historique" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Littérature historique"
+            data-group="genre"
             style="--chip-color:#78716c">📜 Litt. historique</div>
-          <div class="chip" data-value="Webtoon" data-group="genre" onclick="toggleChip(this)"
+          <div class="chip" data-value="Webtoon"
+            data-group="genre"
             style="--chip-color:#db2777">📱 Webtoon</div>
-          <div class="chip" data-value="SF" data-group="genre" onclick="toggleChip(this)" style="--chip-color:#2563eb">
-            🚀 SF</div>
+          <div class="chip" data-value="SF"
+            data-group="genre"
+            style="--chip-color:#2563eb">🚀 SF</div>
         </div>
       </div>
 
       <div style="margin-bottom:10px">
         <div class="field-label">Format</div>
         <div class="chip-group">
-          <div class="chip" data-value="Grand format" data-group="format" onclick="toggleChip(this)"
+          <div class="chip" data-value="Grand format"
+            data-group="format"
             style="--chip-color:#d4820a">📚 Grand format</div>
-          <div class="chip" data-value="Poche" data-group="format" onclick="toggleChip(this)"
+          <div class="chip" data-value="Poche"
+            data-group="format"
             style="--chip-color:#059669">🔖 Poche</div>
-          <div class="chip" data-value="Ebook" data-group="format" onclick="toggleChip(this)"
+          <div class="chip" data-value="Ebook"
+            data-group="format"
             style="--chip-color:#0891b2">📱 Ebook</div>
-          <div class="chip" data-value="BD" data-group="format" onclick="toggleChip(this)" style="--chip-color:#1a2f5e">
-            🎨 BD (format)</div>
-          <div class="chip" data-value="Webtoon" data-group="format" onclick="toggleChip(this)"
+          <div class="chip" data-value="BD"
+            data-group="format"
+            style="--chip-color:#1a2f5e">🎨 BD (format)</div>
+          <div class="chip" data-value="Webtoon"
+            data-group="format"
             style="--chip-color:#db2777">🌐 Webtoon</div>
-          <div class="chip" data-value="Audio" data-group="format" onclick="toggleChip(this)"
+          <div class="chip" data-value="Audio"
+            data-group="format"
             style="--chip-color:#7c3aed">🎧 Audio</div>
         </div>
       </div>
@@ -167,11 +214,21 @@
       <div class="two-col">
         <div>
           <div class="field-label">Pages totales</div>
-          <input type="number" id="pagesTotales" placeholder="320" min="0" inputmode="numeric">
+          <input
+            type="number"
+            id="pagesTotales"
+            placeholder="320"
+            min="0"
+            inputmode="numeric">
         </div>
         <div>
           <div class="field-label">Pages lues</div>
-          <input type="number" id="pagesLues" placeholder="320" min="0" inputmode="numeric">
+          <input
+            type="number"
+            id="pagesLues"
+            placeholder="320"
+            min="0"
+            inputmode="numeric">
           <div class="pages-hint" id="pagesHint"></div>
         </div>
       </div>
@@ -179,10 +236,13 @@
 
     <!-- ── AVANCEMENT ── -->
     <div class="form-group">
-      <div class="form-label"><span class="sdot" style="background:var(--mint)"></span>Avancement</div>
+      <div class="form-label">
+        <span class="sdot" style="background:var(--mint)"></span>
+        Avancement
+      </div>
 
       <div style="margin-bottom:10px">
-        <div class="fini-toggle" id="finiToggle" onclick="toggleFini()">
+        <div class="fini-toggle" id="finiToggle">
           <span class="fini-label">✅ Livre terminé ?</span>
           <div class="toggle-pill"></div>
         </div>
@@ -204,77 +264,93 @@
 
     <!-- ── NOTE & AVIS ── -->
     <div class="form-group">
-      <div class="form-label"><span class="sdot" style="background:var(--gold)"></span>Note &amp; Avis</div>
+      <div class="form-label">
+        <span class="sdot" style="background:var(--gold)"></span>
+        Note &amp; Avis
+      </div>
 
       <div style="margin-bottom:10px">
         <div class="field-label">Note</div>
         <div class="star-row">
-          <span class="star-btn" onclick="setStar(1)">⭐</span>
-          <span class="star-btn" onclick="setStar(2)">⭐</span>
-          <span class="star-btn" onclick="setStar(3)">⭐</span>
-          <span class="star-btn" onclick="setStar(4)">⭐</span>
-          <span class="star-btn" onclick="setStar(5)">⭐</span>
-          <button class="half-toggle" id="halfBtn" onclick="toggleHalf()">+ ½</button>
+          <span class="star-btn" data-star="1">⭐</span>
+          <span class="star-btn" data-star="2">⭐</span>
+          <span class="star-btn" data-star="3">⭐</span>
+          <span class="star-btn" data-star="4">⭐</span>
+          <span class="star-btn" data-star="5">⭐</span>
+          <button class="half-toggle" id="halfBtn">+ ½</button>
           <span class="star-display" id="starDisplay">—</span>
         </div>
       </div>
 
       <div>
         <div class="field-label">Avis / Impression</div>
-        <textarea id="avis" placeholder="Quelques mots sur ce livre…"></textarea>
+        <textarea
+          id="avis"
+          placeholder="Quelques mots sur ce livre…">
+        </textarea>
       </div>
     </div>
 
     <!-- ── MOTS-CLÉS ── -->
     <div class="form-group">
-      <div class="form-label"><span class="sdot" style="background:#7c3aed"></span>Mots-clés</div>
+      <div class="form-label">
+        <span class="sdot" style="background:#7c3aed"></span>
+        Mots-clés
+      </div>
 
-      <div class="tags-wrap" id="tagsWrap" onclick="document.getElementById('tagInput').focus()">
-        <input type="text" class="tag-input" id="tagInput" placeholder="Ajouter un mot-clé…"
-          onkeydown="handleTagKey(event)">
+      <div class="tags-wrap" id="tagsWrap">
+        <input
+          type="text"
+          class="tag-input"
+          id="tagInput"
+          placeholder="Ajouter un mot-clé…">
       </div>
       <div class="tag-suggestions">
-        <span class="tag-sug" onclick="addTag('Romance')">Romance</span>
-        <span class="tag-sug" onclick="addTag('Féminisme')">Féminisme</span>
-        <span class="tag-sug" onclick="addTag('LGBTQIA+')">LGBTQIA+</span>
-        <span class="tag-sug" onclick="addTag('Politique')">Politique</span>
-        <span class="tag-sug" onclick="addTag('Classique')">Classique</span>
-        <span class="tag-sug" onclick="addTag('Autobiographie')">Autobiographie</span>
-        <span class="tag-sug" onclick="addTag('Santé mentale')">Santé mentale</span>
-        <span class="tag-sug" onclick="addTag('Fantasy')">Fantasy</span>
-        <span class="tag-sug" onclick="addTag('Historique')">Historique</span>
-        <span class="tag-sug" onclick="addTag('Philosophie')">Philosophie</span>
-        <span class="tag-sug" onclick="addTag('BD, politique')">BD politique</span>
-        <span class="tag-sug" onclick="addTag('Thriller')">Thriller</span>
+        <span class="tag-sug" data-tag="Romance">Romance</span>
+        <span class="tag-sug" data-tag="Féminisme">Féminisme</span>
+        <span class="tag-sug" data-tag="LGBTQIA+">LGBTQIA+</span>
+        <span class="tag-sug" data-tag="Politique">Politique</span>
+        <span class="tag-sug" data-tag="Classique">Classique</span>
+        <span class="tag-sug" data-tag="Autobiographie">Autobiographie</span>
+        <span class="tag-sug" data-tag="Santé mentale">Santé mentale</span>
+        <span class="tag-sug" data-tag="Fantasy">Fantasy</span>
+        <span class="tag-sug" data-tag="Historique">Historique</span>
+        <span class="tag-sug" data-tag="Philosophie">Philosophie</span>
+        <span class="tag-sug" data-tag="BD, politique">BD politique</span>
+        <span class="tag-sug" data-tag="Thriller">Thriller</span>
       </div>
     </div>
 
     <!-- ── SUBMIT ── -->
-    <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+    <button class="btn-submit" id="submitBtn">
       <span class="btn-spinner"></span>
       <span class="btn-text">📚 Ajouter à la liste</span>
     </button>
-    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--text-light)">
+    <div class="form-hint">
       Les données seront ajoutées directement dans le Google Sheet
     </div>
 
   </div><!-- /.form-page -->
 
   <!-- ── SUCCESS SCREEN ── -->
-  <div class="form-page" id="successContainer" style="display: none; text-align: center; margin-top: 40px;">
-    <div style="font-size: 54px; margin-bottom: 16px;">🎉</div>
-    <h2
-      style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 8px;"
-      id="successTitle">Mission accomplie !</h2>
-    <p style="color: var(--text-mid); font-size: 14px; margin-bottom: 32px; line-height: 1.5;" id="successDesc">Le livre
-      a bien été ajouté à la liste.</p>
+  <div class="form-page success-page" id="successContainer">
+    <div class="success-icon">🎉</div>
+    <h2 class="success-title" id="successTitle">Mission accomplie !</h2>
+    <p class="success-desc" id="successDesc">
+      Le livre a bien été ajouté à la liste.
+    </p>
 
-    <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
-      <button class="btn-submit" onclick="window.location.href='index.html'" style="padding: 14px; font-size: 13px;">📊
-        Retour au tableau de bord</button>
-      <button class="dupe-btn secondary" onclick="showForm()"
-        style="padding: 14px; font-size: 13px; width: 100%; border-color: var(--border); background: var(--white); cursor: pointer;">➕
-        Ajouter une autre lecture</button>
+    <div class="success-actions">
+      <button
+        class="btn-submit"
+        id="goToDashboardBtn">
+        📊 Retour au tableau de bord
+      </button>
+      <button
+        class="dupe-btn secondary success-secondary-btn"
+        id="addAnotherBtn">
+        ➕ Ajouter une autre lecture
+      </button>
     </div>
   </div>
 
