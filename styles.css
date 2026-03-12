@@ -128,6 +128,7 @@ html[data-theme="dark"] {
       #0a0818 100%);
   --form-header-orb: radial-gradient(circle, rgba(26, 40, 80, 0.20) 0%, transparent 70%);
  
+
   /* ── Stat tile dark (the featured "Livres lus" tile) ── */
   --stat-tile-dark-bg: linear-gradient(135deg, #2a3060, #3a2a50);
 
@@ -147,6 +148,7 @@ html[data-theme="dark"] {
   /* Misc */
   --donut-other: #1f2937;
   --spinner-border: rgba(15, 23, 42, 0.45);
+
 }
 
 /* ── SHARED UTILITIES ──────────────────────── */
@@ -1706,10 +1708,6 @@ footer {
   color: var(--teal-light);
 }
 
-/* (removed unused .form-header p) */
-
-
-
 /* ── Form section label (lighter version of .section-label) ── */
 .form-label {
   font-family: 'Space Grotesk', sans-serif;
@@ -2354,6 +2352,26 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  /* Center and stack add.html header content on mobile */
+  .form-header-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .form-header-inner > div {
+    order: 1;
+  }
+
+  .form-header-inner .btn-back {
+    order: 0;
+  }
+
+  .form-header-inner .theme-toggle {
+    order: 2;
+  }
+
   .site-header {
     grid-template-columns: 1fr;
     padding: 32px 20px;
