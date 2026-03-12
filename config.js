@@ -6,13 +6,15 @@ const READERS = [
   'Laura V',
   'Zoé'
 ];
+
+// Reader accent colors (CSS variables defined in styles.css)
 const COLORS = {
-  'Emiline': '#ca8a04',
-  'Emilie': '#0891b2',
-  'Julie': '#db2777',
-  'Laura M': '#365cca',
-  'Laura V': '#1ab46a',
-  'Zoé': '#836bdd'
+  'Emiline': 'var(--reader-emiline)',
+  'Emilie': 'var(--reader-emilie)',
+  'Julie': 'var(--reader-julie)',
+  'Laura M': 'var(--reader-laura-m)',
+  'Laura V': 'var(--reader-laura-v)',
+  'Zoé': 'var(--reader-zoe)'
 };
 const EMOJI = {
   'Emiline': '🌸',
@@ -25,9 +27,26 @@ const EMOJI = {
 const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 const MSHORT = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
 
-const GC = { 'BD': '#1a2f5e', 'Roman graphique': '#2a4480', 'Manga': '#1e40af', 'Romance': '#e85d3a', 'Romantasy': '#d4820a', '(Auto-)biographie': '#0891b2', 'Littérature contemporaine': '#0e7490', 'Fantasy': '#059669', 'Jeunesse': '#7c3aed', 'Essai': '#6b7fa8', 'Nouvelles': '#94a3b8', 'Thriller': '#c4512e', 'Littérature historique': '#78716c', 'Webtoon': '#db2777', 'SF': '#2563eb' };
+// Genre colors map to CSS tokens (see styles.css :root)
+const GC = {
+  'BD': 'var(--navy)',
+  'Roman graphique': 'var(--navy-mid)',
+  'Manga': 'var(--indigo)',
+  'Romance': 'var(--coral)',
+  'Romantasy': 'var(--gold)',
+  '(Auto-)biographie': 'var(--teal)',
+  'Littérature contemporaine': 'var(--teal-deep)',
+  'Fantasy': 'var(--mint)',
+  'Jeunesse': 'var(--violet)',
+  'Essai': 'var(--text-light)',
+  'Nouvelles': 'var(--slate)',
+  'Thriller': 'var(--rust)',
+  'Littérature historique': 'var(--stone)',
+  'Webtoon': 'var(--pink)',
+  'SF': 'var(--blue)'
+};
 const GE = { 'BD': '📕', 'Roman graphique': '📗', 'Romance': '💕', 'Romantasy': '🐉', '(Auto-)biographie': '📔', 'Fantasy': '⚔️', 'Jeunesse': '🌟', 'Essai': '📝', 'Nouvelles': '📄', 'Thriller': '🔪', 'Littérature contemporaine': '📖', 'Manga': '🎌' };
-const gc = g => GC[g] || '#94a3b8';
+const gc = g => GC[g] || 'var(--slate)';
 const ge = g => GE[g] || '📚';
 
 // ════════════════════════════════════════════════

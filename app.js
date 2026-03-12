@@ -115,7 +115,7 @@ function animateCount(el, endValue, { duration = 900, decimals = 0, suffix = '',
 
 function secStats(books) {
     const w = sec();
-    w.appendChild(slabel('Vue d\'ensemble', '#1a2f5e'));
+    w.appendChild(slabel('Vue d\'ensemble', 'var(--navy)'));
     const g = mk('div', 'stats-row fade');
     const total = books.length, pages = books.reduce((s, b) => s + b.pagesTotales, 0);
     const rated = books.filter(b => b.note && b.note > 0);
@@ -124,7 +124,7 @@ function secStats(books) {
     const wd = books.filter(b => b.jours > 0 && b.jours < 365);
     const avgJ = wd.length ? (wd.reduce((s, b) => s + b.jours, 0) / wd.length) : null;
     [
-        { i: 'book', l: 'Livres lus', v: total, animate: { end: total, decimals: 0 }, s: 'depuis janvier 2026', dark: true, c: '#fff' },
+        { i: 'book', l: 'Livres lus', v: total, animate: { end: total, decimals: 0 }, s: 'depuis janvier 2026', dark: true, c: 'var(--white)' },
         { i: 'file-text', l: 'Pages lues', v: pages, animate: { end: pages, decimals: 0 }, s: 'pages', dark: false, c: 'var(--teal)' },
         { i: 'star', l: 'Note moyenne', v: avgN, animate: avgN ? { end: avgN, decimals: 1 } : null, s: '/5', dark: false, c: 'var(--gold)' },
         { i: 'book-open', l: 'Pages / livre', v: avgP, animate: { end: avgP, decimals: 0 }, s: 'moyenne par livre', dark: false, c: 'var(--mint)' },
@@ -165,7 +165,7 @@ function secStats(books) {
 // ── DERNIÈRES LECTURES ─────────────────
 function secDernieres(books) {
     const w = sec();
-    w.appendChild(slabel('Dernières lectures', '#e85d3a'));
+    w.appendChild(slabel('Dernières lectures', 'var(--coral)'));
     const fin = books.filter(b => b.fini);
     // build map: last finished book per reader
     const last = {};
@@ -174,7 +174,7 @@ function secDernieres(books) {
 
     READERS.forEach(r => {
         const b = last[r];
-        const col = COLORS[r] || '#999';
+        const col = COLORS[r] || 'var(--muted)';
         const card = mk('div', 'base-card derniere-card');
         card.style.borderTop = `3px solid ${col}`;
         if (!b) {
@@ -210,7 +210,7 @@ function secDernieres(books) {
 // ── READER CARDS ───────────────────────
 function secReaders(books, goals) {
     const w = sec();
-    w.appendChild(slabel('Les Lectrices', '#0891b2'));
+    w.appendChild(slabel('Les Lectrices', 'var(--teal)'));
     const g = mk('div', 'readers-grid fade');
     const totalBooks = books.length;
     READERS.forEach(r => {
@@ -258,7 +258,7 @@ function secReaders(books, goals) {
 // ── GENRE MULTIPLES ────────────────────
 function secGenres(books) {
     const w = sec();
-    w.appendChild(slabel('Genres lus par lectrice', '#0891b2'));
+    w.appendChild(slabel('Genres lus par lectrice', 'var(--teal)'));
     const g = mk('div', 'gm-grid fade');
     READERS.forEach(r => {
         const rb = books.filter(b => b.lectrice === r);
@@ -282,26 +282,26 @@ function secGenres(books) {
 // ── ANALYSES ───────────────────────────
 function secAnalyses(books) {
     const w = sec();
-    w.appendChild(slabel('Analyses', '#0891b2'));
+    w.appendChild(slabel('Analyses', 'var(--teal)'));
     const g = mk('div', 'analyses-grid fade');
 
     const fin = books.filter(b => b.fini);
 
     // genre donut
     const gc2 = {}; fin.forEach(b => { if (b.genre) gc2[b.genre] = (gc2[b.genre] || 0) + 1; });
-    g.appendChild(donutCard('Genres littéraires', gc2, fin.length, '#0891b2'));
+    g.appendChild(donutCard('Genres littéraires', gc2, fin.length, 'var(--teal)'));
 
     // auteur donut
     const ga = {}; fin.forEach(b => { if (b.genreAuteur) ga[b.genreAuteur] = (ga[b.genreAuteur] || 0) + 1; });
-    const gaC = { 'Femme': '#0891b2', 'Homme': '#1a2f5e', 'Mixte': '#e85d3a', 'Non-binaire': '#d4820a', 'Femmes': '#0891b2', 'Hommes': '#1a2f5e' };
-    g.appendChild(donutCard('Genre des auteur·ices', ga, fin.length, '#059669', gaC));
+    const gaC = { 'Femme': 'var(--teal)', 'Homme': 'var(--navy)', 'Mixte': 'var(--coral)', 'Non-binaire': 'var(--gold)', 'Femmes': 'var(--teal)', 'Hommes': 'var(--navy)' };
+    g.appendChild(donutCard('Genre des auteur·ices', ga, fin.length, 'var(--mint)', gaC));
 
     // monthly bar
     const byM = {}; MONTHS.forEach(m => byM[m] = 0);
     fin.forEach(b => { if (b.mois && byM[b.mois] !== undefined) byM[b.mois]++; });
     const vals = MONTHS.map(m => byM[m]), maxM = Math.max(...vals, 1);
     const bc = mk('div', 'base-card acard');
-    bc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>Livres par mois</div>`;
+    bc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--coral);display:inline-block"></span>Livres par mois</div>`;
     const bw = mk('div', 'monthly-bars');
     MONTHS.forEach((m, i) => {
         const v = vals[i], pct = Math.round(v / maxM * 100);
@@ -315,7 +315,7 @@ function secAnalyses(books) {
     const fCounts = {}; fin.forEach(b => { if (b.format) fCounts[b.format] = (fCounts[b.format] || 0) + 1; });
     const fSorted = Object.entries(fCounts).sort((a, b) => b[1] - a[1]), fMax = fSorted[0]?.[1] || 1;
     const fc = mk('div', 'base-card acard ac-full');
-    fc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#6b7fa8;display:inline-block"></span>FORMATS</div>`;
+    fc.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--text-light);display:inline-block"></span>FORMATS</div>`;
     fSorted.forEach(([f, n]) => {
         const row = mk('div', 'hb-row');
         row.innerHTML = `<span class="hb-label">${f}</span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n / fMax * 100)}%"></div></div><span class="hb-val">${n}</span>`;
@@ -328,7 +328,7 @@ function secAnalyses(books) {
     books.forEach(b => { if (!b.motsCles) return; b.motsCles.split(',').forEach(k => { const t = k.trim().toLowerCase(); if (t) kwCounts[t] = (kwCounts[t] || 0) + 1; }); });
     const kwSorted = Object.entries(kwCounts).sort((a, b) => b[1] - a[1]), maxC = kwSorted[0]?.[1] || 1;
     const kwCard = mk('div', 'base-card acard ac-full');
-    kwCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#e85d3a;display:inline-block"></span>MOTS-CLÉS POPULAIRES</div>`;
+    kwCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--coral);display:inline-block"></span>MOTS-CLÉS POPULAIRES</div>`;
     const cloud = mk('div', 'kcloud');
     kwSorted.forEach(([k, n]) => {
         const tag = mk('span', 'ktag');
@@ -341,7 +341,7 @@ function secAnalyses(books) {
 
     // pages bubbles
     const bbCard = mk('div', 'base-card acard ac-full');
-    bbCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:#1a2f5e;display:inline-block"></span>PAGES PAR LIVRE</div>`;
+    bbCard.innerHTML = `<div class="acard-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--navy);display:inline-block"></span>PAGES PAR LIVRE</div>`;
     const bbWrap = mk('div', 'bubble-wrap');
     const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svgEl.classList.add('bubble-svg'); svgEl.setAttribute('height', '380'); // Increased height
@@ -373,7 +373,7 @@ function secAnalyses(books) {
             const rb = books.filter(b => b.lectrice === r && b.pagesTotales > 0), col = COLORS[r], cx0 = slotW * ri + slotW / 2;
             const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             lbl.setAttribute('x', cx0); lbl.setAttribute('y', H - 6); lbl.setAttribute('text-anchor', 'middle');
-            lbl.setAttribute('font-size', '12'); lbl.setAttribute('fill', '#3a4f7a'); lbl.setAttribute('font-family', 'Space Grotesk,sans-serif'); lbl.setAttribute('font-weight', '700'); lbl.textContent = `${EMOJI[r]} ${r}`; svgEl.appendChild(lbl);
+            lbl.setAttribute('font-size', '12'); lbl.setAttribute('fill', 'var(--text-mid)'); lbl.setAttribute('font-family', 'Space Grotesk,sans-serif'); lbl.setAttribute('font-weight', '700'); lbl.textContent = `${EMOJI[r]} ${r}`; svgEl.appendChild(lbl);
 
             const placed = [];
             [...rb].sort((a, b) => b.pagesTotales - a.pagesTotales).forEach(b => {
@@ -430,7 +430,7 @@ function secAnalyses(books) {
 
                 if (rr >= 24) {
                     const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    t.setAttribute('x', cx); t.setAttribute('y', cy + 3); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '9'); t.setAttribute('fill', '#fff'); t.setAttribute('font-family', 'Space Grotesk,sans-serif'); t.setAttribute('font-weight', '700'); t.setAttribute('pointer-events', 'none');
+                    t.setAttribute('x', cx); t.setAttribute('y', cy + 3); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '9'); t.setAttribute('fill', 'var(--white)'); t.setAttribute('font-family', 'Space Grotesk,sans-serif'); t.setAttribute('font-weight', '700'); t.setAttribute('pointer-events', 'none');
                     t.textContent = b.titre.length > 14 ? b.titre.slice(0, 12) + '…' : b.titre; svgEl.appendChild(t);
                 }
             });
@@ -456,7 +456,7 @@ function donutCard(title, counts, total, dotColor, colorMap) {
     if (sumUsed < localTotal) {
         const n = localTotal - sumUsed;
         const pct = n / localTotal, arc = circ * pct;
-        segs.push({ k: 'Autres', n, pct, arc, off, color: '#cbd5e1' });
+        segs.push({ k: 'Autres', n, pct, arc, off, color: 'var(--donut-other)' });
         off += arc;
     }
 
@@ -501,7 +501,7 @@ function donutCard(title, counts, total, dotColor, colorMap) {
 // ── MAISONS D'ÉDITION ──────────────────
 function secEditions(books) {
     const w = sec();
-    w.appendChild(slabel("Maisons d'édition", '#db2777'));
+    w.appendChild(slabel("Maisons d'édition", 'var(--pink)'));
     const g = mk('div', 'two-col fade');
 
     const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
@@ -523,7 +523,7 @@ function secEditions(books) {
     const meMax = meSorted[0]?.[1].total || 1;
 
     const p1 = mk('div', 'base-card panel');
-    p1.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#db2777;display:inline-block"></span>TOP 20 MAISONS D'ÉDITION</div>`;
+    p1.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--pink);display:inline-block"></span>TOP 20 MAISONS D'ÉDITION</div>`;
     const w1 = mk('div', '');
     if (meSorted.length === 0) {
         w1.innerHTML = '<div style="color:var(--text-light);font-size:12px;font-style:italic">Aucune donnée trouvée</div>';
@@ -533,7 +533,7 @@ function secEditions(books) {
             const emojis = Array.from(info.genres).map(g => ge(g)).join('');
             const row = mk('div', 'hb-row');
             row.style.marginBottom = '12px';
-            row.innerHTML = `<span class="hb-label" style="text-transform:none;width:160px;text-align:left;font-size:12px;color:var(--text);display:flex;align-items:center;justify-content:space-between;gap:5px"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${f}">${f}</span><span style="font-size:11px;flex-shrink:0;letter-spacing:-1px">${emojis}</span></span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n / meMax * 100)}%;background:#db2777"></div></div><span class="hb-val">${n}</span>`;
+            row.innerHTML = `<span class="hb-label" style="text-transform:none;width:160px;text-align:left;font-size:12px;color:var(--text);display:flex;align-items:center;justify-content:space-between;gap:5px"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${f}">${f}</span><span style="font-size:11px;flex-shrink:0;letter-spacing:-1px">${emojis}</span></span><div class="hb-track"><div class="hb-fill" style="width:${Math.round(n / meMax * 100)}%;background:var(--pink)"></div></div><span class="hb-val">${n}</span>`;
             w1.appendChild(row);
         });
     }
@@ -555,7 +555,7 @@ function secEditions(books) {
     });
 
     const p2 = mk('div', 'base-card panel');
-    p2.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#0891b2;display:inline-block"></span>ÉDITEURS FAVORIS PAR GENRE</div>`;
+    p2.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--teal);display:inline-block"></span>ÉDITEURS FAVORIS PAR GENRE</div>`;
 
     const gSorted = Object.keys(byGenre).sort((a, b) => Object.values(byGenre[b]).reduce((x, y) => x + y, 0) - Object.values(byGenre[a]).reduce((x, y) => x + y, 0));
     const w2 = mk('div', '');
@@ -595,10 +595,10 @@ function secTopShared(books) {
 
     // TOP
     const tp = mk('div', 'base-card panel');
-    tp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#d4820a;display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
+    tp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
     [...books].filter(b => b.note && b.note > 0).sort((a, b) => b.note - a.note).slice(0, 5).forEach((b, i) => {
         const row = mk('div', 'top-row');
-        const col = COLORS[b.lectrice] || '#999';
+        const col = COLORS[b.lectrice] || 'var(--muted)';
         row.innerHTML = `
           <span class="top-rank">#${i + 1}</span>
           <div class="tcover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div>
@@ -616,7 +616,7 @@ function secTopShared(books) {
 
     // SHARED
     const sp = mk('div', 'base-card panel');
-    sp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:#059669;display:inline-block"></span>LECTURES EN COMMUN</div>`;
+    sp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--mint);display:inline-block"></span>LECTURES EN COMMUN</div>`;
     const byT = {};
     books.forEach(b => {
         const k = b.titre.toLowerCase().replace(/[^a-zàâéèêëîïôùûü]/g, '').slice(0, 22);
@@ -644,7 +644,7 @@ function secTopShared(books) {
 // ── ALL BOOKS ──────────────────────────
 function secAllBooks(books) {
     const w = sec();
-    w.appendChild(slabel('Toutes les lectures 2026', '#1a2f5e'));
+    w.appendChild(slabel('Toutes les lectures 2026', 'var(--navy)'));
     const card = mk('div', 'card fade');
     card.style.padding = '20px';
     const fin = books.filter(b => b.fini);
@@ -698,7 +698,7 @@ function secAllBooks(books) {
             return matchF && matchM;
         });
         filtered.forEach(b => {
-            const col = COLORS[b.lectrice] || '#999';
+            const col = COLORS[b.lectrice] || 'var(--muted)';
             const row = mk('div', 'brow');
             row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title"><a href="${getGoodreadsLink(b.titre, b.auteur)}" target="_blank" class="book-title-link">${b.titre}</a></div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ` · <span style="color:${gc(b.genre)}">${b.genre}</span>` : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar"><span class="rating-star">★</span> ${b.note}</span>` : ''}${b.mois ? `<span class="mbadge">${b.mois}</span>` : ''}</div></div>`;
             listEl.appendChild(row);
