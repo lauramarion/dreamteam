@@ -137,7 +137,8 @@ function secStats(books) {
         const stiWrap = mk('div', 'sti-wrap');
         const icon = document.createElement('i');
         icon.dataset.lucide = t.i;
-        icon.style.stroke = t.c;
+        // Pass accent color via CSS variable instead of inline stroke
+        icon.style.setProperty('--stat-icon-color', t.c);
         stiWrap.appendChild(icon);
         const stl = mk('div', 'stl');
         stl.textContent = t.l;

@@ -509,6 +509,8 @@ main {
   width: 20px;
   height: 20px;
   stroke-width: 2.2px;
+  /* Use CSS variable so JS can set per-tile color without inline stroke */
+  stroke: var(--stat-icon-color, currentColor);
 }
 
 .stl {
@@ -575,7 +577,7 @@ main {
   opacity: 1;
 }
 
-/* Extra legibility for the first dark stat tile in dark mode */
+/* Extra legibility for the featured dark stat tile in dark mode */
 html[data-theme="dark"] .stat-tile.dark .stl,
 html[data-theme="dark"] .stat-tile.dark .sts {
   color: rgba(226, 232, 240, 0.9);
@@ -583,6 +585,11 @@ html[data-theme="dark"] .stat-tile.dark .sts {
 
 html[data-theme="dark"] .stat-tile.dark .stv {
   color: #f9fafb;
+}
+
+/* Lighten icon stroke in featured dark stat tile (dark mode), no !important needed */
+html[data-theme="dark"] .stat-tile.dark .sti-wrap i {
+  stroke: #e5e7eb;
 }
 
 
