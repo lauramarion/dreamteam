@@ -92,6 +92,63 @@
 
 }
 
+/* ── DARK THEME TOKENS ───────────────────────── */
+
+html[data-theme="dark"] {
+  /* ── Surfaces ── */
+  --bg:          #1c2035;   /* page background               */
+  --white:       #242840;   /* card / panel surface          */
+  --border:      #2e3454;   /* all dividers & card borders   */
+ 
+  /* ── Text ── */
+  --text:        #e4e8f8;   /* primary text                  */
+  --text-mid:    #9098c8;   /* secondary / meta text         */
+  --text-light:  #6070a8;   /* muted labels, placeholders    */
+ 
+  /* ── Navy scale (inverted — used for bars, accents) ── */
+  --navy:        #a8b8e8;
+  --navy-mid:    #8090c8;
+  --navy-pale:   #2a2e50;   /* book cover placeholder bg     */
+
+  /* ── Header & form gradients ── */
+  --header-bg:
+    linear-gradient(115deg,
+      #0a1020 0%,
+      #111828 30%,
+      #1a1840 60%,
+      #3d1e30 85%,
+      #6e2a18 100%);
+  --header-orb-1: radial-gradient(circle, rgba(110, 42, 24, 0.25) 0%, transparent 70%);
+  --header-orb-2: radial-gradient(circle, rgba(61, 30, 48, 0.30) 0%, transparent 70%);
+ 
+  --form-header-bg:
+    linear-gradient(135deg,
+      #0a1020 0%,
+      #111828 40%,
+      #0a0818 100%);
+  --form-header-orb: radial-gradient(circle, rgba(26, 40, 80, 0.20) 0%, transparent 70%);
+ 
+  /* ── Stat tile dark (the featured "Livres lus" tile) ── */
+  --stat-tile-dark-bg: linear-gradient(135deg, #2a3060, #3a2a50);
+
+  /* ── Effects ── */
+  --shadow:        rgba(0, 0, 0, 0.28);
+  --shadow-strong: rgba(0, 0, 0, 0.55);
+
+  /* White overlays on dark */
+  --white-a85: rgba(15, 23, 42, 0.85);
+  --white-a50: rgba(15, 23, 42, 0.5);
+  --white-a45: rgba(15, 23, 42, 0.45);
+  --white-a40: rgba(15, 23, 42, 0.4);
+  --white-a30: rgba(15, 23, 42, 0.3);
+  --white-a25: rgba(15, 23, 42, 0.25);
+  --white-a15: rgba(15, 23, 42, 0.15);
+
+  /* Misc */
+  --donut-other: #1f2937;
+  --spinner-border: rgba(15, 23, 42, 0.45);
+}
+
 /* ── SHARED UTILITIES ──────────────────────── */
 
 /* Base card surface (white, bordered, rounded, shadowed) */
@@ -221,7 +278,7 @@ body {
   font-weight: 700;
   letter-spacing: -1.5px;
   line-height: 1;
-  color: var(--white);
+  color: #f9fafb;
   position: relative;
   z-index: 1;
 }
@@ -310,6 +367,71 @@ body {
 .btn-add {
   text-decoration: none;
   color: var(--white);
+}
+
+/* ── HEADER DARK-MODE TWEAKS ─────────────────── */
+
+html[data-theme="dark"] .header-left p {
+  color: rgba(226, 232, 240, 0.8);
+}
+
+html[data-theme="dark"] .update-tag,
+html[data-theme="dark"] .commit-tag {
+  color: rgba(226, 232, 240, 0.9);
+}
+
+html[data-theme="dark"] .btn-refresh {
+  background: rgba(15, 23, 42, 0.72);
+  border-color: rgba(148, 163, 184, 0.8);
+  color: #e5e7eb;
+}
+
+html[data-theme="dark"] .btn-refresh:hover {
+  background: rgba(15, 23, 42, 0.92);
+}
+
+/* Theme toggle — compact sun/moon, same height as buttons */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding-inline: 12px;
+  font-size: 16px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.theme-toggle-icon {
+  font-size: 18px;
+  line-height: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle-label {
+  display: none;
+}
+
+/* Light mode: sun active, moon dimmed */
+html[data-theme="light"] .theme-toggle-icon--sun {
+  opacity: 1;
+  transform: scale(1);
+}
+
+html[data-theme="light"] .theme-toggle-icon--moon {
+  opacity: 0.35;
+  transform: scale(0.85);
+}
+
+/* Dark mode: moon active, sun dimmed */
+html[data-theme="dark"] .theme-toggle-icon--moon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+html[data-theme="dark"] .theme-toggle-icon--sun {
+  opacity: 0.35;
+  transform: scale(0.85);
 }
 
 /* ── LAYOUT ─────────────────────────────────── */
@@ -451,6 +573,16 @@ main {
 
 .stat-tile.dark .st-accent {
   opacity: 1;
+}
+
+/* Extra legibility for the first dark stat tile in dark mode */
+html[data-theme="dark"] .stat-tile.dark .stl,
+html[data-theme="dark"] .stat-tile.dark .sts {
+  color: rgba(226, 232, 240, 0.9);
+}
+
+html[data-theme="dark"] .stat-tile.dark .stv {
+  color: #f9fafb;
 }
 
 
@@ -2245,6 +2377,12 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .theme-toggle {
+    padding: 10px 11px;
+    font-size: 14px;   /* emoji-only at small sizes */
+    letter-spacing: 0;
   }
 
   main {

@@ -4,7 +4,7 @@ Les données sont dans un Google Sheet, rendues accessibles par l'extension App 
 Les covers sont viennent de l'API Google Books, Les icones de lucide.dev
 
 TO DO 
-- [ ] dark mode
+- [x] dark mode
 - [ ] better comments
 - [ ] integrate 2020-2025 data
 - [ ] better authors handling, plus authors charts
