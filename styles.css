@@ -721,7 +721,7 @@ html[data-theme="dark"] .stat-tile.dark .sti-wrap i {
 /* (removed unused .bmeta) */
 
 .breview {
-  font-size: 12px;
+  font-size: 0.7rem;
   color: var(--text-mid);
   line-height: 1.6;
   font-style: italic;
@@ -1501,14 +1501,13 @@ html[data-theme="dark"] .stat-tile.dark .sti-wrap i {
 }
 
 .brow-review {
-  font-size: 11px;
+  font-size: 0.9rem;
   color: var(--text-mid);
-  font-style: italic;
   margin-top: 3px;
   /*white-space: nowrap;*/
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 500px;
+  max-width: 600px;
 }
 
 .brow-right {
