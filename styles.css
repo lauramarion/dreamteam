@@ -17,13 +17,13 @@
 :root {
   --font-heading: 'Space Grotesk', sans-serif;
 
-    /* Reader accents */
-    --reader-emiline: #ca8a04;
-    --reader-emilie: #0891b2;
-    --reader-julie: #db2777;
-    --reader-laura-m: #365cca;
-    --reader-laura-v: #1ab46a;
-    --reader-zoe: #836bdd;
+  /* Reader accents */
+  --reader-emiline: #ca8a04;
+  --reader-emilie: #0891b2;
+  --reader-julie: #db2777;
+  --reader-laura-m: #365cca;
+  --reader-laura-v: #1ab46a;
+  --reader-zoe: #836bdd;
 
   /* Surfaces */
   --bg: #f4f6fb;
@@ -75,11 +75,11 @@
   --tag-warm-text: #c4512e;
 
   /* Complex backgrounds */
-  --header-bg: linear-gradient(115deg,#0f1e3d 0%,#1a2f5e 30%,#2d2a6e 60%,#7b3a5a 85%,#c4512e 100%);
+  --header-bg: linear-gradient(115deg, #0f1e3d 0%, #1a2f5e 30%, #2d2a6e 60%, #7b3a5a 85%, #c4512e 100%);
   --header-orb-1: radial-gradient(circle, rgba(196, 81, 46, 0.2) 0%, transparent 70%);
   --header-orb-2: radial-gradient(circle, rgba(123, 58, 90, 0.25) 0%, transparent 70%);
-  --stat-tile-dark-bg: linear-gradient(135deg,#1a2f5e,#7b3a5a);
-  --form-header-bg: linear-gradient(135deg,var(--navy) 0%, var(--navy-mid) 40%, #1a0f2e 100%);
+  --stat-tile-dark-bg: linear-gradient(135deg, #1a2f5e, #7b3a5a);
+  --form-header-bg: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 40%, #1a0f2e 100%);
   --form-header-orb: radial-gradient(circle, rgba(42, 68, 128, 0.15) 0%, transparent 70%);
 
   /* Misc / SVG helpers */
@@ -96,19 +96,26 @@
 
 html[data-theme="dark"] {
   /* ── Surfaces ── */
-  --bg:          #1c2035;   /* page background               */
-  --white:       #242840;   /* card / panel surface          */
-  --border:      #2e3454;   /* all dividers & card borders   */
- 
+  --bg: #1c2035;
+  /* page background               */
+  --white: #242840;
+  /* card / panel surface          */
+  --border: #2e3454;
+  /* all dividers & card borders   */
+
   /* ── Text ── */
-  --text:        #e4e8f8;   /* primary text                  */
-  --text-mid:    #9098c8;   /* secondary / meta text         */
-  --text-light:  #6070a8;   /* muted labels, placeholders    */
- 
+  --text: #e4e8f8;
+  /* primary text                  */
+  --text-mid: #9098c8;
+  /* secondary / meta text         */
+  --text-light: #6070a8;
+  /* muted labels, placeholders    */
+
   /* ── Navy scale (inverted — used for bars, accents) ── */
-  --navy:        #a8b8e8;
-  --navy-mid:    #8090c8;
-  --navy-pale:   #2a2e50;   /* book cover placeholder bg     */
+  --navy: #a8b8e8;
+  --navy-mid: #8090c8;
+  --navy-pale: #2a2e50;
+  /* book cover placeholder bg     */
 
   /* ── Header & form gradients ── */
   --header-bg:
@@ -120,20 +127,20 @@ html[data-theme="dark"] {
       #6e2a18 100%);
   --header-orb-1: radial-gradient(circle, rgba(110, 42, 24, 0.25) 0%, transparent 70%);
   --header-orb-2: radial-gradient(circle, rgba(61, 30, 48, 0.30) 0%, transparent 70%);
- 
+
   --form-header-bg:
     linear-gradient(135deg,
       #0a1020 0%,
       #111828 40%,
       #0a0818 100%);
   --form-header-orb: radial-gradient(circle, rgba(26, 40, 80, 0.20) 0%, transparent 70%);
- 
+
 
   /* ── Stat tile dark (the featured "Livres lus" tile) ── */
   --stat-tile-dark-bg: linear-gradient(135deg, #2a3060, #3a2a50);
 
   /* ── Effects ── */
-  --shadow:        rgba(0, 0, 0, 0.28);
+  --shadow: rgba(0, 0, 0, 0.28);
   --shadow-strong: rgba(0, 0, 0, 0.55);
 
   /* White overlays on dark */
@@ -280,7 +287,7 @@ body {
   font-weight: 700;
   letter-spacing: -1.5px;
   line-height: 1;
-  color: #f9fafb;
+  color: var(--white);
   position: relative;
   z-index: 1;
 }
@@ -373,23 +380,23 @@ body {
 
 /* ── HEADER DARK-MODE TWEAKS ─────────────────── */
 
-html[data-theme="dark"] .header-left p {
-  color: rgba(226, 232, 240, 0.8);
-}
-
+html[data-theme="dark"] .header-left p,
+html[data-theme="dark"] .header-left h1,
+html[data-theme="dark"] .form-header h1,
 html[data-theme="dark"] .update-tag,
+html[data-theme="dark"] .update-tag.loading,
 html[data-theme="dark"] .commit-tag {
-  color: rgba(226, 232, 240, 0.9);
+  color: var(--text);
 }
 
 html[data-theme="dark"] .btn-refresh {
-  background: rgba(15, 23, 42, 0.72);
-  border-color: rgba(148, 163, 184, 0.8);
-  color: #e5e7eb;
+  background: var(--white-a50);
+  border-color: var(--text-light);
+  color: var(--text);
 }
 
 html[data-theme="dark"] .btn-refresh:hover {
-  background: rgba(15, 23, 42, 0.92);
+  background: var(--white-a85);
 }
 
 /* Theme toggle — compact sun/moon, same height as buttons */
@@ -714,14 +721,14 @@ html[data-theme="dark"] .stat-tile.dark .sti-wrap i {
 /* (removed unused .bmeta) */
 
 .breview {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-mid);
   line-height: 1.6;
   font-style: italic;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
@@ -2352,6 +2359,7 @@ textarea {
 }
 
 @media (max-width: 768px) {
+
   /* Center and stack add.html header content on mobile */
   .form-header-inner {
     flex-direction: column;
@@ -2360,7 +2368,7 @@ textarea {
     gap: 12px;
   }
 
-  .form-header-inner > div {
+  .form-header-inner>div {
     order: 1;
   }
 
@@ -2406,7 +2414,8 @@ textarea {
 
   .theme-toggle {
     padding: 10px 11px;
-    font-size: 14px;   /* emoji-only at small sizes */
+    font-size: 14px;
+    /* emoji-only at small sizes */
     letter-spacing: 0;
   }
 
