@@ -5,6 +5,7 @@ Les covers sont viennent de l'API Google Books, Les icones de lucide.dev
 
 TO DO 
 - [x] dark mode
+- [x] add top nav
 - [ ] better comments
 - [ ] integrate 2020-2025 data
 - [ ] better authors handling, plus authors charts

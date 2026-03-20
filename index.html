@@ -16,22 +16,29 @@
 <body>
 
   <header class="site-header">
-    <div class="header-left">
-      <h1>Lectures de la <em>Dream Team</em></h1>
-      <p>Inventaire des lectures 2026</p>
-    </div>
-    <div class="header-right">
-      <div class="header-meta">
-        <span class="update-tag" id="updateTag">Chargement…</span>
-        <span class="commit-tag" id="commitTag">Chargement…</span>
+    <div class="header-top">
+      <div class="header-left">
+        <h1>Lectures de la <em>Dream Team</em></h1>
+        <p>Inventaire des lectures 2026</p>
       </div>
-      <a href="add.html" class="btn-refresh btn-add">+ Ajouter un livre</a>
-      <button class="btn-refresh" id="refreshBtn">↻ Actualiser</button>
-      <button class="btn-refresh theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Basculer le mode sombre">
-        <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">☀️</span>
-        <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">🌙</span>
-      </button>
+      <div class="header-right">
+        <div class="header-meta">
+          <span class="update-tag" id="updateTag">Chargement…</span>
+          <span class="commit-tag" id="commitTag">Chargement…</span>
+        </div>
+        <a href="add.html" class="btn-refresh btn-add">+ Ajouter un livre</a>
+        <button class="btn-refresh" id="refreshBtn">↻ Actualiser</button>
+        <button class="btn-refresh theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Basculer le mode sombre">
+          <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">☀️</span>
+          <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">🌙</span>
+        </button>
+      </div>
     </div>
+    <nav class="header-nav" aria-label="Sections de la page">
+      <div class="header-nav-inner" id="headerNavInner">
+        <!-- Links injected by app.js after render -->
+      </div>
+    </nav>
   </header>
 
   <div id="tooltip" class="tooltip"></div>
@@ -41,6 +48,8 @@
     <span>Lectures de la Dream Team <span class="footer2026">2026</span></span>
     <span id="footerStats"></span>
   </footer>
+
+  <button id="backToTop" class="back-to-top" aria-label="Retour en haut de page" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
   <script src="config.js"></script>
   <script src="theme.js"></script>

@@ -58,14 +58,14 @@ function render(books, goals, gen) {
     const app = document.getElementById('app');
     app.innerHTML = '';
     const main = mk('main');
-    main.appendChild(secStats(fin));
-    main.appendChild(secDernieres(books));
-    main.appendChild(secReaders(fin, goals));
-    main.appendChild(secGenres(fin));
-    main.appendChild(secAnalyses(books));
-    main.appendChild(secEditions(books));
-    main.appendChild(secTopShared(fin));
-    main.appendChild(secAllBooks(books));
+    const s1 = secStats(fin);       s1.id = 'sec-stats';    main.appendChild(s1);
+    const s2 = secDernieres(books); s2.id = 'sec-dernieres'; main.appendChild(s2);
+    const s3 = secReaders(fin, goals); s3.id = 'sec-lectrices'; main.appendChild(s3);
+    const s4 = secGenres(fin);      s4.id = 'sec-genres';   main.appendChild(s4);
+    const s5 = secAnalyses(books);  s5.id = 'sec-analyses'; main.appendChild(s5);
+    const s6 = secEditions(books);  s6.id = 'sec-editions'; main.appendChild(s6);
+    const s7 = secTopShared(fin);   s7.id = 'sec-top';      main.appendChild(s7);
+    const s8 = secAllBooks(books);  s8.id = 'sec-toutes';   main.appendChild(s8);
     app.appendChild(main);
     setTimeout(() => {
         loadCovers();
@@ -96,6 +96,66 @@ function render(books, goals, gen) {
     document.getElementById('footerStats').textContent =
         `${fin.length} livres · ${tp.toLocaleString('fr-FR')} pages`
         + ` · ${nReaders} lectrice${nReaders > 1 ? 's' : ''}`;
+    buildHeaderNav();
+}
+
+// ── HEADER NAV ─────────────────────────
+function buildHeaderNav() {
+    const NAV_ITEMS = [
+        { id: 'sec-stats',     label: 'Vue d\'ensemble' },
+        { id: 'sec-dernieres', label: 'Dernières lectures' },
+        { id: 'sec-lectrices', label: 'Lectrices' },
+        { id: 'sec-genres',    label: 'Genres' },
+        { id: 'sec-analyses',  label: 'Analyses' },
+        { id: 'sec-editions',  label: 'Éditions' },
+        { id: 'sec-top',       label: 'Top & Commun' },
+        { id: 'sec-toutes',    label: 'Toutes les lectures' },
+    ];
+
+    const navEl = document.getElementById('headerNavInner');
+    if (!navEl) return;
+    navEl.innerHTML = '';
+
+    const links = {};
+    NAV_ITEMS.forEach(item => {
+        const sec = document.getElementById(item.id);
+        if (!sec) return;
+        const a = document.createElement('a');
+        a.href = '#' + item.id;
+        a.className = 'hnav-link';
+        a.textContent = item.label;
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        navEl.appendChild(a);
+        links[item.id] = a;
+    });
+
+    // IntersectionObserver: mark the top-most visible section as active
+    if (window._hnavObserver) window._hnavObserver.disconnect();
+    const setActive = id => {
+        Object.values(links).forEach(a => a.classList.remove('active'));
+        if (links[id]) links[id].classList.add('active');
+    };
+    const visible = new Set();
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) visible.add(e.target.id);
+            else visible.delete(e.target.id);
+        });
+        // Pick the first nav item that's currently visible
+        const active = NAV_ITEMS.find(item => visible.has(item.id));
+        if (active) setActive(active.id);
+    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+    NAV_ITEMS.forEach(item => {
+        const sec = document.getElementById(item.id);
+        if (sec) obs.observe(sec);
+    });
+    window._hnavObserver = obs;
+    // Activate first by default
+    if (NAV_ITEMS[0] && links[NAV_ITEMS[0].id]) links[NAV_ITEMS[0].id].classList.add('active');
 }
 
 // ── STATS ──────────────────────────────
@@ -789,6 +849,13 @@ function loadCovers(root) {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('refreshBtn')
         .addEventListener('click', loadData);
+
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+    }
 });
 
 loadData();
