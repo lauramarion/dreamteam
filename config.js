@@ -17,7 +17,7 @@ const COLORS = {
   'Zoé': 'var(--reader-zoe)'
 };
 const EMOJI = {
-  'Emiline': '🌸',
+  'Emiline': '🌈',
   'Emilie': '🦋',
   'Julie': '🍂',
   'Laura M': '👻',
