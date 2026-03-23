@@ -192,7 +192,7 @@ function secEnCours(encoursBooks) {
 
         card.innerHTML = `
             <div class="ec-top" style="${bgStyle}">
-                <span class="ec-pill" style="background:${col}">${EMOJI[b.lectrice] || ''} ${b.lectrice}</span>
+                <span class="ec-pill">${EMOJI[b.lectrice] || ''} ${b.lectrice}</span>
                 <span class="ec-genre">${ge(b.genre) || '📚'}</span>
             </div>
             <div class="ec-bottom">

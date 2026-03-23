@@ -339,7 +339,9 @@ body {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
   font-weight: 700;
-  color: #fff;
+  background: var(--bg);
+  color: var(--text-mid);
+  border: 1px solid var(--border);
 }
 
 .ec-bottom {
