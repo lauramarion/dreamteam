@@ -843,7 +843,8 @@ main {
   display: flex;
 }
 
-.sti-wrap i {
+.sti-wrap i,
+.sti-wrap svg {
   width: 20px;
   height: 20px;
   stroke-width: 2.2px;
@@ -926,7 +927,8 @@ html[data-theme="dark"] .stat-tile.dark .stv {
 }
 
 /* Lighten icon stroke in featured dark stat tile (dark mode), no !important needed */
-html[data-theme="dark"] .stat-tile.dark .sti-wrap i {
+html[data-theme="dark"] .stat-tile.dark .sti-wrap i,
+html[data-theme="dark"] .stat-tile.dark .sti-wrap svg {
   stroke: #e5e7eb;
 }
 
