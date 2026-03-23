@@ -59,6 +59,8 @@ function render(books, goals, gen) {
     app.innerHTML = '';
     const main = mk('main');
     const s1 = secStats(fin);       s1.id = 'sec-stats';    main.appendChild(s1);
+    const encoursBooks = books.filter(b => !b.fini);
+    const s0 = secEnCours(encoursBooks); s0.id = 'sec-encours'; main.appendChild(s0);
     const s2 = secDernieres(books); s2.id = 'sec-dernieres'; main.appendChild(s2);
     const s3 = secReaders(fin, goals); s3.id = 'sec-lectrices'; main.appendChild(s3);
     const s4 = secGenres(fin);      s4.id = 'sec-genres';   main.appendChild(s4);
@@ -103,6 +105,7 @@ function render(books, goals, gen) {
 function buildHeaderNav() {
     const NAV_ITEMS = [
         { id: 'sec-stats',     label: 'Vue d\'ensemble' },
+        { id: 'sec-encours',   label: 'En cours de lecture' },
         { id: 'sec-dernieres', label: 'Dernières lectures' },
         { id: 'sec-lectrices', label: 'Lectrices' },
         { id: 'sec-genres',    label: 'Genres' },
@@ -156,6 +159,90 @@ function buildHeaderNav() {
     window._hnavObserver = obs;
     // Activate first by default
     if (NAV_ITEMS[0] && links[NAV_ITEMS[0].id]) links[NAV_ITEMS[0].id].classList.add('active');
+}
+
+// ── EN COURS DE LECTURE ────────────────
+function secEnCours(encoursBooks) {
+    const w = sec();
+    w.appendChild(slabel('En cours de lecture', 'var(--mint)'));
+    if (encoursBooks.length === 0) {
+        const empty = mk('div', 'dc-empty');
+        empty.textContent = 'Aucun livre en cours de lecture...';
+        w.appendChild(empty);
+        return w;
+    }
+    
+    // Reverse so the most recently added book is first
+    const g = mk('div', 'encours-grid fade');
+    [...encoursBooks].reverse().forEach(b => {
+        const col = COLORS[b.lectrice] || 'var(--muted)';
+        const card = mk('div', 'base-card ecard');
+        
+        let pct = 0;
+        let pTxt = 'Pages non renseignées';
+        let pctTxt = '-';
+        if (b.pagesTotales > 0) {
+            pct = Math.min(100, Math.round((b.pagesLues || 0) / b.pagesTotales * 100));
+            pTxt = `${b.pagesLues || 0} / ${b.pagesTotales} p`;
+            pctTxt = `${pct}%`;
+        }
+        
+        // Use color-mix for pastel wash background 
+        const bgStyle = `background: color-mix(in srgb, ${col} 15%, transparent)`;
+
+        card.innerHTML = `
+            <div class="ec-top" style="${bgStyle}">
+                <span class="ec-pill" style="background:${col}">${EMOJI[b.lectrice] || ''} ${b.lectrice}</span>
+                <span class="ec-genre">${ge(b.genre) || '📚'}</span>
+            </div>
+            <div class="ec-bottom">
+                <div class="ec-title-wrap">
+                    <div class="ec-title" title="${b.titre.replace(/"/g, '&quot;')}">${b.titre}</div>
+                    <div class="ec-author">${b.auteur}</div>
+                </div>
+                <div class="ec-progress">
+                    <div class="ec-progress-track">
+                        <div class="ec-progress-fill" style="width:${pct}%;background:${col}"></div>
+                    </div>
+                    <div class="ec-stats">
+                        <span class="ec-pc">${pTxt}</span>
+                        <span class="ec-pct" style="color:${col}">${pctTxt}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        g.appendChild(card);
+    });
+    
+    const wrapper = mk('div', 'encours-wrapper fade');
+    wrapper.appendChild(g);
+    
+    setTimeout(() => {
+        const checkScroll = () => {
+            if (g.scrollWidth > g.clientWidth) {
+                wrapper.classList.add('has-scroll');
+            } else {
+                wrapper.classList.remove('has-scroll');
+            }
+        };
+        checkScroll();
+        g.addEventListener('scroll', () => {
+            // Left fade indicator
+            if (g.scrollLeft > 5) wrapper.classList.add('is-scrolled');
+            else wrapper.classList.remove('is-scrolled');
+            
+            // Right fade indicator
+            if (g.scrollWidth - g.scrollLeft - g.clientWidth < 10) {
+                wrapper.classList.remove('has-scroll');
+            } else {
+                wrapper.classList.add('has-scroll');
+            }
+        });
+        window.addEventListener('resize', checkScroll);
+    }, 100);
+
+    w.appendChild(wrapper); 
+    return w;
 }
 
 // ── STATS ──────────────────────────────

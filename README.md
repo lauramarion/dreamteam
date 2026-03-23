@@ -13,6 +13,6 @@ TO DO
 - [ ] PAL/wishlists
 - [ ] search field
 - [ ] recent activities (has started/edited/finished a book)
-- [ ] "currently reading" section
+- [x] "currently reading" section
 - [ ] better cover handling
 - [x] make the team spirit animal a peacock
