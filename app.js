@@ -345,6 +345,7 @@ function secDernieres(books) {
             </div>
             ${b.avis ? `<div class="breview">« ${b.avis} »</div>` : ''}
             <div class="dc-footer">
+              ${b.termine === 'DNF' ? `<span class="mbadge dnf-badge">DNF</span>` : ''}
               ${tags ? `<div class="btags">${tags}</div>` : ''}
             </div>
           `;
@@ -744,7 +745,7 @@ function secTopShared(books) {
     // TOP
     const tp = mk('div', 'base-card panel');
     tp.innerHTML = `<div class="panel-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block"></span>TOP LECTURES NOTÉES</div>`;
-    [...books].filter(b => b.note && b.note > 0).sort((a, b) => b.note - a.note).slice(0, 5).forEach((b, i) => {
+    [...books].filter(b => b.note && b.note > 0).sort((a, b) => b.note - a.note).slice(0, 10).forEach((b, i) => {
         const row = mk('div', 'top-row');
         const col = COLORS[b.lectrice] || 'var(--muted)';
         row.innerHTML = `
@@ -824,6 +825,8 @@ function secAllBooks(books) {
         const opt = mk('option'); opt.value = m; opt.textContent = m;
         mSelect.appendChild(opt);
     });
+    const optDNF = mk('option'); optDNF.value = 'DNF'; optDNF.textContent = 'DNF';
+    mSelect.appendChild(optDNF);
     mSelect.addEventListener('change', (e) => {
         activeM = e.target.value;
         renderBList();
@@ -842,7 +845,7 @@ function secAllBooks(books) {
         listEl.innerHTML = '';
         const filtered = fin.filter(b => {
             const matchF = activeF === 'Toutes' || b.lectrice === activeF;
-            const matchM = activeM === 'Tous' || b.mois === activeM;
+            const matchM = activeM === 'Tous' || (activeM === 'DNF' ? b.termine === 'DNF' : b.mois === activeM);
             return matchF && matchM;
         });
         filtered.forEach(b => {
