@@ -305,12 +305,12 @@ function fillForm(b) {
 
     // Chips
     ['genreAuteur', 'genre', 'format'].forEach(group => {
+        delete chips[group];
         document.querySelectorAll(`.chip[data-group="${group}"]`)
             .forEach(c => {
                 const on = c.dataset.value === b[group];
                 c.classList.toggle('active', on);
                 if (on) chips[group] = b[group];
-                else delete chips[group];
             });
     });
 
@@ -382,7 +382,7 @@ async function submitForm() {
         );
     }
 
-    const mois = (!isDNF && dateFin)
+    const mois = (!isDNF && isFini && dateFin)
         ? MONTHS[parseInt(dateFin.split('-')[1]) - 1]
         : null;
 
