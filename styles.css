@@ -1861,6 +1861,13 @@ html[data-theme="dark"] .stat-tile.dark .sti-wrap svg {
   border-radius: 99px;
 }
 
+.dnf-badge {
+  background: var(--coral);
+  color: #fff;
+  border-color: var(--coral);
+  opacity: 0.9;
+}
+
 .bstar {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 12px;
@@ -2279,6 +2286,37 @@ textarea {
 
 .dates-area.open {
   max-height: 250px;
+}
+
+/* ── Date de fin row (date input + DNF button) ── */
+.dateFin-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dnf-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--coral);
+  background: transparent;
+  color: var(--coral);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.dnf-btn:hover {
+  background: color-mix(in srgb, var(--coral) 12%, transparent);
+}
+
+.dnf-btn.active {
+  background: var(--coral);
+  color: #fff;
 }
 
 /* ── Star rating ── */

@@ -54,7 +54,7 @@ function render(books, goals, gen) {
     books.forEach(b => {
         if (!b.fini && b.pagesTotales > 0 && b.pagesLues >= b.pagesTotales) b.fini = true;
     });
-    const fin = books.filter(b => b.fini);
+    const fin = books.filter(b => b.fini && b.termine !== 'DNF');
     const app = document.getElementById('app');
     app.innerHTML = '';
     const main = mk('main');
@@ -848,7 +848,7 @@ function secAllBooks(books) {
         filtered.forEach(b => {
             const col = COLORS[b.lectrice] || 'var(--muted)';
             const row = mk('div', 'brow');
-            row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title"><a href="${getGoodreadsLink(b.titre, b.auteur)}" target="_blank" class="book-title-link">${b.titre}</a></div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ` · <span style="color:${gc(b.genre)}">${b.genre}</span>` : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar"><span class="rating-star">★</span> ${b.note}</span>` : ''}${b.mois ? `<span class="mbadge">${b.mois}</span>` : ''}</div></div>`;
+            row.innerHTML = `<div class="bstripe" style="background:${col}"></div><div class="brow-inner"><div class="brow-cover js-cover" data-title="${b.titre.replace(/"/g, '&quot;')}" data-author="${b.auteur.replace(/"/g, '&quot;')}" data-emoji="${ge(b.genre)}">${ge(b.genre)}</div><div class="brow-content"><div class="brow-title"><a href="${getGoodreadsLink(b.titre, b.auteur)}" target="_blank" class="book-title-link">${b.titre}</a></div><div class="brow-meta">${b.auteur}${b.pagesTotales ? ' · ' + b.pagesTotales + 'p' : ''}<span class="gtext">${b.genre ? ` · <span style="color:${gc(b.genre)}">${b.genre}</span>` : ''}</span></div>${b.avis ? `<div class="brow-review">« ${b.avis} »</div>` : ''}</div><div class="brow-right">${b.note && b.note > 0 ? `<span class="bstar"><span class="rating-star">★</span> ${b.note}</span>` : ''}${b.termine === 'DNF' ? `<span class="mbadge dnf-badge">DNF</span>` : b.mois ? `<span class="mbadge">${b.mois}</span>` : ''}</div></div>`;
             listEl.appendChild(row);
         });
         countEl.textContent = `${filtered.length} lecture${filtered.length > 1 ? 's' : ''}`;
