@@ -5,6 +5,7 @@ let selectedReader = null;
 let starValue = 0;
 let halfStar = false;
 let isFini = false;
+let isDNF = false;
 let tags = [];
 const chips = {};
 
@@ -110,6 +111,19 @@ function toggleChip(el) {
         chips[group] = el.dataset.value;
     } else {
         delete chips[group];
+    }
+}
+
+// ── DNF toggle ─────────────────────────────────────────────────── */
+function toggleDNF() {
+    isDNF = !isDNF;
+    document.getElementById('dnfBtn').classList.toggle('active', isDNF);
+    const dateInput = document.getElementById('dateFin');
+    if (isDNF) {
+        dateInput.value = '';
+        dateInput.disabled = true;
+    } else {
+        dateInput.disabled = false;
     }
 }
 
@@ -307,7 +321,17 @@ function fillForm(b) {
     document.getElementById('datesArea')
         .classList.toggle('open', isFini);
     document.getElementById('dateDebut').value = b.commence || '';
-    document.getElementById('dateFin').value = b.termine || '';
+    if (b.termine === 'DNF') {
+        isDNF = true;
+        document.getElementById('dnfBtn').classList.add('active');
+        document.getElementById('dateFin').disabled = true;
+        document.getElementById('dateFin').value = '';
+    } else {
+        isDNF = false;
+        document.getElementById('dnfBtn').classList.remove('active');
+        document.getElementById('dateFin').disabled = false;
+        document.getElementById('dateFin').value = b.termine || '';
+    }
 
     // Stars
     starValue = b.note ? Math.floor(b.note) : 0;
@@ -351,16 +375,16 @@ async function submitForm() {
         : null;
 
     let jours = null;
-    if (dateDebut && dateFin) {
+    if (dateDebut && dateFin && !isDNF) {
         jours = Math.max(
             1,
             Math.round((new Date(dateFin) - new Date(dateDebut)) / 86400000)
         );
     }
 
-    const mois = dateFin
+    const mois = (!isDNF && dateFin)
         ? MONTHS[parseInt(dateFin.split('-')[1]) - 1]
-        : MONTHS[new Date().getMonth()];
+        : null;
 
     const payload = {
         // action tells Apps Script to append or overwrite
@@ -373,14 +397,14 @@ async function submitForm() {
             document.getElementById('maisonEdition').value.trim(),
         format: chips['format'] || '',
         pagesTotales,
-        pagesLues: isFini ? pagesTotales : pagesLues,
+        pagesLues: (isFini && !isDNF) ? pagesTotales : pagesLues,
         genre: chips['genre'] || '',
         motsCles: tags.join(', '),
         commence: dateDebut || null,
-        termine: isFini && dateFin ? dateFin : null,
+        termine: isDNF ? 'DNF' : (isFini && dateFin ? dateFin : null),
         jours, mois, note,
         avis: document.getElementById('avis').value.trim(),
-        fini: isFini,
+        fini: isFini || isDNF,
     };
 
     const btn = document.getElementById('submitBtn');
@@ -435,6 +459,7 @@ function resetForm() {
     starValue = 0;
     halfStar = false;
     isFini = false;
+    isDNF = false;
     tags = [];
     editRowIndex = null;
     _lastCheckKey = '';
@@ -443,6 +468,8 @@ function resetForm() {
     document.getElementById('halfBtn').classList.remove('active');
     document.getElementById('finiToggle').classList.remove('active');
     document.getElementById('datesArea').classList.remove('open');
+    document.getElementById('dnfBtn').classList.remove('active');
+    document.getElementById('dateFin').disabled = false;
     hideDupeBanner();
     renderTags();
     // Restore submit button to add-mode appearance
