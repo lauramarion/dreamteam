@@ -18,12 +18,15 @@
   --font-heading: 'Space Grotesk', sans-serif;
 
   /* Reader accents */
-  --reader-emiline: #ca8a04;
+  --reader-emiline: #a39200;   /* lemon yellow */
   --reader-emilie: #0891b2;
   --reader-julie: #db2777;
   --reader-laura-m: #365cca;
   --reader-laura-v: #1ab46a;
   --reader-zoe: #836bdd;
+  --reader-clemence: #d97f00;  /* sunflower yellow */
+  --reader-romane: #a3449c;    /* plum, distinct from Zoé's blue-violet */
+  --reader-oceane: #4b5563;    /* dark grey */
 
   /* Surfaces */
   --bg: #f4f6fb;
@@ -95,6 +98,10 @@
 /* ── DARK THEME TOKENS ───────────────────────── */
 
 html[data-theme="dark"] {
+  /* ── Reader accents: lighter variants so dark text on pills stays readable ── */
+  --reader-romane: #c77dc0;
+  --reader-oceane: #9ca3af;
+
   /* ── Surfaces ── */
   --bg: #1c2035;
   /* page background               */
