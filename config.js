@@ -4,7 +4,10 @@ const READERS = [
   'Julie',
   'Laura M',
   'Laura V',
-  'Zoé'
+  'Zoé',
+  'Clémence',
+  'Romane',
+  'Océane'
 ];
 
 // Reader accent colors (CSS variables defined in styles.css)
@@ -14,7 +17,10 @@ const COLORS = {
   'Julie': 'var(--reader-julie)',
   'Laura M': 'var(--reader-laura-m)',
   'Laura V': 'var(--reader-laura-v)',
-  'Zoé': 'var(--reader-zoe)'
+  'Zoé': 'var(--reader-zoe)',
+  'Clémence': 'var(--reader-clemence)',
+  'Romane': 'var(--reader-romane)',
+  'Océane': 'var(--reader-oceane)'
 };
 const EMOJI = {
   'Emiline': '🌈',
@@ -22,7 +28,10 @@ const EMOJI = {
   'Julie': '🍂',
   'Laura M': '👻',
   'Laura V': '☀️',
-  'Zoé': '✨'
+  'Zoé': '✨',
+  'Clémence': '🌻',
+  'Romane': '🐼',
+  'Océane': '🫧'
 };
 const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 const MSHORT = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];

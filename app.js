@@ -512,17 +512,25 @@ function secAnalyses(books) {
 
     const tip = document.getElementById('tooltip');
     setTimeout(() => {
-        const W = bbWrap.clientWidth - 8, H = 340; // Increased H for more vertical space
+        const W = bbWrap.clientWidth - 8;
+        const slotW = W / READERS.length;
+        // Narrow slots (phones, or many readers): smaller bubbles, taller chart, emoji-only labels
+        const narrow = slotW < 90;
+        const H = narrow ? 480 : 340;
         svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`); svgEl.setAttribute('width', W);
         const allP = books.filter(b => b.pagesTotales > 0).map(b => b.pagesTotales), maxP = Math.max(...allP, 1);
-        const rad = p => 3 + Math.pow(Math.max(0, (p - 40)) / (maxP - 40), 0.6) * 39;
-        const slotW = W / READERS.length;
+        const maxR = Math.min(42, slotW / 2 - 3);
+        const rad = p => 3 + Math.pow(Math.max(0, (p - 40)) / (maxP - 40), 0.6) * (maxR - 3);
 
         READERS.forEach((r, ri) => {
             const rb = books.filter(b => b.lectrice === r && b.pagesTotales > 0), col = COLORS[r], cx0 = slotW * ri + slotW / 2;
             const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             lbl.setAttribute('x', cx0); lbl.setAttribute('y', H - 6); lbl.setAttribute('text-anchor', 'middle');
-            lbl.setAttribute('font-size', '12'); lbl.setAttribute('fill', 'var(--text-mid)'); lbl.setAttribute('font-family', 'Space Grotesk,sans-serif'); lbl.setAttribute('font-weight', '700'); lbl.textContent = `${EMOJI[r]} ${r}`; svgEl.appendChild(lbl);
+            lbl.setAttribute('font-size', narrow ? '16' : '12'); lbl.setAttribute('fill', 'var(--text-mid)'); lbl.setAttribute('font-family', 'Space Grotesk,sans-serif'); lbl.setAttribute('font-weight', '700'); lbl.textContent = narrow ? EMOJI[r] : `${EMOJI[r]} ${r}`; svgEl.appendChild(lbl);
+            if (narrow) {
+                const t = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                t.textContent = r; lbl.appendChild(t);
+            }
 
             const placed = [];
             [...rb].sort((a, b) => b.pagesTotales - a.pagesTotales).forEach(b => {
