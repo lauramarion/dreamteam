@@ -1,0 +1,32 @@
+# Shared HTTPS front door for every app on the VPS (Dream Team, garden, …).
+# One Caddy for all apps, so they can share ports 80/443.
+# Each app joins the "web" network and gets a block in the Caddyfile.
+#
+# First time only:   docker network create web
+# Start / reload:    docker compose up -d
+# After editing Caddyfile:  docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile
+
+services:
+  caddy:
+    image: caddy:2.11
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Certificates live here; keep this volume or Let's Encrypt has to reissue them
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:
+    external: true

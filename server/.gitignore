@@ -1,0 +1,4 @@
+# Live database, uploads and backups: never commit
+pb_data/
+# Secrets
+.env
