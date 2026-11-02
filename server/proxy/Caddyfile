@@ -1,0 +1,14 @@
+# One block per site. Caddy gets and renews the HTTPS certificates by itself,
+# as long as the domain's DNS points at this server.
+
+# Dream Team, on a test address while the current site keeps running on GitHub Pages.
+# At switch-over, replace it with dreamteam.lauramarion.eu (see server/README.md).
+beta.dreamteam.lauramarion.eu {
+	encode zstd gzip
+	reverse_proxy dreamteam-pb:8090
+}
+
+# Other apps go below, e.g.:
+# garden.example.com {
+# 	reverse_proxy garden:3000
+# }

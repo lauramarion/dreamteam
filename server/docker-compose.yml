@@ -1,0 +1,22 @@
+# Dream Team backend. Started with:  docker compose up -d --build
+# It has no public port of its own: the shared Caddy proxy (server/proxy)
+# reaches it as "dreamteam-pb" on the "web" network and handles HTTPS.
+
+services:
+  pocketbase:
+    build: .
+    container_name: dreamteam-pb
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TZ: Europe/Brussels
+    volumes:
+      - ./pb_data:/pb/pb_data
+      # The website files get mounted at /pb/pb_public here once the
+      # front end is switched over to this backend.
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
